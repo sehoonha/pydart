@@ -17,6 +17,13 @@ def create_world(step, skel_path=None):
     return World(step, skel_path)
 
 
+class Contact(object):
+    def __init__(self, data):
+        self.p = data[:3]
+        self.f = data[3:6]
+        self.i = data[6]  # ID
+
+
 class World(object):
     def __init__(self, step, skel_path=None):
         self.skels = []
@@ -28,6 +35,10 @@ class World(object):
                 self.add_skeleton_from_id(i, (i == nskels - 1))
         else:
             self.id = papi.createWorld(step)
+
+        self._frame = 0
+        self.contact_history = []
+        self.contact_history.append([])  # For the initial frame
 
     def add_skeleton(self, filename, friction=1.0, control=True):
         self.skels += [Skeleton(self, filename, friction)]
@@ -58,6 +69,10 @@ class World(object):
         return papi.getWorldTimeStep(self.id)
 
     @property
+    def frame(self):
+        return self._frame
+
+    @property
     def dt(self):
         return self.time_step()
 
@@ -75,18 +90,26 @@ class World(object):
     def nframes(self):
         return self.num_frames()
 
-    def contacts(self):
+    def generated_contacts(self):
         n = papi.getWorldNumContacts(self.id)
         contacts = papi.getWorldContacts(self.id, 7 * n)
-        return [contacts[7 * i: 7 * (i + 1)] for i in range(n)]
+        return [Contact(contacts[7 * i: 7 * (i + 1)]) for i in range(n)]
+
+    def contacts(self):
+        if self.frame < 0 or self.frame >= len(self.contact_history):
+            return []
+        return self.contact_history[self._frame]
 
     def reset(self):
         papi.resetWorld(self.id)
 
     def step(self):
         papi.stepWorld(self.id)
+        self._frame += 1
+        self.contact_history.append(self.generated_contacts())
 
     def set_frame(self, i):
+        self._frame = i
         papi.setWorldSimFrame(self.id, i)
 
     def render(self):
@@ -380,7 +403,7 @@ class Body(object):
     def contacts(self):
         n = self.num_contacts()
         contacts = papi.getBodyNodeContacts(self.wid, self.sid, self.id, 7 * n)
-        return [contacts[7 * i: 7 * (i + 1)] for i in range(n)]
+        return [Contact(contacts[7 * i: 7 * (i + 1)]) for i in range(n)]
 
     def mass(self):
         return papi.getBodyNodeMass(self.wid, self.sid, self.id)
