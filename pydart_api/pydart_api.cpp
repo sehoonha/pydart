@@ -68,7 +68,7 @@ void Manager::init() {
     g_manager = new Manager();
     g_ri = new dart::renderer::OpenGLRenderInterface();
     //   g_ri->initialize();
-    cout << "Initialize pydart manager OK" << endl;
+    cout << " [pydart_api] Initialize pydart manager OK" << endl;
 }
 
 void Manager::destroy() {
@@ -80,7 +80,7 @@ void Manager::destroy() {
         delete g_ri;
         g_ri = NULL;
     }
-    cout << "Destroy pydart manager OK" << endl;
+    cout << " [pydart_api] Destroy pydart manager OK" << endl;
 }
 
 dart::simulation::World* Manager::world(int index) {
@@ -109,17 +109,13 @@ int Manager::createWorld(double timestep) {
 }
 
 int Manager::createWorldFromSkel(const char* const path) {
-    cout << "createWorldFromSkel" << endl;
     Manager* manager = getInstance();
-    cout << "manage retrieved" << endl;
 
     dart::simulation::World* w = dart::utils::SkelParser::readWorld(path);
-    cout << "readWorld OK" << endl;
     // w->setTimeStep(timestep);
     // w->setGravity(Eigen::Vector3d(0.0, -9.81, 0.0));
     int id = manager->worlds.size();
     manager->worlds.push_back(w);
-    cout << "id: " << id << endl;
     return id;
 }
 
@@ -153,7 +149,7 @@ int createWorld(double timestep) {
 
 int createWorldFromSkel(const char* const path) {
     int wid = Manager::createWorldFromSkel(path);
-    std::cout << "# Skeletons in " << path << " = " << numSkeletons(wid) << std::endl;
+    std::cout << " [pydart_api] # Skeletons in " << path << " = " << numSkeletons(wid) << std::endl;
     return wid;
 }
 
@@ -165,7 +161,7 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     using namespace dart::dynamics;
     dart::utils::DartLoader urdfLoader;
     Skeleton* skel = urdfLoader.parseSkeleton(path);
-    cout << "skel [" << path << "] : friction = " << frictionCoeff << endl;
+    cout << " [pydart_api] skel [" << path << "] : friction = " << frictionCoeff << endl;
     for (int i = 0; i < skel->getNumBodyNodes(); ++i) {
         dart::dynamics::BodyNode* bn = skel->getBodyNode(i);
         bn->setFrictionCoeff(frictionCoeff);
@@ -183,20 +179,20 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     detector = detector2;
 
     if (dynamic_cast<dart::collision::DARTCollisionDetector*>(detector)) {
-        std::cout << "DARTCollisionDetector!" << std::endl;
+        std::cout << " [pydart_api] DARTCollisionDetector!" << std::endl;
     } else if (dynamic_cast<dart::collision::FCLCollisionDetector*>(detector)) {
-        std::cout << "FCLCollisionDetector!" << std::endl;
+        std::cout << " [pydart_api] FCLCollisionDetector!" << std::endl;
     } else if (dynamic_cast<dart::collision::FCLMeshCollisionDetector*>(detector)) {
-        std::cout << "FCLMeshCollisionDetector!" << std::endl;
+        std::cout << " [pydart_api] FCLMeshCollisionDetector!" << std::endl;
     } else if (dynamic_cast<dart::collision::BulletCollisionDetector*>(detector)) {
-        std::cout << "BulletCollisionDetector!" << std::endl;
+        std::cout << " [pydart_api] BulletCollisionDetector!" << std::endl;
     } else {
-        std::cout << "Unknown CollisionDetector... (maybe bullet)" << std::endl;
+        std::cout << " [pydart_api] Unknown CollisionDetector... (maybe bullet)" << std::endl;
     }
 
     dart::constraint::ContactConstraint::setErrorReductionParameter(0);
-    std::cout << "Zero ERP!!!" << std::endl;
-    std::cout << "ERP = " << dart::constraint::ContactConstraint::getErrorReductionParameter() << std::endl;
+    std::cout << " [pydart_api] Zero ERP!!!" << std::endl;
+    std::cout << " [pydart_api] ERP = " << dart::constraint::ContactConstraint::getErrorReductionParameter() << std::endl;
     
     return id;
 }

@@ -24,11 +24,8 @@ class World(object):
         if skel_path is not None:
             self.id = papi.createWorldFromSkel(skel_path)
             nskels = self.num_skeletons()
-            print 'nskels:', nskels
             for i in range(nskels):
-                print 'id: ', i
                 self.add_skeleton_from_id(i, (i == nskels - 1))
-                print 'id: ', i, 'OK'
         else:
             self.id = papi.createWorld(step)
 
@@ -101,7 +98,6 @@ class World(object):
 
 class Skeleton(object):
     def __init__(self, _world, _filename=None, _friction=None, _id=None):
-        print 'Hello!!!'
         self.world = _world
         self.filename = _filename
         self.friction = _friction
@@ -111,15 +107,11 @@ class Skeleton(object):
             self.id = _id
 
         # Initialize dofs
-        print 'Initialize dofs'
         _ndofs = papi.getSkeletonNumDofs(self.world.id, self.id)
-        print 'ndofs:', _ndofs
         self.dofs = [Dof(self, i) for i in range(_ndofs)]
-        print 'self.dofs OK', _ndofs
         self.name_to_dof = {dof.name: dof for dof in self.dofs}
 
         # Initialize bodies
-        print 'Initialize bodies'
         _nbodies = papi.getSkeletonNumBodies(self.world.id, self.id)
         self.bodies = [Body(self, i) for i in range(_nbodies)]
         self.name_to_body = {body.name: body for body in self.bodies}
@@ -455,7 +447,6 @@ class Dof(object):
         self.skel = _skel
         self.id = _id
         self.name = papi.getSkeletonDofName(self.wid, self.sid, self.id)
-        print 'query dofname OK:', self.name
 
     @property
     def wid(self):
