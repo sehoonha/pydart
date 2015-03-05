@@ -17,8 +17,7 @@ state = {}
 state['simulate'] = False
 state['play'] = False
 state['index'] = 0.0
-tb = trackball.Trackball(theta=-10.5, trans=[0.0, 0.2, -0.9])
-
+tb = None
 
 def initGL(w, h):
     glDisable(GL_CULL_FACE)
@@ -176,7 +175,7 @@ def renderTimer(timer):
     glutTimerFunc(20, renderTimer, 1)
 
 
-def run(title='GLUT Window', simulation=None):
+def run(title='GLUT Window', simulation=None, trans=None):
     global sim
     sim = simulation
 
@@ -192,6 +191,13 @@ def run(title='GLUT Window', simulation=None):
     glutInitWindowSize(800, 600)
     glutInitWindowPosition(0, 0)
     window = glutCreateWindow(title)
+
+    # Init trackball
+    global tb
+    if trans is None:
+        trans = [0.0, 0.2, -0.9]
+    tb = trackball.Trackball(theta=-10.5, trans=trans)
+
 
     # Init functions
     # glutFullScreen()
