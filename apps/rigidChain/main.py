@@ -1,5 +1,3 @@
-# import sys
-# sys.path.append('/home/sehoonha/dev/pydart')
 import pydart
 import numpy as np
 print('Example: rigidChain')

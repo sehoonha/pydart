@@ -18,6 +18,9 @@ state['simulate'] = False
 state['play'] = False
 state['index'] = 0.0
 tb = None
+step_callback_func = None
+keyboard_callback_func = None
+
 
 def initGL(w, h):
     glDisable(GL_CULL_FACE)
@@ -119,6 +122,11 @@ def drawGL():
 # The function called whenever a key is pressed.
 # Note the use of Python tuples to pass in: (key, x, y)
 def keyPressed(*args):
+    global sim
+    global keyboard_callback_func
+    if keyboard_callback_func is not None:
+        keyboard_callback_func(sim, args[0])
+
     n = sim.num_frames()
     if args[0] == ESCAPE:
         glutDestroyWindow(window)
@@ -161,6 +169,9 @@ def idle():
     global pd
     global state
     if sim is not None and state['simulate']:
+        global step_callback_func
+        if step_callback_func is not None:
+            step_callback_func(sim)
         sim.step()
     if sim is not None and state['play']:
         n = sim.num_frames()
@@ -175,7 +186,8 @@ def renderTimer(timer):
     glutTimerFunc(20, renderTimer, 1)
 
 
-def run(title='GLUT Window', simulation=None, trans=None):
+def run(title='GLUT Window', simulation=None, trans=None,
+        step_callback=None, keyboard_callback=None):
     global sim
     sim = simulation
 
@@ -198,6 +210,11 @@ def run(title='GLUT Window', simulation=None, trans=None):
         trans = [0.0, 0.2, -0.9]
     tb = trackball.Trackball(theta=-10.5, trans=trans)
 
+    # Init callback
+    global step_callback_func
+    global keyboard_callback_func
+    step_callback_func = step_callback
+    keyboard_callback_func = keyboard_callback
 
     # Init functions
     # glutFullScreen()

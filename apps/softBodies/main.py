@@ -1,7 +1,5 @@
-# import sys
-# sys.path.append('/home/sehoonha/dev/pydart')
 import pydart
-print('softBodies!')
+print('Example: softBodies')
 
 pydart.init()
 print('pydart initialization OK')

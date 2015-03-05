@@ -266,6 +266,9 @@ class Skeleton(object):
     def dof_index(self, _name):
         return self.name_to_dof[_name].id
 
+    def dof_indices(self, _names):
+        return np.array([self.dof_index(n) for n in _names])
+
     def world_com(self):
         return papi.getSkeletonWorldCOM(self.world.id, self.id)
 
@@ -430,6 +433,10 @@ class Body(object):
 
     def world_com(self):
         return papi.getBodyNodeWorldCOM(self.wid, self.sid, self.id)
+
+    def to_world(self, x):
+        x_ = np.append(x, [1.0])
+        return (self.T.dot(x_))[:3]
 
     @property
     def C(self):

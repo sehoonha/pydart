@@ -1,5 +1,3 @@
-# import sys
-# sys.path.append('/home/sehoonha/dev/pydart')
 import pydart
 print('Hello, PyDART!')
 
