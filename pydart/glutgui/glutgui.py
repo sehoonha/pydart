@@ -130,13 +130,13 @@ def keyPressed(*args):
         state['play'] = not state['play']
     elif args[0] == ']':
         if hasattr(sim, 'set_frame') and hasattr(sim, 'num_frames'):
-            state['index'] = (state['index'] + 10) % n
-            sim.set_frame(state['index'])
+            state['index'] = (state['index'] + 10.0) % n
+            sim.set_frame(int(state['index']))
             print('%d / %d' % (state['index'], n))
     elif args[0] == '[':
         if hasattr(sim, 'set_frame') and hasattr(sim, 'num_frames'):
             state['index'] = (state['index'] - 10 + n) % n
-            sim.set_frame(state['index'])
+            sim.set_frame(int(state['index']))
             print('%d / %d' % (state['index'], n))
 
 

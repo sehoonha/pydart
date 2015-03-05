@@ -15,7 +15,4 @@ print('pydart create_world OK')
 for i, skel in enumerate(world.skels):
     print('Skeleton %d. nDofs = %d' % (i, len(skel.dofs)))
 
-while world.t < 2.0:
-    if world.nframes % 100 == 0:
-        print("%.4fs: The third cube pos = %s" % (world.t, world.skels[3].C))
-    world.step()
+pydart.glutgui.run(title='Hello', simulation=world)

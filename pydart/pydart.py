@@ -30,6 +30,7 @@ class World(object):
         self.control_skel = None
         if skel_path is not None:
             self.id = papi.createWorldFromSkel(skel_path)
+            self.set_time_step(step)
             nskels = self.num_skeletons()
             for i in range(nskels):
                 self.add_skeleton_from_id(i, (i == nskels - 1))
@@ -104,6 +105,10 @@ class World(object):
         papi.resetWorld(self.id)
 
     def step(self):
+        for skel in self.skels:
+            if skel.controller is not None:
+                skel.tau = skel.controller.compute()
+
         papi.stepWorld(self.id)
         self._frame += 1
         self.contact_history.append(self.generated_contacts())
@@ -138,6 +143,7 @@ class Skeleton(object):
         _nbodies = papi.getSkeletonNumBodies(self.world.id, self.id)
         self.bodies = [Body(self, i) for i in range(_nbodies)]
         self.name_to_body = {body.name: body for body in self.bodies}
+        self.controller = None
 
     def set_joint_damping(self, _damping):
         papi.setSkeletonJointDamping(self.world.id, self.id, _damping)
