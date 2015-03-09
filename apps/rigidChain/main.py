@@ -1,3 +1,4 @@
+import sys
 import pydart
 import numpy as np
 print('Example: rigidChain')
@@ -29,4 +30,10 @@ skel.q = (np.random.rand(skel.ndofs) - 0.5)
 print ('init pose = %s' % skel.q)
 skel.controller = DampingController(skel)
 
-pydart.glutgui.run(title='rigidChain', simulation=world)
+if 'qt' in sys.argv:
+    tb = pydart.qtgui.Trackball(phi=-0.0, theta=0.0, zoom=1.0,
+                                rot=[-0.02, -0.71, -0.02, 0.71],
+                                trans=[0.02, 0.09, -1.0])
+    pydart.qtgui.run(title='rigidChain', simulation=world, trackball=tb)
+else:
+    pydart.glutgui.run(title='rigidChain', simulation=world)

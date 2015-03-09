@@ -1,3 +1,4 @@
+import sys
 import pydart
 import numpy as np
 import controller
@@ -71,6 +72,14 @@ def keyboard_callback(world, key):
 print("'1'--'4': programmed interaction")
 
 # Run the application
-pydart.glutgui.run(title='bipedStand', simulation=world, trans=[0, 0, -3.0],
-                   step_callback=step_callback,
-                   keyboard_callback=keyboard_callback)
+if 'qt' in sys.argv:
+    tb = pydart.qtgui.Trackball(phi=-1.4, theta=-6.2, zoom=1.0,
+                                rot=[-0.05, 0.07, -0.01, 1.00],
+                                trans=[0.02, 0.09, -3.69])
+    pydart.qtgui.run(title='bipedStand', simulation=world, trackball=tb,
+                     step_callback=step_callback,
+                     keyboard_callback=keyboard_callback)
+else:
+    pydart.glutgui.run(title='bipedStand', simulation=world, trans=[0, 0, -3],
+                       step_callback=step_callback,
+                       keyboard_callback=keyboard_callback)

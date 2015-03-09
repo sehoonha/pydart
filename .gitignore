@@ -69,3 +69,5 @@ build/data/*
 build/frames/*
 
 pydart/pydart_api.py
+captures
+captures/*
