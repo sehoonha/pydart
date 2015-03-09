@@ -145,9 +145,12 @@ class MyQtWindow(QtGui.QMainWindow):
         if event.key() == QtCore.Qt.Key_Escape:
             print 'Escape key pressed! Bye.'
             self.close()
-        if self._keyboard_callback is not None:
-            if 0 <= event.key() and event.key() < 256:  # If key is ascii
-                self._keyboard_callback(self.sim, chr(event.key()))
+        if 0 <= event.key() and event.key() < 256:  # If key is ascii
+            key = chr(event.key())
+            if self._keyboard_callback is not None:
+                self._keyboard_callback(self.sim, key)
+            if hasattr(self.sim, 'key_pressed'):
+                self.sim.key_pressed(key)
 
     def rangeSliderEvent(self, value):
         self.sim.set_frame(value)
