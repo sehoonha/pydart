@@ -42,6 +42,8 @@ int getSkeletonNumBodies(int wid, int skid);
 int getSkeletonNumDofs(int wid, int skid);
 const char* getSkeletonBodyName(int wid, int skid, int bodyid);
 const char* getSkeletonDofName(int wid, int skid, int dofid);
+int getSkeletonMobile(int wid, int skid);
+void setSkeletonMobile(int wid, int skid, int mobile);
 
 // Skeleton Pose Functions
 void getSkeletonPositions(int wid, int skid, double* outpose, int ndofs);
@@ -77,6 +79,8 @@ void getBodyNodeWorldLinearJacobian(int wid, int skid, int bid, double inv3[3], 
 void addBodyNodeExtForce(int wid, int skid, int bid, double inv3[3]);
 void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double inv3_2[3]);
 
+// Joint Functions
+void setJointAxis(int wid, int skid, 
 
 #endif // #ifndef PYDART_PYDART_API_H
 

@@ -374,6 +374,20 @@ const char* getSkeletonDofName(int wid, int skid, int dofid) {
     return skel->getDof(dofid)->getName().c_str();
 }
 
+int getSkeletonMobile(int wid, int skid) {
+    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    if (skel->isMobile()) {
+        return 1;
+    } else {
+        return 0;
+    }
+}    
+
+void setSkeletonMobile(int wid, int skid, int mobile) {
+    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    skel->setMobile(mobile != 0);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Skeleton Pose Functions
 void getSkeletonPositions(int wid, int skid, double* outpose, int ndofs) {

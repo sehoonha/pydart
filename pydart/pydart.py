@@ -243,6 +243,13 @@ class Skeleton(object):
         return papi.getSkeletonCoriolisAndGravityForces(self.world.id,
                                                         self.id, self.ndofs)
 
+    def is_mobile(self):
+        return (papi.getSkeletonMobile(self.world.id, self.id) != 0)
+
+    def set_mobile(self, mobile):
+        flag = 1 if mobile is True else 0
+        papi.setSkeletonMobile(self.world.id, self.id, flag)
+
     @property
     def c(self):
         return self.coriolis_and_gravity_forces()
