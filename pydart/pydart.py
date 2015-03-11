@@ -270,6 +270,15 @@ class Skeleton(object):
     def body_index(self, _name):
         return self.name_to_body[_name].id
 
+    def dof(self, query):
+        if isinstance(query, str):
+            return self.name_to_dof[query]
+        elif isinstance(query, int):
+            return self.dofs[query]
+        else:
+            print 'No find...', query
+            return None
+
     def dof_index(self, _name):
         return self.name_to_dof[_name].id
 

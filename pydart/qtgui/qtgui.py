@@ -14,9 +14,9 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 
-class MyQtWindow(QtGui.QMainWindow):
-    def __init__(self, _title, _sim, _trackball):
-        super(MyQtWindow, self).__init__()
+class PyDartQtWindow(QtGui.QMainWindow):
+    def __init__(self, _title, _sim):
+        super(PyDartQtWindow, self).__init__()
 
         # Check and create captures directory
         if not os.path.isdir('captures'):
@@ -24,10 +24,11 @@ class MyQtWindow(QtGui.QMainWindow):
 
         self.sim = _sim
         self.setWindowTitle(_title)
-        self.trackball = _trackball
+        self.trackball = None
 
         self.initUI()
         self.initActions()
+        self.initToolbarActions()
         self.initToolbar()
         self.initMenu()
 
@@ -41,6 +42,10 @@ class MyQtWindow(QtGui.QMainWindow):
 
         self.cam0Event()
 
+    def setTrackball(self, _trackball):
+        self.trackball = _trackball
+        self.cam0Event()
+
     def initUI(self):
         self.setGeometry(0, 0, 1280, 720)
         # self.setWindowTitle('Toolbar')
@@ -48,6 +53,12 @@ class MyQtWindow(QtGui.QMainWindow):
         self.glwidget = GLWidget(self)
         self.glwidget.setGeometry(0, 30, 1280, 720)
         self.glwidget.sim = self.sim
+
+    def createAction(self, name, handler=None):
+        action = QtGui.QAction(name, self)
+        if handler is not None:
+            action.triggered.connect(handler)
+        return action
 
     def initActions(self):
         # Create actions
@@ -80,16 +91,26 @@ class MyQtWindow(QtGui.QMainWindow):
         self.printCamAction = QtGui.QAction('Print Camera', self)
         self.printCamAction.triggered.connect(self.printCamEvent)
 
+    def initToolbarActions(self):
+        self.toolbar_actions = []
+        self.toolbar_actions.append(self.resetAction)
+        self.toolbar_actions.append(self.playAction)
+        self.toolbar_actions.append(self.animAction)
+        self.toolbar_actions.append(None)
+        self.toolbar_actions.append(self.screenshotAction)
+        self.toolbar_actions.append(self.captureAction)
+        self.toolbar_actions.append(self.movieAction)
+
     def initToolbar(self):
+        """ Read self.toolbar_actions and add them to the toolbar.
+        None will be interpreted as separator """
         # Create a toolbar
         self.toolbar = self.addToolBar('Control')
-        self.toolbar.addAction(self.resetAction)
-        self.toolbar.addAction(self.playAction)
-        self.toolbar.addAction(self.animAction)
-        self.toolbar.addSeparator()
-        self.toolbar.addAction(self.screenshotAction)
-        self.toolbar.addAction(self.captureAction)
-        self.toolbar.addAction(self.movieAction)
+        for action in self.toolbar_actions:
+            if action is None:
+                self.toolbar.addSeparator()
+            else:
+                self.toolbar.addAction(action)
 
         self.rangeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.rangeSlider.valueChanged[int].connect(self.rangeSliderEvent)
@@ -97,28 +118,28 @@ class MyQtWindow(QtGui.QMainWindow):
 
     def initMenu(self):
         menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addSeparator()
+        self.fileMenu = menubar.addMenu('&File')
 
         # Camera menu
-        cameraMenu = menubar.addMenu('&Camera')
-        cameraMenu.addAction(self.cam0Action)
-        cameraMenu.addAction(self.cam1Action)
-        cameraMenu.addSeparator()
-        cameraMenu.addAction(self.printCamAction)
+        self.cameraMenu = menubar.addMenu('&Camera')
+        self.cameraMenu.addAction(self.cam0Action)
+        self.cameraMenu.addAction(self.cam1Action)
+        self.cameraMenu.addSeparator()
+        self.cameraMenu.addAction(self.printCamAction)
 
         # Recording menu
-        recordingMenu = menubar.addMenu('&Recording')
-        recordingMenu.addAction(self.screenshotAction)
-        recordingMenu.addSeparator()
-        recordingMenu.addAction(self.captureAction)
-        recordingMenu.addAction(self.movieAction)
+        self.recordingMenu = menubar.addMenu('&Recording')
+        self.recordingMenu.addAction(self.screenshotAction)
+        self.recordingMenu.addSeparator()
+        self.recordingMenu.addAction(self.captureAction)
+        self.recordingMenu.addAction(self.movieAction)
+        self.menuBar = menubar
 
     def idleTimerEvent(self):
         doCapture = False
         # Do animation
         if self.animAction.isChecked():
-            v = self.rangeSlider.value() + 10
+            v = self.rangeSlider.value() + 1
             if v <= self.rangeSlider.maximum():
                 self.rangeSlider.setValue(v)
             else:
@@ -187,10 +208,11 @@ class MyQtWindow(QtGui.QMainWindow):
 
 
 def run(title='QT Window', simulation=None, trackball=None,
-        step_callback=None, keyboard_callback=None):
+        step_callback=None, keyboard_callback=None, cls=PyDartQtWindow):
     glutInit(())
     app = QtGui.QApplication([title])
-    w = MyQtWindow(title, simulation, trackball)
+    w = cls(title, simulation)
+    w.setTrackball(trackball)
     w._step_callback = step_callback
     w._keyboard_callback = keyboard_callback
     w.show()
