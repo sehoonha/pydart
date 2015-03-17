@@ -16,6 +16,7 @@ void destroy();
 int createWorld(double timestep);
 int createWorldFromSkel(const char* const path);
 void destroyWorld(int wid);
+int saveWorldToFile(int wid, const char* const path);
 int addSkeleton(int wid, const char* const path, double frictionCoeff = 1.0);
 int numSkeletons(int wid);
 void setSkeletonJointDamping(int wid, int skid, double damping);
@@ -79,8 +80,8 @@ void getBodyNodeWorldLinearJacobian(int wid, int skid, int bid, double inv3[3], 
 void addBodyNodeExtForce(int wid, int skid, int bid, double inv3[3]);
 void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double inv3_2[3]);
 
-// Joint Functions
-void setJointAxis(int wid, int skid, 
+// // Joint Functions
+// void setJointAxis(int wid, int skid, 
 
 #endif // #ifndef PYDART_PYDART_API_H
 

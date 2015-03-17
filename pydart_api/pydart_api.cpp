@@ -33,6 +33,7 @@ using std::endl;
 #include "dart/utils/SkelParser.h"
 #include "dart/utils/sdf/SoftSdfParser.h"
 #include "dart/utils/urdf/DartLoader.h"
+#include "dart/utils/FileInfoWorld.h"
 
 namespace pydart {
 
@@ -155,6 +156,15 @@ int createWorldFromSkel(const char* const path) {
 
 void destroyWorld(int wid) {
 }
+
+int saveWorldToFile(int wid, const char* const path) {
+    using namespace dart::simulation;
+    World* world = Manager::world(wid);
+    dart::utils::FileInfoWorld* file = new dart::utils::FileInfoWorld();
+    bool result = file->saveFile(path, world->getRecording());
+    return (int)result;
+}
+
 
 int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     using namespace dart::simulation;

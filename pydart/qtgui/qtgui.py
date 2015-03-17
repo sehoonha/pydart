@@ -109,8 +109,10 @@ class PyDartQtWindow(QtGui.QMainWindow):
         for action in self.toolbar_actions:
             if action is None:
                 self.toolbar.addSeparator()
-            else:
+            elif isinstance(action, QtGui.QAction):
                 self.toolbar.addAction(action)
+            elif isinstance(action, QtGui.QWidget):
+                self.toolbar.addWidget(action)
 
         self.rangeSlider = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         self.rangeSlider.valueChanged[int].connect(self.rangeSliderEvent)
@@ -180,7 +182,7 @@ class PyDartQtWindow(QtGui.QMainWindow):
         self.glwidget.capture()
 
     def movieEvent(self):
-        cmd = 'avconv -r 200 -i ./captures/capture.%%04d.png output.mp4'
+        cmd = 'avconv -r 200 -i ./captures/capture.%04d.png output.mp4'
         print 'Movie command:', cmd
         os.system(cmd)
 

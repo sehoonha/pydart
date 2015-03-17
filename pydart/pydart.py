@@ -120,6 +120,9 @@ class World(object):
     def render(self):
         papi.render(self.id)
 
+    def save(self, filename):
+        return papi.saveWorldToFile(self.id, filename)
+
     def __repr__(self):
         return "<World.%d at %.4f>" % (self.id, self.t)
 
