@@ -1,4 +1,8 @@
 from pydart import *
+from skeleton import Skeleton
+from body import Body
+from dof import Dof
+from contact import Contact
 import misc
 import glutgui
 
