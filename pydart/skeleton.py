@@ -1,6 +1,7 @@
 import os.path
 import pydart_api as papi
 import numpy as np
+from skel_vector import SkelVector
 from body import Body
 from dof import Dof
 
@@ -60,7 +61,8 @@ class Skeleton(object):
         return self.mass_matrix()
 
     def positions(self):
-        return papi.getSkeletonPositions(self.world.id, self.id, self.ndofs)
+        q = papi.getSkeletonPositions(self.world.id, self.id, self.ndofs)
+        return SkelVector(q, self)
 
     @property
     def q(self):
@@ -91,7 +93,8 @@ class Skeleton(object):
         return self.position_upper_limit()
 
     def velocities(self):
-        return papi.getSkeletonVelocities(self.world.id, self.id, self.ndofs)
+        qdot = papi.getSkeletonVelocities(self.world.id, self.id, self.ndofs)
+        return SkelVector(qdot, self)
 
     @property
     def qdot(self):

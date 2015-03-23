@@ -16,13 +16,12 @@ print('pydart create_world OK')
 
 skel = world.skels[1]
 
-# Initialize the pose
-I = skel.dof_indices(["j_pelvis_rot_y",
-                      "j_thigh_left_z", "j_shin_left", "j_heel_left_1",
-                      "j_thigh_right_z", "j_shin_right", "j_heel_right_1",
-                      "j_abdomen_2"])
+# Initialize the pose. q is an instance of SkelVector.
 q = skel.q
-q[I] = [-0.2, 0.15, -0.4, 0.25, 0.15, -0.4, 0.25, 0.0]
+q["j_pelvis_rot_y"] = -0.2
+q["j_thigh_left_z", "j_shin_left", "j_heel_left_1"] = 0.15, -0.4, 0.25
+q["j_thigh_right_z", "j_shin_right", "j_heel_right_1"] = 0.15, -0.4, 0.25
+q["j_abdomen_2"] = 0.0
 skel.set_positions(q)
 print('skeleton position OK')
 

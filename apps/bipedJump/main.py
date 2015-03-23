@@ -1,7 +1,6 @@
 import sys
 import pydart
 import math
-import numpy as np
 import controller
 print('Example: bipedJump')
 
@@ -18,12 +17,8 @@ print('pydart create_world OK')
 skel = world.skels[1]
 
 # Initialize the pose
-I = skel.dof_indices(["j_pelvis_rot_y",
-                      "j_thigh_left_z", "j_shin_left", "j_heel_left_1",
-                      "j_thigh_right_z", "j_shin_right", "j_heel_right_1",
-                      "j_abdomen_2"])
 q = skel.q
-q[[2, 4, 5]] = [0.02 * math.pi, -0.02, 0]
+q[(2, 4, 5)] = [0.02 * math.pi, -0.02, 0]
 skel.set_positions(q)
 print('skeleton position OK')
 
