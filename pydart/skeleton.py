@@ -27,6 +27,10 @@ class Skeleton(object):
         self.name_to_body = {body.name: body for body in self.bodies}
         self.controller = None
 
+    @property
+    def name(self):
+        return papi.getSkeletonName(self.world.id, self.id)
+
     def set_joint_damping(self, _damping):
         papi.setSkeletonJointDamping(self.world.id, self.id, _damping)
 

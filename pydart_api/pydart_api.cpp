@@ -355,6 +355,11 @@ void getWorldContacts(int wid, double* outv, int len) {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Skeleton Attribute Functions
+const char* getSkeletonName(int wid, int skid) {
+    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    return skel->getName().c_str();
+}
+
 double getSkeletonMass(int wid, int skid) {
     using namespace dart::dynamics;
     Skeleton* skel = Manager::skeleton(wid, skid);
@@ -708,8 +713,4 @@ void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double in
     Eigen::Vector3d offset(inv3_2[0], inv3_2[1], inv3_2[2]);
     body->addExtForce(f, offset);
 }
-
-
-
-
 

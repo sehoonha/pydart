@@ -1,5 +1,6 @@
 from pydart import *
 from skeleton import Skeleton
+from skel_vector import SkelVector
 from body import Body
 from dof import Dof
 from contact import Contact

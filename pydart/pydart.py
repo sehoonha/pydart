@@ -97,6 +97,7 @@ class World(object):
 
     def reset(self):
         papi.resetWorld(self.id)
+        self._frame = 0
 
     def step(self):
         for skel in self.skels:

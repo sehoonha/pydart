@@ -38,6 +38,7 @@ int getWorldNumContacts(int wid);
 void getWorldContacts(int wid, double* outv, int len);
 
 // Skeleton Attribute Functions
+const char* getSkeletonName(int wid, int skid);
 double getSkeletonMass(int wid, int skid);
 int getSkeletonNumBodies(int wid, int skid);
 int getSkeletonNumDofs(int wid, int skid);
@@ -79,9 +80,6 @@ void getBodyNodeTransformation(int wid, int skid, int bid, double outv44[4][4]);
 void getBodyNodeWorldLinearJacobian(int wid, int skid, int bid, double inv3[3], double* array2, int nrows, int ncols);
 void addBodyNodeExtForce(int wid, int skid, int bid, double inv3[3]);
 void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double inv3_2[3]);
-
-// // Joint Functions
-// void setJointAxis(int wid, int skid, 
 
 #endif // #ifndef PYDART_PYDART_API_H
 
