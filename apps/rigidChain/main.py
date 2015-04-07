@@ -27,7 +27,7 @@ print('pydart create_world OK')
 
 skel = world.skels[0]
 skel.q = (np.random.rand(skel.ndofs) - 0.5)
-print ('init pose = %s' % skel.q)
+print('init pose = %s' % skel.q)
 skel.controller = DampingController(skel)
 
 if 'qt' in sys.argv:

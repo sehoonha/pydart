@@ -56,3 +56,6 @@ make install
 ```
 python apps/helloPyDART/main.py
 ```
+
+## Screenshots
+![](https://github.com/github/training-kit/blob/master/data/images/frame_bipedjump.png)
