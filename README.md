@@ -58,11 +58,9 @@ python apps/helloPyDART/main.py
 ```
 
 ## Screenshots
-|![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_bipedjump.png)|
-![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_bipedstand.png)|
+|![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_bipedjump.png)|![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_bipedstand.png)|
 |---|---|
-|![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_rigidchain.png)
-|![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_softbodies.png)|
+|![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_rigidchain.png)|![](https://github.com/sehoonha/pydart/blob/master/data/images/frame_softbodies.png)|
 
 ## Code snippets
 - Modifying a skeleton pose using dof names (q is still a numerical vector)
