@@ -1,6 +1,7 @@
 ## PyDart
 
 <img src="https://github.com/dartsim/dart/raw/master/doxygen/DART%20logo.png" width="150" height="50" />
+|+|
 <img src="https://www.python.org/static/community_logos/python-logo.png" width="150" height="50" />
 ======
 PyDART is an open source python binding of [DART](https://github.com/dartsim/dart)(4.3.4), an open source physics simulator.
@@ -12,7 +13,7 @@ such as [NumPy](http://www.numpy.org/)(linear algebra),
 [PyBrain](http://pybrain.org/)(machine learning),
 and so on.
 
-## Requirement
+## Requirements
 - [DART](https://github.com/dartsim/dart)(4.3.4)
  + https://github.com/dartsim/dart/wiki/Installation
 - [SWIG](http://www.swig.org/) (Simplified Wrapper and Interface Generator)
@@ -26,7 +27,7 @@ sudo apt-get install python-pip
 sudo pip install PyOpenGL PyOpenGL_accelerate
 ```
 
-## Building instruction
+## Installation
 - Checkout the project
 ```
 git clone https://github.com/sehoonha/pydart.git
