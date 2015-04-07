@@ -1,8 +1,15 @@
 ## PyDart
 
-<img src="https://github.com/dartsim/dart/raw/master/doxygen/DART%20logo.png" width="150" height="50" />
-|+|
-<img src="https://www.python.org/static/community_logos/python-logo.png" width="150" height="50" />
+<table>
+<tr>
+<td>  
+  <img src="https://github.com/dartsim/dart/raw/master/doxygen/DART%20logo.png" width="150" height="50" />
+</td>
+<td>
+  <img src="https://www.python.org/static/community_logos/python-logo.png" width="150" height="50" />
+</td>
+</tr>
+</table>
 ======
 PyDART is an open source python binding of [DART](https://github.com/dartsim/dart)(4.3.4), an open source physics simulator.
 All APIs are designed to provide a concise and powerful control on [DART](https://github.com/dartsim/dart) physics worlds.
