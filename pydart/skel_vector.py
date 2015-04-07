@@ -2,7 +2,9 @@ import numpy as np
 
 
 class SkelVector(np.ndarray):
-    def __new__(cls, data, skel):
+    def __new__(cls, data=None, skel=None):
+        if data is None:
+            data = np.zeros(skel.ndofs)
         obj = np.asarray(data).view(cls)
         obj.skel = skel
         obj.keys = [d.name for d in skel.dofs]

@@ -231,6 +231,7 @@ void setSkeletonJointDamping(int wid, int skid, double damping) {
 // Simulation Functions
 void resetWorld(int wid) {
     using namespace dart::simulation;
+    using namespace dart::dynamics;
     World* world = Manager::world(wid);
     world->reset();
     // Debug
@@ -238,10 +239,24 @@ void resetWorld(int wid) {
     dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
     dart::collision::CollisionDetector* detector = solver->getCollisionDetector();
     // std::cout << "reinitialize collision detector... creating new.." << std::endl;
-    dart::collision::CollisionDetector* detector2 = new dart::collision::FCLMeshCollisionDetector();
-    solver->setCollisionDetector(detector2);
-    // std::cout << "reinitialize collision detector... deleting old.." << std::endl;
+    // dart::collision::CollisionDetector* detector2 = new dart::collision::FCLMeshCollisionDetector();
+    // dart::collision::CollisionDetector* detector2 = new dart::collision::BulletCollisionDetector();
+    // dart::collision::CollisionDetector* detector2 = new dart::collision::FCLCollisionDetector();
+    // solver->setCollisionDetector(detector2);
+    // std::cout << " [pydart_api] reinitialize collision detector... deleting old.." << std::endl;
     // delete detector;
+    // std::cout << " [pydart_api] OK" << std::endl;
+    for (int skid = 0; skid < numSkeletons(wid); skid++) {
+        Skeleton* skel = Manager::skeleton(wid, skid);
+
+        skel->resetCommands();
+        skel->resetPositions();
+        skel->resetVelocities();
+        skel->resetAccelerations();
+        skel->resetForces();
+        skel->clearExternalForces();
+        skel->clearConstraintImpulses();
+    }
     // std::cout << "reinitialize collision detector... done" << std::endl;
 }
 

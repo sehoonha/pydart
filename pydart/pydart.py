@@ -31,9 +31,7 @@ class World(object):
         else:
             self.id = papi.createWorld(step)
 
-        self._frame = 0
-        self.contact_history = []
-        self.contact_history.append([])  # For the initial frame
+        self.reset()
 
     def add_skeleton(self, filename, friction=1.0, control=True):
         self.skels += [Skeleton(self, filename, friction)]
@@ -98,6 +96,8 @@ class World(object):
     def reset(self):
         papi.resetWorld(self.id)
         self._frame = 0
+        self.contact_history = []
+        self.contact_history.append([])  # For the initial frame
 
     def step(self):
         for skel in self.skels:
