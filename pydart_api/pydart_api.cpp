@@ -7,6 +7,7 @@
 
 #include "pydart_api.h"
 #include <iostream>
+#include <string>
 #include <vector>
 #include <map>
 using std::cout;
@@ -169,8 +170,19 @@ int saveWorldToFile(int wid, const char* const path) {
 int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     using namespace dart::simulation;
     using namespace dart::dynamics;
-    dart::utils::DartLoader urdfLoader;
-    Skeleton* skel = urdfLoader.parseSkeleton(path);
+    std::string strpath(path);
+    std::string ext = strpath.substr(strpath.length() - 4);
+    Skeleton* skel = NULL;
+    if (ext == ".sdf") {
+        cout << " [pydart_api] parse as SDF (ext: " << ext << ")" << endl;
+        skel = dart::utils::SoftSdfParser::readSkeleton(path);
+    } else {
+        cout << " [pydart_api] parse as URDF (ext: " << ext << ")" << endl;
+        dart::utils::DartLoader urdfLoader;
+        skel = urdfLoader.parseSkeleton(path);
+    }
+    // Skeleton* skel = urdfLoader.parseSkeleton(path);
+
     cout << " [pydart_api] skel [" << path << "] : friction = " << frictionCoeff << endl;
     for (int i = 0; i < skel->getNumBodyNodes(); ++i) {
         dart::dynamics::BodyNode* bn = skel->getBodyNode(i);
