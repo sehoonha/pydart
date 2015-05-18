@@ -5,7 +5,7 @@
 """
 
 import pydart_api as papi
-# import numpy as np
+import numpy as np
 from skeleton import Skeleton
 from contact import Contact
 
@@ -114,6 +114,24 @@ class World(object):
 
     def render(self):
         papi.render(self.id)
+
+    def states(self):
+        return np.concatenate([skel.x for skel in self.skels])
+
+    @property
+    def x(self):
+        return self.states()
+
+    def set_states(self, _x):
+        lo = 0
+        for skel in self.skels:
+            hi = lo + 2 * skel.ndofs
+            skel.x = _x[lo:hi]
+            lo = hi
+
+    @x.setter
+    def x(self, _x):
+        self.set_states(_x)
 
     def save(self, filename):
         return papi.saveWorldToFile(self.id, filename)
