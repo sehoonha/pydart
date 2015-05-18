@@ -12,12 +12,15 @@ data_dir = pydart.misc.example_data_dir(__file__)
 print('data_dir = ' + data_dir)
 
 world = pydart.create_world(1.0 / 2000.0, data_dir + '/skel/fullbody1.skel')
+# world = pydart.create_world(1.0 / 2000.0,
+#                             data_dir + '/skel/soft_fullbody.skel')
 print('pydart create_world OK')
 
 skel = world.skels[1]
 
 # Initialize the pose. q is an instance of SkelVector.
 q = skel.q
+q["j_pelvis_pos_y"] = -0.05
 q["j_pelvis_rot_y"] = -0.2
 q["j_thigh_left_z", "j_shin_left", "j_heel_left_1"] = 0.15, -0.4, 0.25
 q["j_thigh_right_z", "j_shin_right", "j_heel_right_1"] = 0.15, -0.4, 0.25
