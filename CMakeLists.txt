@@ -36,7 +36,7 @@ message(STATUS "SWIG_FOUND = ${SWIG_FOUND}")
 message(STATUS "SWIG_USE_FILE = ${SWIG_USE_FILE}")
 include(${SWIG_USE_FILE})
 ### PythonLibs
-find_package(PythonLibs REQUIRED)
+find_package(PythonLibs 2.7 REQUIRED)
 message(STATUS "PYTHON_INCLUDE_DIR = ${PYTHON_INCLUDE_DIR}")
 include_directories(${PYTHON_INCLUDE_DIR})
 message(STATUS "PYTHON_LIBRARIES = ${PYTHON_LIBRARIES}")
