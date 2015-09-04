@@ -30,7 +30,8 @@ using std::endl;
 #include "dart/collision/fcl_mesh/FCLMeshCollisionDetector.h"
 #include "dart/collision/bullet/BulletCollisionDetector.h"
 #include "dart/constraint/ContactConstraint.h"
-#include "dart/utils/Paths.h"
+// #include "dart/utils/Paths.h"
+#include "dart/math/Geometry.h"
 #include "dart/utils/SkelParser.h"
 #include "dart/utils/sdf/SoftSdfParser.h"
 #include "dart/utils/urdf/DartLoader.h"
@@ -50,9 +51,9 @@ public:
       
     }
 
-    static dart::simulation::World* world(int index = 0);
-    static dart::dynamics::Skeleton* skeleton(int index);
-    static dart::dynamics::Skeleton* skeleton(int wid, int skid);
+    static dart::simulation::WorldPtr world(int index = 0);
+    static dart::dynamics::SkeletonPtr skeleton(int index);
+    static dart::dynamics::SkeletonPtr skeleton(int wid, int skid);
     static int createWorld(double timestep);
     static int createWorldFromSkel(const char* const path);
     
@@ -60,7 +61,7 @@ protected:
     static Manager* g_manager;
     static dart::renderer::RenderInterface* g_ri;
 
-    std::vector<dart::simulation::World*> worlds;
+    std::vector<dart::simulation::WorldPtr> worlds;
 };
 
 Manager* Manager::g_manager = NULL;
@@ -85,16 +86,16 @@ void Manager::destroy() {
     cout << " [pydart_api] Destroy pydart manager OK" << endl;
 }
 
-dart::simulation::World* Manager::world(int index) {
+dart::simulation::WorldPtr Manager::world(int index) {
     Manager* manager = getInstance();
     return manager->worlds[index];
 }
 
-dart::dynamics::Skeleton* Manager::skeleton(int index) {
+dart::dynamics::SkeletonPtr Manager::skeleton(int index) {
     return world()->getSkeleton(index);
 }
 
-dart::dynamics::Skeleton* Manager::skeleton(int wid, int skid) {
+dart::dynamics::SkeletonPtr Manager::skeleton(int wid, int skid) {
     return world(wid)->getSkeleton(skid);
 }
 
@@ -102,7 +103,7 @@ dart::dynamics::Skeleton* Manager::skeleton(int wid, int skid) {
 int Manager::createWorld(double timestep) {
     Manager* manager = getInstance();
 
-    dart::simulation::World* w = new dart::simulation::World();
+    dart::simulation::WorldPtr w(new dart::simulation::World());
     w->setTimeStep(timestep);
     w->setGravity(Eigen::Vector3d(0.0, -9.81, 0.0));
     int id = manager->worlds.size();
@@ -113,7 +114,7 @@ int Manager::createWorld(double timestep) {
 int Manager::createWorldFromSkel(const char* const path) {
     Manager* manager = getInstance();
 
-    dart::simulation::World* w = dart::utils::SkelParser::readWorld(path);
+    dart::simulation::WorldPtr w(dart::utils::SkelParser::readWorld(path));
     // w->setTimeStep(timestep);
     // w->setGravity(Eigen::Vector3d(0.0, -9.81, 0.0));
     int id = manager->worlds.size();
@@ -160,7 +161,7 @@ void destroyWorld(int wid) {
 
 int saveWorldToFile(int wid, const char* const path) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     dart::utils::FileInfoWorld* file = new dart::utils::FileInfoWorld();
     bool result = file->saveFile(path, world->getRecording());
     return (int)result;
@@ -172,7 +173,7 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     using namespace dart::dynamics;
     std::string strpath(path);
     std::string ext = strpath.substr(strpath.length() - 4);
-    Skeleton* skel = NULL;
+    SkeletonPtr skel = NULL;
     if (ext == ".sdf") {
         cout << " [pydart_api] parse as SDF (ext: " << ext << ")" << endl;
         skel = dart::utils::SoftSdfParser::readSkeleton(path);
@@ -181,15 +182,15 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
         dart::utils::DartLoader urdfLoader;
         skel = urdfLoader.parseSkeleton(path);
     }
-    // Skeleton* skel = urdfLoader.parseSkeleton(path);
+    // SkeletonPtr skel = urdfLoader.parseSkeleton(path);
 
     cout << " [pydart_api] skel [" << path << "] : friction = " << frictionCoeff << endl;
-    for (int i = 0; i < skel->getNumBodyNodes(); ++i) {
+    for (size_t i = 0; i < skel->getNumBodyNodes(); ++i) {
         dart::dynamics::BodyNode* bn = skel->getBodyNode(i);
         bn->setFrictionCoeff(frictionCoeff);
     }
     
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     int id = world->getNumSkeletons();
     world->addSkeleton(skel);
 
@@ -221,18 +222,18 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
 
 int numSkeletons(int wid) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     return world->getNumSkeletons();
 }
 
 void setSkeletonJointDamping(int wid, int skid, double damping) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
 
-    for (int i = 1; i < skel->getNumBodyNodes(); ++i) {
+    for (size_t i = 1; i < skel->getNumBodyNodes(); ++i) {
         dart::dynamics::Joint* joint = skel->getJoint(i);
         if (joint->getNumDofs() > 0) {
-            for (int j = 0; j < joint->getNumDofs(); ++j) {
+            for (size_t j = 0; j < joint->getNumDofs(); ++j) {
                 joint->setDampingCoefficient(j, damping);
             }
         }
@@ -244,12 +245,12 @@ void setSkeletonJointDamping(int wid, int skid, double damping) {
 void resetWorld(int wid) {
     using namespace dart::simulation;
     using namespace dart::dynamics;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     world->reset();
     // Debug
     // std::cout << "reinitialize collision detector" << std::endl;
-    dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
-    dart::collision::CollisionDetector* detector = solver->getCollisionDetector();
+    // dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
+    // dart::collision::CollisionDetector* detector = solver->getCollisionDetector();
     // std::cout << "reinitialize collision detector... creating new.." << std::endl;
     // dart::collision::CollisionDetector* detector2 = new dart::collision::FCLMeshCollisionDetector();
     // dart::collision::CollisionDetector* detector2 = new dart::collision::BulletCollisionDetector();
@@ -259,13 +260,13 @@ void resetWorld(int wid) {
     // delete detector;
     // std::cout << " [pydart_api] OK" << std::endl;
     for (int skid = 0; skid < numSkeletons(wid); skid++) {
-        Skeleton* skel = Manager::skeleton(wid, skid);
+        SkeletonPtr skel = Manager::skeleton(wid, skid);
 
         skel->resetCommands();
         skel->resetPositions();
         skel->resetVelocities();
         skel->resetAccelerations();
-        skel->resetForces();
+        skel->resetGeneralizedForces();
         skel->clearExternalForces();
         skel->clearConstraintImpulses();
     }
@@ -274,7 +275,7 @@ void resetWorld(int wid) {
 
 void stepWorld(int wid) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     world->step();
     world->bake();
 }
@@ -282,7 +283,7 @@ void stepWorld(int wid) {
 void render(int wid) {
     using namespace dart::simulation;
     dart::renderer::RenderInterface* ri = Manager::getRI();
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     
     for (size_t i = 0; i < world->getNumSkeletons(); i++) {
         world->getSkeleton(i)->draw(ri);
@@ -292,14 +293,14 @@ void render(int wid) {
 void renderSkeleton(int wid, int skid) {
     using namespace dart::dynamics;
     dart::renderer::RenderInterface* ri = Manager::getRI();
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     skel->draw(ri);
 }
 
 void renderSkeletonWithColor(int wid, int skid, double r, double g, double b, double a) {
     using namespace dart::dynamics;
     dart::renderer::RenderInterface* ri = Manager::getRI();
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     skel->draw(ri, Eigen::Vector4d(r, g, b, a), false);
 }
 
@@ -307,32 +308,32 @@ void renderSkeletonWithColor(int wid, int skid, double r, double g, double b, do
 // World Functions
 double getWorldTime(int wid) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     return world->getTime();
 }
 
 double getWorldTimeStep(int wid) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     return world->getTimeStep();
 }
 
 void setWorldTimeStep(int wid, double _timeStep) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     world->setTimeStep(_timeStep);
 }
 
 
 int getWorldSimFrames(int wid) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     return world->getSimFrames();
 }
 
 void setWorldSimFrame(int wid, int playFrame) {
     using namespace dart::simulation;
-    World* world = Manager::world(wid);
+    WorldPtr world = Manager::world(wid);
     if (playFrame >= world->getRecording()->getNumFrames()) {
         return;
     }
@@ -347,18 +348,18 @@ void setWorldSimFrame(int wid, int playFrame) {
 }
 
 int getWorldNumContacts(int wid) {
-    dart::simulation::World* world = Manager::world(wid);
+    dart::simulation::WorldPtr world = Manager::world(wid);
     dart::collision::CollisionDetector* cd =
         world->getConstraintSolver()->getCollisionDetector();
     return cd->getNumContacts();
 }
 
 void getWorldContacts(int wid, double* outv, int len) {
-    dart::simulation::World* world = Manager::world(wid);
+    dart::simulation::WorldPtr world = Manager::world(wid);
     dart::collision::CollisionDetector* cd =
         world->getConstraintSolver()->getCollisionDetector();
-    int n = cd->getNumContacts();
-    if (7 * n != len) {
+    size_t n = cd->getNumContacts();
+    if (7 * n != (size_t)len) {
         cerr << "getWorldContacts: 7n is needed for the output vector. n = " << n << ", len =  " << len << endl;
         return;
     }
@@ -383,41 +384,41 @@ void getWorldContacts(int wid, double* outv, int len) {
 ////////////////////////////////////////////////////////////////////////////////
 // Skeleton Attribute Functions
 const char* getSkeletonName(int wid, int skid) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     return skel->getName().c_str();
 }
 
 double getSkeletonMass(int wid, int skid) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     return skel->getMass();
 }
 
 int getSkeletonNumDofs(int wid, int skid) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     return skel->getNumDofs();
 }
 
 int getSkeletonNumBodies(int wid, int skid) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     return skel->getNumBodyNodes();
 }
 
 const char* getSkeletonBodyName(int wid, int skid, int bodyid) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     return skel->getBodyNode(bodyid)->getName().c_str();
 }
 
 const char* getSkeletonDofName(int wid, int skid, int dofid) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     // return skel->getGenCoordInfo(dofid).joint->getName().c_str();
     return skel->getDof(dofid)->getName().c_str();
 }
 
 int getSkeletonMobile(int wid, int skid) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     if (skel->isMobile()) {
         return 1;
     } else {
@@ -426,7 +427,7 @@ int getSkeletonMobile(int wid, int skid) {
 }    
 
 void setSkeletonMobile(int wid, int skid, int mobile) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     skel->setMobile(mobile != 0);
 }
 
@@ -434,7 +435,7 @@ void setSkeletonMobile(int wid, int skid, int mobile) {
 // Skeleton Pose Functions
 void getSkeletonPositions(int wid, int skid, double* outpose, int ndofs) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     
     Eigen::VectorXd q = skel->getPositions();
     for (int i = 0; i < q.size(); i++) {
@@ -444,7 +445,7 @@ void getSkeletonPositions(int wid, int skid, double* outpose, int ndofs) {
 
 void getSkeletonVelocities(int wid, int skid, double* outpose, int ndofs) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     
     Eigen::VectorXd qdot = skel->getVelocities();
     for (int i = 0; i < qdot.size(); i++) {
@@ -454,7 +455,7 @@ void getSkeletonVelocities(int wid, int skid, double* outpose, int ndofs) {
 
 void getSkeletonMassMatrix(int wid, int skid, double* array2, int nrows, int ncols) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     const Eigen::MatrixXd& M = skel->getMassMatrix();
     
     int ptr = 0;
@@ -467,7 +468,7 @@ void getSkeletonMassMatrix(int wid, int skid, double* array2, int nrows, int nco
 
 void getSkeletonCoriolisAndGravityForces(int wid, int skid, double* outpose, int ndofs) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     const Eigen::VectorXd& C = skel->getCoriolisAndGravityForces();
     for (int i = 0; i < C.size(); i++) {
         outpose[i] = C(i);
@@ -476,7 +477,7 @@ void getSkeletonCoriolisAndGravityForces(int wid, int skid, double* outpose, int
 
 void getSkeletonConstraintForces(int wid, int skid, double* outpose, int ndofs) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     const Eigen::VectorXd& F = skel->getConstraintForces();
     for (int i = 0; i < F.size(); i++) {
         outpose[i] = F(i);
@@ -486,7 +487,7 @@ void getSkeletonConstraintForces(int wid, int skid, double* outpose, int ndofs) 
 
 void setSkeletonPositions(int wid, int skid, double* inpose, int ndofs) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
 
     Eigen::VectorXd q(ndofs);
     for (int i = 0; i < q.size(); i++) {
@@ -498,7 +499,7 @@ void setSkeletonPositions(int wid, int skid, double* inpose, int ndofs) {
 
 void setSkeletonVelocities(int wid, int skid, double* inpose, int ndofs) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
 
     Eigen::VectorXd q(ndofs);
     for (int i = 0; i < q.size(); i++) {
@@ -510,7 +511,7 @@ void setSkeletonVelocities(int wid, int skid, double* inpose, int ndofs) {
 
 void setSkeletonForces(int wid, int skid, double* intorque, int ndofs) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
 
     Eigen::VectorXd tau(ndofs);
     for (int i = 0; i < tau.size(); i++) {
@@ -522,28 +523,28 @@ void setSkeletonForces(int wid, int skid, double* intorque, int ndofs) {
 ////////////////////////////////////////////////////////////////////////////////
 // Skeleton Limit Functions
 void getSkeletonPositionLowerLimit(int wid, int skid, double* outpose, int ndofs) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     for (int i = 0; i < ndofs; i++) {
         outpose[i] = skel->getPositionLowerLimit(i);
     }
 }
 
 void getSkeletonPositionUpperLimit(int wid, int skid, double* outpose, int ndofs) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     for (int i = 0; i < ndofs; i++) {
         outpose[i] = skel->getPositionUpperLimit(i);
     }
 }
 
 void getSkeletonForceLowerLimit(int wid, int skid, double* outpose, int ndofs) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     for (int i = 0; i < ndofs; i++) {
         outpose[i] = skel->getForceLowerLimit(i);
     }
 }
 
 void getSkeletonForceUpperLimit(int wid, int skid, double* outpose, int ndofs) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     for (int i = 0; i < ndofs; i++) {
         outpose[i] = skel->getForceUpperLimit(i);
     }
@@ -553,8 +554,9 @@ void getSkeletonForceUpperLimit(int wid, int skid, double* outpose, int ndofs) {
 // Skeleton Momentum Functions
 void getSkeletonWorldCOM(int wid, int skid, double outv3[3]) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
-    Eigen::Vector3d C = skel->getWorldCOM();
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    // Eigen::Vector3d C = skel->getWorldCOM();
+    Eigen::Vector3d C = skel->getCOM();
     for (int i = 0; i < C.size(); i++) {
         outv3[i] = C(i);
     }
@@ -562,8 +564,9 @@ void getSkeletonWorldCOM(int wid, int skid, double outv3[3]) {
 
 void getSkeletonWorldCOMVelocity(int wid, int skid, double outv3[3]) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
-    Eigen::Vector3d CV = skel->getWorldCOMVelocity();
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    // Eigen::Vector3d CV = skel->getWorldCOMVelocity();
+    Eigen::Vector3d CV = skel->getCOMLinearVelocity();
     for (int i = 0; i < CV.size(); i++) {
         outv3[i] = CV(i);
     }
@@ -572,13 +575,13 @@ void getSkeletonWorldCOMVelocity(int wid, int skid, double outv3[3]) {
 ////////////////////////////////////////////////////////////////////////////////
 // BodyNode Functions
 double getBodyNodeMass(int wid, int skid, int bid) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
     return bn->getMass();
 }
 
 void getBodyNodeInertia(int wid, int skid, int bid, double outv33[3][3]) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
     double Ixx, Iyy, Izz, Ixy, Ixz, Iyz;
     bn->getMomentOfInertia(Ixx, Iyy, Izz, Ixy, Ixz, Iyz);
@@ -589,7 +592,7 @@ void getBodyNodeInertia(int wid, int skid, int bid, double outv33[3][3]) {
 }
 
 void getBodyNodeLocalCOM(int wid, int skid, int bid, double outv3[3]) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
     const Eigen::Vector3d& x = bn->getLocalCOM();
     for (int i = 0; i < x.size(); i++) {
@@ -599,35 +602,38 @@ void getBodyNodeLocalCOM(int wid, int skid, int bid, double outv3[3]) {
 
 
 void getBodyNodeWorldCOM(int wid, int skid, int bid, double outv3[3]) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
-    const Eigen::Vector3d& x = bn->getWorldCOM();
+    // const Eigen::Vector3d& x = bn->getWorldCOM();
+    const Eigen::Vector3d& x = bn->getCOM();
     for (int i = 0; i < x.size(); i++) {
         outv3[i] = x(i);
     }
 }
 
 void getBodyNodeWorldCOMVelocity(int wid, int skid, int bid, double outv3[3]) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
-    const Eigen::Vector3d& x = bn->getWorldCOMVelocity();
+    // const Eigen::Vector3d& x = bn->getWorldCOMVelocity();
+    const Eigen::Vector3d& x = bn->getCOMLinearVelocity();
     for (int i = 0; i < x.size(); i++) {
         outv3[i] = x(i);
     }
 }
 
 int getBodyNodeNumContacts(int wid, int skid, int bid) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
-    dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    // dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    dart::dynamics::BodyNodePtr bn = skel->getBodyNode(bid);
 
-    dart::simulation::World* world = Manager::world(wid);
+    dart::simulation::WorldPtr world = Manager::world(wid);
     dart::collision::CollisionDetector* cd =
         world->getConstraintSolver()->getCollisionDetector();
-    int n = cd->getNumContacts();
+    size_t n = cd->getNumContacts();
     int cnt = 0;
     for (size_t i = 0; i < n; i++) {
         dart::collision::Contact& c = cd->getContact(i);
-        if (c.bodyNode1 == bn || c.bodyNode2 == bn) {
+        if (c.bodyNode1.lock() == bn || c.bodyNode2.lock() == bn) {
             cnt++;
         }
     }
@@ -635,18 +641,18 @@ int getBodyNodeNumContacts(int wid, int skid, int bid) {
 }
 
 void getBodyNodeContacts(int wid, int skid, int bid, double* outv, int len) {
-    dart::dynamics::Skeleton* skel = Manager::skeleton(wid, skid);
-    dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    dart::dynamics::BodyNodePtr bn = skel->getBodyNode(bid);
 
-    dart::simulation::World* world = Manager::world(wid);
+    dart::simulation::WorldPtr world = Manager::world(wid);
     dart::collision::CollisionDetector* cd =
         world->getConstraintSolver()->getCollisionDetector();
-    int n = cd->getNumContacts();
+    size_t n = cd->getNumContacts();
 
     int m = 0;
     for (size_t i = 0; i < n; i++) {
         dart::collision::Contact& c = cd->getContact(i);
-        if (c.bodyNode1 != bn && c.bodyNode2 != bn) {
+        if (c.bodyNode1.lock() != bn && c.bodyNode2.lock() != bn) {
             continue;
         }
         m++;
@@ -661,7 +667,7 @@ void getBodyNodeContacts(int wid, int skid, int bid, double* outv, int len) {
     int ptr = 0;
     for (size_t i = 0; i < n; i++) {
         dart::collision::Contact& c = cd->getContact(i);
-        if (c.bodyNode1 != bn && c.bodyNode2 != bn) {
+        if (c.bodyNode1.lock() != bn && c.bodyNode2.lock() != bn) {
             continue;
         }
         Eigen::Vector3d v = cd->getContact(i).point;
@@ -679,7 +685,7 @@ void getBodyNodeContacts(int wid, int skid, int bid, double* outv, int len) {
 
 void getBodyNodeTransformation(int wid, int skid, int bid, double outv44[4][4]) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     BodyNode* body = skel->getBodyNode(bid);
     if (!body) {
         cerr << "cannot find the body : " << bid << endl;
@@ -694,7 +700,7 @@ void getBodyNodeTransformation(int wid, int skid, int bid, double outv44[4][4]) 
 
 void getBodyNodeWorldLinearJacobian(int wid, int skid, int bid, double inv3[3], double* array2, int nrows, int ncols) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     BodyNode* body = skel->getBodyNode(bid);
     if (!body) {
         cerr << "cannot find the body : " << bid << endl;
@@ -702,7 +708,8 @@ void getBodyNodeWorldLinearJacobian(int wid, int skid, int bid, double inv3[3], 
     Eigen::Vector3d offset(inv3[0], inv3[1], inv3[2]);
     
     int N = skel->getNumDofs();
-    Eigen::MatrixXd J = body->getWorldLinearJacobian(offset);
+    // Eigen::MatrixXd J = body->getWorldLinearJacobian(offset);
+    dart::math::LinearJacobian J = body->getLinearJacobian(offset);
     Eigen::MatrixXd JF = Eigen::MatrixXd::Zero(3, N);
 
     for (int i = 0; i < J.cols(); i++) {
@@ -720,7 +727,7 @@ void getBodyNodeWorldLinearJacobian(int wid, int skid, int bid, double inv3[3], 
 
 void addBodyNodeExtForce(int wid, int skid, int bid, double inv3[3]) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     BodyNode* body = skel->getBodyNode(bid);
     if (!body) {
         cerr << "cannot find the body : " << bid << endl;
@@ -731,7 +738,7 @@ void addBodyNodeExtForce(int wid, int skid, int bid, double inv3[3]) {
 
 void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double inv3_2[3]) {
     using namespace dart::dynamics;
-    Skeleton* skel = Manager::skeleton(wid, skid);
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
     BodyNode* body = skel->getBodyNode(bid);
     if (!body) {
         cerr << "cannot find the body : " << bid << endl;
