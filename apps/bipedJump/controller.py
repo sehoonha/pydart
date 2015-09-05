@@ -28,11 +28,11 @@ class Controller:
         pose0[I_thigh] = 1.2
         pose0[I_shin] = -2.0
         pose0[I_heel] = 0.8
-        pose0[28], pose0[31] = 0.5, -0.5  # Shoulder
+        pose0[('j_bicep_left_y', 'j_bicep_right_y')] = 0.5, -0.5
 
         pose1 = self.skel.q
-        pose1[28], pose1[31] = -2.0, 2.0  # Shoulder
-        pose1[29], pose1[32] = 0.5, -0.5  # Shoulder
+        pose1[('j_bicep_left_y', 'j_bicep_right_y')] = -2.0, 2.0
+        pose1[('j_bicep_left_x', 'j_bicep_right_x')] = 0.5, -0.5
 
         pose2 = self.skel.q
         pose2[I_thigh] = 0.3  # Thighs
@@ -44,7 +44,7 @@ class Controller:
         if len(self.target_times) == 0:
             return
         t = self.skel.world.t
-        if t > self.target_times[0]:
+        if self.target_times[0] <= t:
             self.qhat = self.target_poses[0]
             print('update pose! at %.4lf' % t)
             self.target_poses.pop(0)
