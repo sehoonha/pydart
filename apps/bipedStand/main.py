@@ -4,7 +4,6 @@ import numpy as np
 import controller
 print('Example: bipedStand')
 
-
 pydart.init()
 print('pydart initialization OK')
 

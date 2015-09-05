@@ -16,6 +16,7 @@ class Controller:
     def compute(self):
         skel = self.skel
 
+        # apply SPD (Stable PD Control - Tan et al.)
         invM = inv(skel.M + self.Kd * self.h)
         p = -self.Kp.dot(skel.q + skel.qdot * self.h - self.qhat)
         d = -self.Kd.dot(skel.qdot)
@@ -25,15 +26,22 @@ class Controller:
         # Check the balance
         COP = skel.body('h_heel_left').to_world([0.05, 0, 0])
         offset = skel.C[0] - COP[0]
+        preoffset = self.preoffset
+        # print ("offset = %f, preoffset = %f" % (offset, preoffset))
 
-        # Adjust the target pose
-        k1 = 200.0 if 0.0 < offset and offset < 0.1 else 2000.0
-        k2 = 100.0
-        kd = 10.0 if 0.0 < offset and offset < 0.1 else 100.0
-        q_delta1 = np.array([-k1, -k2, -k1, -k2]) * offset
-        q_delta2 = np.ones(4) * kd * (self.preoffset - offset)
-        tau[np.array([17, 25, 19, 26])] += (q_delta1 + q_delta2)
-        self.preoffset = offset
+        # Adjust the target pose -- translated from bipedStand app of DART
+        foot = skel.dof_indices(["j_heel_left_1", "j_toe_left",
+                                 "j_heel_right_1", "j_toe_right"])
+        if 0.0 < offset < 0.1:
+            k1, k2, kd = 200.0, 100.0, 10.0
+            k = np.array([-k1, -k2, -k1, -k2])
+            tau[foot] += k * offset + kd * (preoffset - offset) * np.ones(4)
+            self.preoffset = offset
+        elif -0.2 < offset < -0.05:
+            k1, k2, kd = 2000.0, 100.0, 100.0
+            k = np.array([-k1, -k2, -k1, -k2])
+            tau[foot] += k * offset + kd * (preoffset - offset) * np.ones(4)
+            self.preoffset = offset
 
         # Make sure the first six are zero
         tau[:6] = 0
