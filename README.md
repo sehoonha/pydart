@@ -32,7 +32,7 @@ and so on.
 - [PyOpenGL](http://pyopengl.sourceforge.net/) 
 - [PyQt4](http://www.riverbankcomputing.com/software/pyqt/download)(Optional)
 ```
-sudo apt-get install swig python-pip
+sudo apt-get install swig python-pip libatlas-base-dev gfortran 
 sudo pip install numpy scipy PyOpenGL PyOpenGL_accelerate
 ```
 
