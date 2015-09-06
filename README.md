@@ -52,6 +52,7 @@ make install
 ```
 - Setup the python package for development
 ```
+cd ..
 sudo python setup.py develop
 ```
 - Run the first application
