@@ -63,6 +63,9 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 
+# Swig
+pydart/*.cxx
+
 # Data
 build/*
 build/data/*

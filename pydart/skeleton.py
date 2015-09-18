@@ -138,6 +138,17 @@ class Skeleton(object):
         flag = 1 if mobile is True else 0
         papi.setSkeletonMobile(self.world.id, self.id, flag)
 
+    def set_self_collision(self, self_col, adj_col):
+        flag_self = 1 if self_col is True else 0
+        flag_adj = 1 if adj_col is True else 0
+        papi.setSkeletonSelfCollision(self.world.id, self.id,
+                                      flag_self, flag_adj)
+
+    def remove_all_collision_pairs(self):
+        for b1 in self.bodies:
+            for b2 in self.bodies:
+                self.world.set_collision_pair(b1, b2, False)
+
     @property
     def c(self):
         return self.coriolis_and_gravity_forces()

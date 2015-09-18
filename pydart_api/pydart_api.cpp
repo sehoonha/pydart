@@ -381,6 +381,31 @@ void getWorldContacts(int wid, double* outv, int len) {
     }    
 }
 
+void setWorldCollisionPair(int wid, int skid1, int bid1, int skid2, int bid2, int bEnable) {
+    using namespace dart::simulation;
+    using namespace dart::dynamics;
+    // Get collision detector
+    WorldPtr world = Manager::world(wid);
+    dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
+    dart::collision::CollisionDetector* detector = solver->getCollisionDetector();
+
+    // Get body1 and body2
+    SkeletonPtr skel1 = Manager::skeleton(wid, skid1);
+    BodyNode* body1 = skel1->getBodyNode(bid1);
+    SkeletonPtr skel2 = Manager::skeleton(wid, skid2);
+    BodyNode* body2 = skel2->getBodyNode(bid2);
+    cout << " [pydart_api] set collision pair "
+         << "(skel " << skid1 << " body " <<  bid1 << ") and "
+         << "(skel " << skid2 << " body " <<  bid2 << ")"
+         << " as " << bEnable << endl;
+    bool enable = (bEnable != 0);
+    if (enable) {
+        detector->enablePair(body1, body2);
+    } else {
+        detector->disablePair(body1, body2);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Skeleton Attribute Functions
 const char* getSkeletonName(int wid, int skid) {
@@ -430,6 +455,20 @@ void setSkeletonMobile(int wid, int skid, int mobile) {
     dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     skel->setMobile(mobile != 0);
 }
+
+void setSkeletonSelfCollision(int wid, int skid, int bSelfCollision, int bAdjacentBodies) {
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    if (bSelfCollision != 0) {
+        bool _enableAdjecentBodies = (bAdjacentBodies != 0);
+        cout << " [pydart_api] enable skeleton self collision: skid = " << skid << endl;
+        cout << " [pydart_api] _enableAdjecentBodies = " << _enableAdjecentBodies << endl;
+        skel->enableSelfCollision(_enableAdjecentBodies);
+    } else {
+        cout << " [pydart_api] disable skeleton self collision: skid = " << skid << endl;
+        skel->disableSelfCollision();
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Skeleton Pose Functions

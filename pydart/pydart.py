@@ -136,5 +136,12 @@ class World(object):
     def save(self, filename):
         return papi.saveWorldToFile(self.id, filename)
 
+    def set_collision_pair(self, body1, body2, is_enable):
+        flag_enable = 1 if is_enable else 0
+        papi.setWorldCollisionPair(self.id,
+                                   body1.skel.id, body1.id,
+                                   body2.skel.id, body2.id,
+                                   flag_enable)
+
     def __repr__(self):
         return "<World.%d at %.4f>" % (self.id, self.t)

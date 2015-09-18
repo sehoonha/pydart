@@ -89,5 +89,8 @@ class Body(object):
     def add_ext_force_at(self, f, offset):
         papi.addBodyNodeExtForceAt(self.wid, self.sid, self.id, f, offset)
 
+    def enable_collision(self, rhs_body):
+        self.skel.world.set_collision_pair(self, rhs_body, True)
+
     def __repr__(self):
         return '<Body.%d.%s>' % (self.id, self.name)

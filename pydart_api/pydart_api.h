@@ -36,6 +36,7 @@ int getWorldSimFrames(int wid);
 void setWorldSimFrame(int wid, int playFrame);
 int getWorldNumContacts(int wid);
 void getWorldContacts(int wid, double* outv, int len);
+void setWorldCollisionPair(int wid, int skid1, int bid1, int skid2, int bid2, int bEnable);
 
 // Skeleton Attribute Functions
 const char* getSkeletonName(int wid, int skid);
@@ -46,6 +47,7 @@ const char* getSkeletonBodyName(int wid, int skid, int bodyid);
 const char* getSkeletonDofName(int wid, int skid, int dofid);
 int getSkeletonMobile(int wid, int skid);
 void setSkeletonMobile(int wid, int skid, int mobile);
+void setSkeletonSelfCollision(int wid, int skid, int bSelfCollision, int bAdjacentBodies);
 
 // Skeleton Pose Functions
 void getSkeletonPositions(int wid, int skid, double* outpose, int ndofs);
