@@ -275,6 +275,12 @@ class Skeleton(object):
                     cid_cnt[cid] += 1
         return [(c, bid) for (c, bid) in contacts if cid_cnt[int(c[6])] < 2]
 
+    def contact_id_set(self):
+        id_list = []
+        for b in self.bodies:
+            id_list += [c.i for c in b.contacts()]
+        return set(id_list)
+
     def contacted_bodies(self):
         return [body for body in self.bodies if body.num_contacts() > 0]
 
