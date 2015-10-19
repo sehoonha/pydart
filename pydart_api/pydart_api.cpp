@@ -660,6 +660,44 @@ void getBodyNodeWorldCOMVelocity(int wid, int skid, int bid, double outv3[3]) {
     }
 }
 
+void getBodyNodeWorldCOMSpatialVelocity(int wid, int skid, int bid, double outv6[6]) {
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    const Eigen::Vector6d& x = bn->getCOMSpatialVelocity();
+    for (int i = 0; i < x.size(); i++) {
+        outv6[i] = x(i);
+    }
+}
+
+void getBodyNodeWorldCOMSpatialAcceleration(int wid, int skid, int bid, double outv6[6]) {
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    const Eigen::Vector6d& x = bn->getCOMSpatialAcceleration();
+    for (int i = 0; i < x.size(); i++) {
+        outv6[i] = x(i);
+    }
+}
+
+void getBodyNodeLocalCOMSpatialVelocity(int wid, int skid, int bid, double outv6[6]) {
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    const dart::dynamics::Frame* world = dart::dynamics::Frame::World();
+    const Eigen::Vector6d& x = bn->getCOMSpatialVelocity(world, bn);
+    for (int i = 0; i < x.size(); i++) {
+        outv6[i] = x(i);
+    }
+}
+
+void getBodyNodeLocalCOMSpatialAcceleration(int wid, int skid, int bid, double outv6[6]) {
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    const dart::dynamics::Frame* world = dart::dynamics::Frame::World();
+    const Eigen::Vector6d& x = bn->getCOMSpatialAcceleration(world, bn);
+    for (int i = 0; i < x.size(); i++) {
+        outv6[i] = x(i);
+    }
+}
+
 int getBodyNodeNumContacts(int wid, int skid, int bid) {
     dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     // dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);

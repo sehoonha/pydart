@@ -60,6 +60,26 @@ class Body(object):
     def world_com_velocity(self):
         return papi.getBodyNodeWorldCOMVelocity(self.wid, self.sid, self.id)
 
+    def world_com_spatial_velocity(self):
+        return papi.getBodyNodeWorldCOMSpatialVelocity(self.wid,
+                                                       self.sid,
+                                                       self.id)
+
+    def world_com_spatial_acceleration(self):
+        return papi.getBodyNodeWorldCOMSpatialAcceleration(self.wid,
+                                                           self.sid,
+                                                           self.id)
+
+    def local_com_spatial_velocity(self):
+        return papi.getBodyNodeLocalCOMSpatialVelocity(self.wid,
+                                                       self.sid,
+                                                       self.id)
+
+    def local_com_spatial_acceleration(self):
+        return papi.getBodyNodeLocalCOMSpatialAcceleration(self.wid,
+                                                           self.sid,
+                                                           self.id)
+
     @property
     def Cdot(self):
         return self.world_com_velocity()
