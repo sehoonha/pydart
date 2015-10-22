@@ -21,6 +21,8 @@ using std::endl;
 #include "dart/simulation/World.h"
 #include "dart/dynamics/Skeleton.h"
 #include "dart/dynamics/BodyNode.h"
+#include "dart/dynamics/Shape.h"
+#include "dart/dynamics/MeshShape.h"
 #include "dart/dynamics/Joint.h"
 #include "dart/dynamics/DegreeOfFreedom.h"
 #include "dart/constraint/ConstraintSolver.h"
@@ -394,10 +396,10 @@ void setWorldCollisionPair(int wid, int skid1, int bid1, int skid2, int bid2, in
     BodyNode* body1 = skel1->getBodyNode(bid1);
     SkeletonPtr skel2 = Manager::skeleton(wid, skid2);
     BodyNode* body2 = skel2->getBodyNode(bid2);
-    cout << " [pydart_api] set collision pair "
-         << "(skel " << skid1 << " body " <<  bid1 << ") and "
-         << "(skel " << skid2 << " body " <<  bid2 << ")"
-         << " as " << bEnable << endl;
+    // cout << " [pydart_api] set collision pair "
+    //      << "(skel " << skid1 << " body " <<  bid1 << ") and "
+    //      << "(skel " << skid2 << " body " <<  bid2 << ")"
+    //      << " as " << bEnable << endl;
     bool enable = (bEnable != 0);
     if (enable) {
         detector->enablePair(body1, body2);
@@ -533,7 +535,7 @@ void setSkeletonPositions(int wid, int skid, double* inpose, int ndofs) {
         q(i) = inpose[i];
     }
     skel->setPositions(q);
-    skel->computeForwardKinematics(true, true, false);
+    // skel->computeForwardKinematics(true, true, false);
 }
 
 void setSkeletonVelocities(int wid, int skid, double* inpose, int ndofs) {
@@ -545,7 +547,7 @@ void setSkeletonVelocities(int wid, int skid, double* inpose, int ndofs) {
         q(i) = inpose[i];
     }
     skel->setVelocities(q);
-    skel->computeForwardKinematics(true, true, false);
+    // skel->computeForwardKinematics(true, true, false);
 }
 
 void setSkeletonForces(int wid, int skid, double* intorque, int ndofs) {
@@ -639,6 +641,30 @@ void getBodyNodeLocalCOM(int wid, int skid, int bid, double outv3[3]) {
     }
 }
 
+void getBodyNodeShapeBoundingBoxDim(int wid, int skid, int bid, double outv3[3]) {
+    dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
+    dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
+    // cout << "bodynode " << bid << " is fetched" << endl;
+    // Assume single shape for now
+    const int num_shapes = bn->getNumCollisionShapes();
+    if (num_shapes == 0) {
+        for (int i = 0; i < 3; i++) {
+            outv3[i] = 0.0;
+        }
+    } else {
+        dart::dynamics::ShapePtr shape = bn->getCollisionShape(0);
+        Eigen::Vector3d scale(1, 1, 1);
+        dart::dynamics::MeshShape* mshape = dynamic_cast<dart::dynamics::MeshShape*>(shape.get());
+        if (mshape) {
+            scale = mshape->getScale();
+        }
+        // cout << "Scale:" << scale << endl;
+        const Eigen::Vector3d& x = shape->getBoundingBoxDim();
+        for (int i = 0; i < x.size(); i++) {
+            outv3[i] = x(i) * scale(i);
+        }
+    }
+}
 
 void getBodyNodeWorldCOM(int wid, int skid, int bid, double outv3[3]) {
     dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
@@ -673,6 +699,8 @@ void getBodyNodeWorldCOMSpatialAcceleration(int wid, int skid, int bid, double o
     dart::dynamics::SkeletonPtr skel = Manager::skeleton(wid, skid);
     dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
     const Eigen::Vector6d& x = bn->getCOMSpatialAcceleration();
+    // cout << "C = " << bn->getCOM().transpose() << endl;
+    // cout << "x = " << x.transpose() << endl;
     for (int i = 0; i < x.size(); i++) {
         outv6[i] = x(i);
     }

@@ -73,6 +73,7 @@ void getSkeletonWorldCOMVelocity(int wid, int skid, double outv3[3]);
 // BodyNode Functions
 double getBodyNodeMass(int wid, int skid, int bid);
 void getBodyNodeInertia(int wid, int skid, int bid, double outv33[3][3]);
+void getBodyNodeShapeBoundingBoxDim(int wid, int skid, int bid, double outv3[3]);
 void getBodyNodeLocalCOM(int wid, int skid, int bid, double outv3[3]);
 void getBodyNodeWorldCOM(int wid, int skid, int bid, double outv3[3]);
 void getBodyNodeWorldCOMVelocity(int wid, int skid, int bid, double outv3[3]);

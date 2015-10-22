@@ -49,6 +49,9 @@ class Body(object):
     def world_com(self):
         return papi.getBodyNodeWorldCOM(self.wid, self.sid, self.id)
 
+    def bounding_box_dims(self):
+        return papi.getBodyNodeShapeBoundingBoxDim(self.wid, self.sid, self.id)
+
     def to_world(self, x):
         x_ = np.append(x, [1.0])
         return (self.T.dot(x_))[:3]
