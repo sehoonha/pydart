@@ -161,7 +161,11 @@ class PyDartQtWindow(QtGui.QMainWindow):
 
     def renderTimerEvent(self):
         self.glwidget.updateGL()
-        self.statusBar().showMessage('# frames = %d' % self.sim.num_frames())
+        if hasattr(self.sim, 'statusMessage'):
+            message = self.sim.statusMessage()
+        else:
+            message = '# frames = %d' % self.sim.num_frames()
+        self.statusBar().showMessage(message)
         self.rangeSlider.setRange(0, self.sim.num_frames() - 1)
 
     def keyPressEvent(self, event):
