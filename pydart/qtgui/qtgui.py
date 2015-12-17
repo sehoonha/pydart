@@ -141,12 +141,14 @@ class PyDartQtWindow(QtGui.QMainWindow):
         doCapture = False
         # Do animation
         if self.animAction.isChecked():
-            v = self.rangeSlider.value() + 1
-            if v <= self.rangeSlider.maximum():
-                self.rangeSlider.setValue(v)
-            else:
-                self.animAction.setChecked(False)
-            doCapture = (v % 10 == 1)
+            for i in range(10):
+                v = self.rangeSlider.value() + 1
+                if v <= self.rangeSlider.maximum():
+                    self.rangeSlider.setValue(v)
+                else:
+                    self.animAction.setChecked(False)
+                if v % 100 == 1:
+                    doCapture = True
         # Do play
         elif self.playAction.isChecked():
             if self._step_callback is not None:
