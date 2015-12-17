@@ -117,6 +117,8 @@ class World(object):
 
     def render(self):
         papi.render(self.id)
+        for skel in self.skels:
+            skel.render_markers()
 
     def states(self):
         return np.concatenate([skel.x for skel in self.skels])

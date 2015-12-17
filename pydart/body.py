@@ -115,5 +115,11 @@ class Body(object):
     def enable_collision(self, rhs_body):
         self.skel.world.set_collision_pair(self, rhs_body, True)
 
+    def num_markers(self):
+        return papi.getBodyNodeNumMarkers(self.wid, self.sid, self.id)
+
+    def get_marker_pos(self, mid):
+        return papi.getMarkerPosition(self.wid, self.sid, self.id, mid)
+
     def __repr__(self):
         return '<Body.%d.%s>' % (self.id, self.name)

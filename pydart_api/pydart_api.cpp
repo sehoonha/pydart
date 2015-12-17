@@ -14,30 +14,35 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
+// Boost headers
+#include <boost/algorithm/string.hpp>    
+
 // Dart headers
-#include "dart/renderer/LoadOpengl.h"
-#include "dart/renderer/RenderInterface.h"
-#include "dart/renderer/OpenGLRenderInterface.h"
-#include "dart/simulation/World.h"
-#include "dart/dynamics/Skeleton.h"
-#include "dart/dynamics/BodyNode.h"
-#include "dart/dynamics/Shape.h"
-#include "dart/dynamics/MeshShape.h"
-#include "dart/dynamics/Joint.h"
-#include "dart/dynamics/DegreeOfFreedom.h"
-#include "dart/constraint/ConstraintSolver.h"
-#include "dart/collision/CollisionDetector.h"
-#include "dart/collision/dart/DARTCollisionDetector.h"
-#include "dart/collision/fcl/FCLCollisionDetector.h"
-#include "dart/collision/fcl_mesh/FCLMeshCollisionDetector.h"
-#include "dart/collision/bullet/BulletCollisionDetector.h"
-#include "dart/constraint/ContactConstraint.h"
-// #include "dart/utils/Paths.h"
-#include "dart/math/Geometry.h"
-#include "dart/utils/SkelParser.h"
-#include "dart/utils/sdf/SoftSdfParser.h"
-#include "dart/utils/urdf/DartLoader.h"
-#include "dart/utils/FileInfoWorld.h"
+#include "dart/dart.h"
+// #include "dart/renderer/LoadOpengl.h"
+// #include "dart/renderer/RenderInterface.h"
+// #include "dart/renderer/OpenGLRenderInterface.h"
+// #include "dart/simulation/World.h"
+// #include "dart/dynamics/Skeleton.h"
+// #include "dart/dynamics/BodyNode.h"
+// #include "dart/dynamics/Shape.h"
+// #include "dart/dynamics/MeshShape.h"
+// #include "dart/dynamics/Joint.h"
+// #include "dart/dynamics/DegreeOfFreedom.h"
+// #include "dart/constraint/ConstraintSolver.h"
+// #include "dart/collision/CollisionDetector.h"
+// #include "dart/collision/dart/DARTCollisionDetector.h"
+// #include "dart/collision/fcl/FCLCollisionDetector.h"
+// #include "dart/collision/fcl_mesh/FCLMeshCollisionDetector.h"
+// #include "dart/collision/bullet/BulletCollisionDetector.h"
+// #include "dart/constraint/ContactConstraint.h"
+// // #include "dart/utils/Paths.h"
+// #include "dart/math/Geometry.h"
+// #include "dart/utils/SkelParser.h"
+// #include "dart/utils/sdf/SoftSdfParser.h"
+// #include "dart/utils/urdf/DartLoader.h"
+// #include "dart/utils/VskParser.h"
+// #include "dart/utils/FileInfoWorld.h"
 
 namespace pydart {
 
@@ -193,14 +198,22 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     using namespace dart::dynamics;
     std::string strpath(path);
     std::string ext = strpath.substr(strpath.length() - 4);
+    boost::algorithm::to_lower(ext);
+
     SkeletonPtr skel = NULL;
     if (ext == ".sdf") {
         cout << " [pydart_api] parse as SDF (ext: " << ext << ")" << endl;
         skel = dart::utils::SoftSdfParser::readSkeleton(path);
-    } else {
+    } else if (ext == "urdf") {
         cout << " [pydart_api] parse as URDF (ext: " << ext << ")" << endl;
         dart::utils::DartLoader urdfLoader;
         skel = urdfLoader.parseSkeleton(path);
+    } else if (ext == ".vsk") {
+        cout << " [pydart_api] parse as VSK (ext: " << ext << ")" << endl;
+        skel = dart::utils::VskParser::readSkeleton(path);
+    } else {
+        cout << " [pydart_api] bad extension (ext: " << ext << ")" << endl;
+        return -1;
     }
     // SkeletonPtr skel = urdfLoader.parseSkeleton(path);
 
@@ -314,7 +327,7 @@ void renderSkeleton(int wid, int skid) {
     using namespace dart::dynamics;
     dart::renderer::RenderInterface* ri = Manager::getRI();
     SkeletonPtr skel = Manager::skeleton(wid, skid);
-    skel->draw(ri);
+    skel->drawMarkers(ri);
 }
 
 void renderSkeletonWithColor(int wid, int skid, double r, double g, double b, double a) {
@@ -322,6 +335,13 @@ void renderSkeletonWithColor(int wid, int skid, double r, double g, double b, do
     dart::renderer::RenderInterface* ri = Manager::getRI();
     SkeletonPtr skel = Manager::skeleton(wid, skid);
     skel->draw(ri, Eigen::Vector4d(r, g, b, a), false);
+}
+
+void renderSkeletonMarkers(int wid, int skid) {
+    using namespace dart::dynamics;
+    dart::renderer::RenderInterface* ri = Manager::getRI();
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    skel->drawMarkers(ri);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -871,3 +891,25 @@ void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double in
     body->addExtForce(f, offset);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Marker Functions
+int getBodyNodeNumMarkers(int wid, int skid, int bid) {
+    using namespace dart::dynamics;
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    BodyNode* body = skel->getBodyNode(bid);
+    return body->getNumMarkers();
+}
+
+void getMarkerPosition(int wid, int skid, int bid, int mid, double outv3[3]) {
+    using namespace dart::dynamics;
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    BodyNode* body = skel->getBodyNode(bid);
+    Marker* marker = body->getMarker(mid);
+    if (!marker) {
+        cerr << "cannot find the marker : " << mid << endl;
+    }
+    const Eigen::Vector3d& x = marker->getWorldPosition();
+    for (int i = 0; i < x.size(); i++) {
+        outv3[i] = x(i);
+    }
+}

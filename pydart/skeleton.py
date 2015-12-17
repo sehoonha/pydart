@@ -4,6 +4,7 @@ import numpy as np
 from skel_vector import SkelVector
 from body import Body
 from dof import Dof
+from marker import Marker
 
 
 class Skeleton(object):
@@ -26,6 +27,13 @@ class Skeleton(object):
         self.bodies = [Body(self, i) for i in range(_nbodies)]
         self.name_to_body = {body.name: body for body in self.bodies}
         self.controller = None
+
+        # Initialize markers
+        self.markers = list()
+        for body in self.bodies:
+            for j in range(body.num_markers()):
+                m = Marker(body, j)
+                self.markers.append(m)
 
     @property
     def name(self):
@@ -304,6 +312,9 @@ class Skeleton(object):
 
     def render_with_color(self, r, g, b, a=1.0):
         papi.renderSkeletonWithColor(self.world.id, self.id, r, g, b, a)
+
+    def render_markers(self):
+        papi.renderSkeletonMarkers(self.world.id, self.id)
 
     def __repr__(self):
         return '<Skel.%d.%s>' % (self.id, os.path.basename(self.filename))

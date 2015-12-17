@@ -27,6 +27,7 @@ void stepWorld(int wid);
 void render(int wid);
 void renderSkeleton(int wid, int skid);
 void renderSkeletonWithColor(int wid, int skid, double r, double g, double b, double a);
+void renderSkeletonMarkers(int wid, int skid);
 
 // World Functions
 double getWorldTime(int wid);
@@ -87,6 +88,10 @@ void getBodyNodeTransformation(int wid, int skid, int bid, double outv44[4][4]);
 void getBodyNodeWorldLinearJacobian(int wid, int skid, int bid, double inv3[3], double* array2, int nrows, int ncols);
 void addBodyNodeExtForce(int wid, int skid, int bid, double inv3[3]);
 void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double inv3_2[3]);
+
+// Marker Functions
+int getBodyNodeNumMarkers(int wid, int skid, int bid);
+void getMarkerPosition(int wid, int skid, int bid, int mid, double outv3[3]);
 
 #endif // #ifndef PYDART_PYDART_API_H
 
