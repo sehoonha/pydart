@@ -93,5 +93,8 @@ void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double in
 int getBodyNodeNumMarkers(int wid, int skid, int bid);
 void getMarkerPosition(int wid, int skid, int bid, int mid, double outv3[3]);
 
+// C3D Functions
+int readC3D(const char* const path, double* outv, int len);
+
 #endif // #ifndef PYDART_PYDART_API_H
 

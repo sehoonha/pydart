@@ -20,6 +20,7 @@ state['index'] = 0.0
 tb = None
 step_callback_func = None
 keyboard_callback_func = None
+render_callback_func = None
 
 
 def initGL(w, h):
@@ -115,6 +116,8 @@ def drawGL():
 
     else:
         glutSolidSphere(0.3, 4, 4)  # Default object
+    if render_callback_func is not None:
+        render_callback_func(sim)
 
     glutSwapBuffers()
 
@@ -187,7 +190,8 @@ def renderTimer(timer):
 
 
 def run(title='GLUT Window', simulation=None, trans=None,
-        step_callback=None, keyboard_callback=None):
+        step_callback=None, keyboard_callback=None,
+        render_callback=None):
     global sim
     sim = simulation
 
@@ -213,8 +217,10 @@ def run(title='GLUT Window', simulation=None, trans=None,
     # Init callback
     global step_callback_func
     global keyboard_callback_func
+    global render_callback_func
     step_callback_func = step_callback
     keyboard_callback_func = keyboard_callback
+    render_callback_func = render_callback
 
     # Init functions
     # glutFullScreen()

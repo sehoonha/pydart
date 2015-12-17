@@ -913,3 +913,36 @@ void getMarkerPosition(int wid, int skid, int bid, int mid, double outv3[3]) {
         outv3[i] = x(i);
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// C3D Functions
+int readC3D(const char* const path, double* outv, int len) {
+    dart::utils::FileInfoC3D file;
+    file.loadFile(path);
+    int nm = file.getNumMarkers();
+    int nf = file.getNumFrames();
+    if (len == 0) {
+        cout << " [pydart_api] # Markers = " << nm << endl;
+        cout << " [pydart_api] # Frames = " << nf << endl;
+        return 3 * nf * nm + 2; // return buffer size
+    } else if (len == 3 * nf * nm + 2) {
+        const int DIM = 3;
+        int ptr = 0;
+        outv[ptr++] = nf;
+        outv[ptr++] = nm;
+        for (int i = 0; i < nf; i++) {
+            for (int j = 0; j < nm; j++) {
+                Eigen::Vector3d m = file.getDataAt(i, j);
+                for (int k = 0; k < DIM; k++) {
+                    outv[ptr++] = m[k];
+                    // cout << ptr << " / " << i << " " << j << " " << k << " " << len << endl;
+                }
+            }
+        }
+        cout << " [pydart_api] load C3D [" << path << "] OK" << endl;
+        return 0;
+    } else {
+        cerr << "invalid buffer size: " << len << endl;
+        return -1;
+    }
+}
