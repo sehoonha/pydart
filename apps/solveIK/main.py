@@ -1,6 +1,7 @@
-import sys
 import pydart
 import numpy as np
+import threading
+
 print('Example: bipedStand')
 
 
@@ -22,6 +23,10 @@ q = skel.q
 q[4] = 0.05
 q[39] = -1.5
 q[55] = -q[39]
+# manual pose for frame 403, the most visible frame
+q['Joint-Neck_x'] = 0.5
+q['Joint-Neck_z'] = -0.2
+q['Joint-Neck_z'] = -0.2
 skel.set_positions(q)
 
 for i, body in enumerate(skel.bodies):
@@ -32,46 +37,350 @@ for i, m in enumerate(skel.markers):
     print i, m, m.x
 print('skeleton position OK')
 
+filec3d = pydart.FileC3D(xyz=[1, 0, 2],
+                         sign=[1, 1, -1],
+                         offset=[-2.2, -0.6, 0.4])
+filec3d.load(data_dir + '/c3d/Yunseong_meduim0_down2.c3d')
+
+seq = range(len(skel.markers))
+seq = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+       44, 45, 46, 47, 48, 49, 50, 52, 51, 5, 6, 7, 8, 0, 2, 4, 1,
+       3, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+       21, 22, 23, 24, 25, 26, 28, 27]
+
+mystate = dict()
+mystate['skel'] = skel
+mystate['frame'] = 0
+mystate['seq'] = seq
+mystate['solved_motion'] = None
+mystate['filec3d'] = filec3d
+mystate['eval_counter'] = 0
+mystate['kill_thread'] = False
+
+
+def evaluate():
+    global mystate
+    filec3d = mystate['filec3d']
+    frame = mystate['frame']
+    skel = mystate['skel']
+    seq = mystate['seq']
+
+    values = list()
+    for i, m, in enumerate(skel.markers):
+        lhs = m.x
+        target_id = seq[i]
+        if target_id == -1:
+            continue
+        rhs = filec3d.marker(frame, target_id)
+        if not filec3d.is_marker_visible(frame, target_id):
+            continue
+        dist = np.linalg.norm(lhs - rhs)
+        values.append(dist)
+    ret = np.sum(values)
+    if mystate['eval_counter'] % 5000 == 0:
+        print mystate['eval_counter'], ret
+
+    mystate['eval_counter'] += 1
+    return ret
+
+
+def solve():
+    import scipy.optimize
+    options = {'maxiter': 3000,
+               'maxfun': 50000,
+               'ftol': 1e-6,
+               'gtol': 1e-5,
+               'disp': True}
+
+    def f(x):
+        global mystate
+        skel = mystate['skel']
+        skel.q = x
+        return evaluate()
+
+    global mystate
+    mystate['eval_counter'] = 0
+    skel = mystate['skel']
+    x0 = skel.q
+    res = scipy.optimize.minimize(f,
+                                  x0,
+                                  method='SLSQP',
+                                  options=options)
+    # print 'res.x = ', repr(res.x)
+    print 'res.fun = ', f(res.x)
+    print 'res.message = ', res.message
+    print 'res.status = ', res.status
+    print 'solve OK'
+
+
+def find_most_visible_frame(world):
+    global mystate
+    filec3d = mystate['filec3d']
+    n = filec3d.num_markers()
+    max_visible = 0
+    for i in range(filec3d.num_frames()):
+        visible = [filec3d.is_marker_visible(i, j) for j in range(n)]
+        num_visible = sum(visible)
+        if max_visible < num_visible:
+            max_visible = num_visible
+            mystate['frame'] = i
+            # print 'max_visible', num_visible, 'at', i
+    print 'find_most_visible_frame OK'
+
+
+def match_skel_marker_center(world):
+    global mystate
+    skel = mystate['skel']
+    filec3d = mystate['filec3d']
+    frame = mystate['frame']
+
+    # Center of skeleton markers
+    lhs = np.zeros(3)
+    cnt = 0.0
+    for i, m in enumerate(skel.markers):
+        lhs += m.x
+        cnt += 1.0
+    lhs /= cnt
+
+    # Center of frame markers
+    rhs = np.zeros(3)
+    cnt = 0.0
+    for j in range(filec3d.num_markers()):
+        if not filec3d.is_marker_visible(frame, j):
+            continue
+        rhs += filec3d.marker(frame, j)
+        cnt += 1.0
+    rhs /= cnt
+
+    # Calculate offset and match
+    diff = lhs - rhs
+    print 'lhs(skel) = ', lhs
+    print 'rhs(c3d) = ', rhs
+    print 'diff = ', diff
+    print 'match_skel_marker_center OK'
+    filec3d.offset += diff
+
+
+def match_nearest(world):
+    global mystate
+    skel = mystate['skel']
+    seq = mystate['seq']
+    frame = mystate['frame']
+
+    n = len(seq)
+    seq = [-1] * n
+    occupied = [False] * n
+
+    for loop in range(n):
+        min_dist = None
+        min_i, min_j = None, None
+        for i, m, in enumerate(skel.markers):
+            if seq[i] != -1:
+                continue
+            lhs = m.x
+            for j in range(n):
+                if occupied[j]:
+                    continue
+                if not filec3d.is_marker_visible(frame, j):
+                    continue
+                rhs = filec3d.marker(frame, j)
+                d = np.linalg.norm(lhs - rhs)
+                if min_dist is None or d < min_dist:
+                    min_dist = d
+                    min_i, min_j = i, j
+        # Now we get the best pair
+        if min_dist is None:
+            break
+        # print 'min_dist = %.8f (%d, %d)' % (min_dist, min_i, min_j)
+        seq[min_i] = min_j
+        occupied[min_j] = True
+    mystate['seq'] = seq
+    print 'match_nearest OK'
+
+
+def annealing_worker(world):
+    """thread worker function"""
+    global mystate
+    print '=' * 80
+    print 'annealing_worker...'
+    find_most_visible_frame(world)
+    match_skel_marker_center(world)
+    # Initial loop without perturbation
+    print 'initial solve...'
+    match_nearest(world)
+    solve()
+    # Simulated annealing w/ E-M approach
+    T = 1.0
+    T_min = 0.01
+    alpha = 0.9
+    skel = mystate['skel']
+    while T > T_min and not mystate['kill_thread']:
+        print '=' * 80
+        print 'Loop started: T = ', T
+        old_cost = evaluate()
+        old_pose = np.array(skel.q)
+        old_seq = list(mystate['seq'])
+
+        # Random perturbation
+        skel.q += 0.2 * (np.random.rand(skel.ndofs) - 0.5) * T
+        match_nearest(world)
+        solve()
+        new_cost = evaluate()
+        ap = np.exp(2.0 * (old_cost - new_cost) / (old_cost * T))
+        dice = np.random.rand()
+        print 'T = ', T
+        print 'old_cost = ', old_cost
+        print 'new_cost = ', new_cost
+        print 'ap = ', ap
+        print 'dice = ', dice
+        if ap > dice:  # accept
+            print 'accepted'
+        else:
+            print 'rejected'
+            skel.q = old_pose
+            mystate['seq'] = old_seq
+
+        T *= alpha
+
+    final_cost = evaluate()
+    print 'final_cost = ', final_cost
+    print 'average_marker_dist = ', final_cost / float(skel.ndofs)
+    print 'final_pose = ', repr(skel.q)
+    print 'final_seq = ', mystate['seq']
+    print 'annealing_worker... OK'
+
+
+def solve_all_worker(world):
+    """thread worker function"""
+    global mystate
+    print('Solve all!!!')
+    nframes = mystate['filec3d'].num_frames()
+    motion = list()
+    for frame in range(nframes):
+        if mystate['kill_thread']:
+            print('break.... kill_thread = True')
+            break
+        print('>>>')
+        print('>>> Frame ID = %04d' % frame)
+        print('>>>')
+        mystate['frame'] = frame
+        solve()
+        motion.append(mystate['skel'].q)
+
+    with open('motion.txt', 'w+') as fout:
+        fout.write("%d\n" % len(motion))
+        for q in motion:
+            for v in q:
+                fout.write("%.8f " % v)
+            fout.write("\n")
+    mystate['solved_motion'] = motion
+
 
 def step_callback(world):
     pass
 
 
+def render_callback(world):
+    from OpenGL.GL import *
+    from OpenGL.GLUT import *
+    from OpenGL.GLU import *
+    global mystate
+    filec3d = mystate['filec3d']
+    frame = mystate['frame']
+    skel = mystate['skel']
+    seq = mystate['seq']
+
+    for i in range(filec3d.num_markers()):
+        size = 0.005
+        glColor3d(1.0, 0.0, 1.0)
+        if i == 6:
+            size = 0.01
+            glColor3d(1.0, 0.0, 0.0)
+        glPushMatrix()
+        x = filec3d.marker(frame, i)
+        glTranslate(*x)
+        glutSolidSphere(size, 10, 10)  # Default object
+        glPopMatrix()
+
+    glBegin(GL_LINES)
+    for i, m, in enumerate(skel.markers):
+        lhs = m.x
+        target_id = seq[i]
+        if target_id == -1:
+            continue
+        rhs = filec3d.marker(frame, target_id)
+        glVertex3d(*lhs)
+        glVertex3d(*rhs)
+    glEnd()
+
+
 def keyboard_callback(world, key):
     """ Programmable interactions """
-    global state
-    if key == '1':
-        state['Force'][0] = 500
-        state['ImpulseDuration'] = 100
-        print('push forward')
-    elif key == '2':
-        state['Force'][0] = -500
-        state['ImpulseDuration'] = 100
-        print('push backward')
-    elif key == '3':
-        state['Force'][2] = 500
-        state['ImpulseDuration'] = 100
-        print('push right')
-    elif key == '4':
-        state['Force'][2] = -500
-        state['ImpulseDuration'] = 100
-        print('push left')
+    global mystate
+    nframes = mystate['filec3d'].num_frames()
+    if key in 'npNP':
+        if key == 'n':
+            step = 10
+        elif key == 'N':
+            step = 1
+        elif key == 'p':
+            step = -10
+        elif key == 'P':
+            step = -1
+        mystate['frame'] = (mystate['frame'] + step) % nframes
+        print('frame = %d' % mystate['frame'])
+        if mystate['solved_motion'] is not None:
+            frame = mystate['frame']
+            motion = mystate['solved_motion']
+            if frame < len(motion):
+                mystate['skel'].q = motion[frame]
+    # elif key == 'n':
+    #     mystate['frame'] = (mystate['frame'] + 10) % nframes
+    #     if mystate['solved_motion'] is not None:
+    #         motion = mystate['solved_motion']
+    #         q = motion[mystate['frame']]
+    #         mystate['skel'].q = q
+    #     print('frame = %d' % mystate['frame'])
+    elif key == 'e':
+        print('evaluate = %.8f' % evaluate(world))
     elif key == 's':
-        print('save world')
-        world.save('test_world.txt')
+        solve()
+    elif key == 'f':
+        find_most_visible_frame(world)
+    elif key == 'm':
+        match_skel_marker_center(world)
+        match_nearest(world)
+    elif key == 'q':
+        print 'pose = ', repr(mystate['skel'].q)
+        print 'seq = ', mystate['seq']
+    elif key == 'a':  # All
+        mystate['kill_thread'] = False
+        t = threading.Thread(target=annealing_worker,
+                             args=(world,))
+        t.start()
+    elif key == 'S':  # solve the entire motion
+        mystate['kill_thread'] = False
+        t = threading.Thread(target=solve_all_worker,
+                             args=(world,))
+        t.start()
+    elif key == 'k':
+        print 'kill_thread = True'
+        mystate['kill_thread'] = True
 
+print("--- usage ---")
+print("'p': previous frame")
+print("'n': next frame")
+print("'a': simulate annealing to find the marker seqeunce")
+print("  'f': find the most visible frame")
+print("  'm': match center and update sequence as nearest")
+print("  's': solve the single frame")
+print("'S': Solve the entire frame")
+print("'k': kill the thread (a/i)")
+print("")
 
-print("'1'--'4': programmed interaction")
 
 # Run the application
-if 'qt' in sys.argv:
-    tb = pydart.qtgui.Trackball(phi=-1.4, theta=-6.2, zoom=1.0,
-                                rot=[-0.05, 0.07, -0.01, 1.00],
-                                trans=[0.02, 0.09, -3.69])
-    pydart.qtgui.run(title='bipedStand', simulation=world, trackball=tb,
-                     step_callback=step_callback,
-                     keyboard_callback=keyboard_callback)
-else:
-    pydart.glutgui.run(title='bipedStand', simulation=world, trans=[0, 0, -3],
-                       step_callback=step_callback,
-                       keyboard_callback=keyboard_callback)
+pydart.glutgui.run(title='bipedStand', simulation=world, trans=[0, 0, -2.0],
+                   step_callback=step_callback,
+                   keyboard_callback=keyboard_callback,
+                   render_callback=render_callback)

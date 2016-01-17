@@ -46,5 +46,5 @@ class FileC3D(object):
         return x
 
     def is_marker_visible(self, frame, marker):
-        x = self.marker(frame, marker)
-        return np.linalg.norm(x) < 1e-4
+        x = self.data[frame][marker * 3:marker * 3 + 3]
+        return np.linalg.norm(x) > 1e-4

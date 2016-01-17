@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Marker(object):
     def __init__(self, _body, _id):
         self.body = _body
@@ -13,6 +16,9 @@ class Marker(object):
 
     def world_pos(self):
         return self.body.get_marker_pos(self._id)
+
+    def is_visible(self):
+        return (np.linalg.norm(self.world_pos()) > 1e-4)
 
     def __repr__(self):
         # This is a quick and dirty method to check the contact list
