@@ -1,8 +1,9 @@
+import sys
 import pydart
 import numpy as np
 import threading
 
-print('Example: bipedStand')
+print('Example: solveIK')
 
 
 pydart.init()
@@ -11,42 +12,68 @@ print('pydart initialization OK')
 data_dir = pydart.misc.example_data_dir(__file__)
 print('data_dir = ' + data_dir)
 
-world = pydart.create_world(1.0 / 2000.0)
-world.add_skeleton(data_dir + '/sdf/atlas/ground.urdf')
-world.add_skeleton(data_dir + '/vsk/Yunseong.vsk')
+skel_filename = data_dir + '/skel/springStair.skel'
+world = pydart.create_world(1.0 / 1000.0, skel_filename)
+# world = pydart.create_world(1.0 / 2000.0)
+# world.add_skeleton(data_dir + '/sdf/atlas/ground.urdf')
+# world.add_skeleton(data_dir + '/vsk/Yunseong_copy.vsk')
+world.add_skeleton(data_dir + '/vsk/Yunseong_Jan2016.vsk')
 print('pydart create_world OK')
 
-skel = world.skels[1]
+skel = world.skels[-1]
+print skel.body('Head').C
+print skel.body('LeftToeBase').C
 
 # Initialize the pose. q is an instance of SkelVector.
 q = skel.q
 q[4] = 0.05
-q[39] = -1.5
-q[55] = -q[39]
+q['Joint-LeftArm_z'] = -1.5
+q['Joint-RightArm_z'] = -q['Joint-LeftArm_z']
 # manual pose for frame 403, the most visible frame
-q['Joint-Neck_x'] = 0.5
-q['Joint-Neck_z'] = -0.2
-q['Joint-Neck_z'] = -0.2
 skel.set_positions(q)
 
 for i, body in enumerate(skel.bodies):
-    print i, body.name, body.num_markers()
+    print 'Body', i, body.name, body.C, body.m
+print 'Body total mass = ', skel.m
 for i, dof in enumerate(skel.dofs):
-    print i, dof.name
+    print 'Dof', i, dof.name
 for i, m in enumerate(skel.markers):
-    print i, m, m.x
+    print 'Marker', i, m, m.x
 print('skeleton position OK')
 
+# c3d_filename = '/c3d/Control_up5_new_vsk.c3d'
+# c3d_filename = '/stair/01 Control Pre/Control_Pre_06.c3d'
+c3d_filename = '/stair/02 Assistive/Assistive_22.c3d'
+c3d_filename = data_dir + c3d_filename
+if len(sys.argv) == 2:
+    c3d_filename = sys.argv[1]
+print('c3d_filename = [%s]' % c3d_filename)
+motion_filename = c3d_filename.replace('.c3d', '.c3d.txt')
+print('motion_filename = [%s]' % motion_filename)
+
 filec3d = pydart.FileC3D(xyz=[1, 0, 2],
-                         sign=[1, 1, -1],
-                         offset=[-2.2, -0.6, 0.4])
-filec3d.load(data_dir + '/c3d/Yunseong_meduim0_down2.c3d')
+                         sign=[1, 1, -1])
+filec3d.load(c3d_filename)
+filec3d.set_rotation_Y(3.14)
+filec3d.set_translation([0.0, -1.2, 0.0])
 
 seq = range(len(skel.markers))
 seq = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
        44, 45, 46, 47, 48, 49, 50, 52, 51, 5, 6, 7, 8, 0, 2, 4, 1,
        3, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
        21, 22, 23, 24, 25, 26, 28, 27]
+
+print('Total # markers in c3d = %d' % filec3d.num_markers())
+print('Total # markers in skel = %d' % len(skel.markers))
+min_visible_index = 10000
+for frame in range(filec3d.num_frames()):
+    for i in range(filec3d.num_markers()):
+        if i < min_visible_index and filec3d.is_marker_visible(frame, i):
+            min_visible_index = i
+            print('Marker %d is visible at frame %d' % (i, frame))
+offset = min_visible_index
+for i in range(len(seq)):
+    seq[i] += offset
 
 mystate = dict()
 mystate['skel'] = skel
@@ -255,6 +282,7 @@ def solve_all_worker(world):
     global mystate
     print('Solve all!!!')
     nframes = mystate['filec3d'].num_frames()
+    # nframes = 5
     motion = list()
     for frame in range(nframes):
         if mystate['kill_thread']:
@@ -267,12 +295,15 @@ def solve_all_worker(world):
         solve()
         motion.append(mystate['skel'].q)
 
-    with open('motion.txt', 'w+') as fout:
+    print('save to motion_file...')
+    print('motion_filename = [%s]' % motion_filename)
+    with open(motion_filename, 'w+') as fout:
         fout.write("%d\n" % len(motion))
         for q in motion:
             for v in q:
                 fout.write("%.8f " % v)
             fout.write("\n")
+    print('save to motion.txt... OK')
     mystate['solved_motion'] = motion
 
 
@@ -291,11 +322,9 @@ def render_callback(world):
     seq = mystate['seq']
 
     for i in range(filec3d.num_markers()):
-        size = 0.005
+        # size = 0.005
+        size = 0.02
         glColor3d(1.0, 0.0, 1.0)
-        if i == 6:
-            size = 0.01
-            glColor3d(1.0, 0.0, 0.0)
         glPushMatrix()
         x = filec3d.marker(frame, i)
         glTranslate(*x)
@@ -380,7 +409,7 @@ print("")
 
 
 # Run the application
-pydart.glutgui.run(title='bipedStand', simulation=world, trans=[0, 0, -2.0],
+pydart.glutgui.run(title='bipedStand', simulation=world, trans=[0.0, 0, -6.0],
                    step_callback=step_callback,
                    keyboard_callback=keyboard_callback,
                    render_callback=render_callback)

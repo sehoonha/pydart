@@ -15,10 +15,10 @@ class FileC3D(object):
         else:
             self.sign = np.array(sign)
 
-        if offset is None:
-            self.offset = np.array([0.0, 0.0, 0.0])
-        else:
-            self.offset = np.array(offset)
+        self.T = np.identity(4)
+        if offset is not None:
+            self.T[:3, 3] = offset
+            # self.offset = np.array(offset)
 
     def load(self, path):
         nbuffer, _ = papi.readC3D(path, 0)
@@ -32,6 +32,16 @@ class FileC3D(object):
         # for i in range(self.num_markers()):
         #     print i, self.marker(0, i)
 
+    def set_rotation_Y(self, angle):
+        sth = np.sin(angle)
+        cth = np.cos(angle)
+        self.T[:3, :3] = [[cth, 0.0, -sth],
+                          [0.0, 1.0, 0.0],
+                          [sth, 0.0, cth]]
+
+    def set_translation(self, xyz):
+        self.T[:3, 3] = xyz
+
     def num_frames(self):
         return self.data.shape[0]
 
@@ -42,8 +52,8 @@ class FileC3D(object):
         x = self.data[frame][marker * 3:marker * 3 + 3]
         x = x[self.xyz]
         x = x * self.sign
-        x = x + self.offset
-        return x
+        x = self.T.dot(np.concatenate([x, [1.0]]))
+        return x[:3]
 
     def is_marker_visible(self, frame, marker):
         x = self.data[frame][marker * 3:marker * 3 + 3]

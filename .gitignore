@@ -70,6 +70,8 @@ pydart/*.cxx
 build/*
 build/data/*
 build/frames/*
+data/c3d/*
+data/stair/*
 
 pydart/pydart_api.py
 captures

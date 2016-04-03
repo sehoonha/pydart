@@ -1,0 +1,398 @@
+<?xml version="1.0" standalone="yes"?>
+<KinematicModel>
+    <Parameters>
+        <Parameter NAME="LFWT_Root_X" VALUE="88.6403" />
+        <Parameter NAME="LFWT_Root_Y" VALUE="48.6102" />
+        <Parameter NAME="LFWT_Root_Z" VALUE="1.37451" />
+        <Parameter NAME="LBWT_Root_X" VALUE="58.1405" />
+        <Parameter NAME="LBWT_Root_Y" VALUE="45.2881" />
+        <Parameter NAME="LBWT_Root_Z" VALUE="-76.6514" />
+        <Parameter NAME="RFWT_Root_X" VALUE="-67.7821" />
+        <Parameter NAME="RFWT_Root_Y" VALUE="27.6076" />
+        <Parameter NAME="RFWT_Root_Z" VALUE="36.8106" />
+        <Parameter NAME="RBWT_Root_X" VALUE="-75.9617" />
+        <Parameter NAME="RBWT_Root_Y" VALUE="29.1218" />
+        <Parameter NAME="RBWT_Root_Z" VALUE="-35.7979" />
+        <Parameter NAME="HipWidth" VALUE="25.5974" />
+        <Parameter NAME="LKNE_L_Femur_X" VALUE="35.2911" />
+        <Parameter NAME="LKNE_L_Femur_Y" VALUE="-204.216" />
+        <Parameter NAME="LKNE_L_Femur_Z" VALUE="31.3674" />
+        <Parameter NAME="LKNI_L_Femur_X" VALUE="-24.3733" />
+        <Parameter NAME="LKNI_L_Femur_Y" VALUE="-198.348" />
+        <Parameter NAME="LKNI_L_Femur_Z" VALUE="7.41183" />
+        <Parameter NAME="UpperLegLength" VALUE="224.448" />
+        <Parameter NAME="LANK_L_Tibia_X" VALUE="6.4071" />
+        <Parameter NAME="LANK_L_Tibia_Y" VALUE="-181.609" />
+        <Parameter NAME="LANK_L_Tibia_Z" VALUE="0.966727" />
+        <Parameter NAME="LowerLegLength" VALUE="192.318" />
+        <Parameter NAME="LMT5_L_Foot_X" VALUE="5.82554" />
+        <Parameter NAME="LMT5_L_Foot_Y" VALUE="12.3038" />
+        <Parameter NAME="LMT5_L_Foot_Z" VALUE="71.226" />
+        <Parameter NAME="LMT1_L_Foot_X" VALUE="-49.0841" />
+        <Parameter NAME="LMT1_L_Foot_Y" VALUE="21.1228" />
+        <Parameter NAME="LMT1_L_Foot_Z" VALUE="44.0875" />
+        <Parameter NAME="LHEL_L_Foot_X" VALUE="-12.0456" />
+        <Parameter NAME="LHEL_L_Foot_Y" VALUE="-22.38" />
+        <Parameter NAME="LHEL_L_Foot_Z" VALUE="-19.0614" />
+        <Parameter NAME="FootLength" VALUE="64.929" />
+        <Parameter NAME="LTOE_L_Toe_X" VALUE="-25.5795" />
+        <Parameter NAME="LTOE_L_Toe_Y" VALUE="24.061" />
+        <Parameter NAME="LTOE_L_Toe_Z" VALUE="41.8694" />
+        <Parameter NAME="RKNE_R_Femur_X" VALUE="-20.3495" />
+        <Parameter NAME="RKNE_R_Femur_Y" VALUE="-225.284" />
+        <Parameter NAME="RKNE_R_Femur_Z" VALUE="13.1298" />
+        <Parameter NAME="RKNI_R_Femur_X" VALUE="45.0858" />
+        <Parameter NAME="RKNI_R_Femur_Y" VALUE="-218.333" />
+        <Parameter NAME="RKNI_R_Femur_Z" VALUE="-1.64032" />
+        <Parameter NAME="RANK_R_Tibia_X" VALUE="-4.02743" />
+        <Parameter NAME="RANK_R_Tibia_Y" VALUE="-187.168" />
+        <Parameter NAME="RANK_R_Tibia_Z" VALUE="1.27293" />
+        <Parameter NAME="RMT5_R_Foot_X" VALUE="-19.3849" />
+        <Parameter NAME="RMT5_R_Foot_Y" VALUE="28.7111" />
+        <Parameter NAME="RMT5_R_Foot_Z" VALUE="78.7177" />
+        <Parameter NAME="RMT1_R_Foot_X" VALUE="32.9304" />
+        <Parameter NAME="RMT1_R_Foot_Y" VALUE="35.4721" />
+        <Parameter NAME="RMT1_R_Foot_Z" VALUE="61.7086" />
+        <Parameter NAME="RHEL_R_Foot_X" VALUE="17.9604" />
+        <Parameter NAME="RHEL_R_Foot_Y" VALUE="-19.9748" />
+        <Parameter NAME="RHEL_R_Foot_Z" VALUE="-6.95652" />
+        <Parameter NAME="RTOE_R_Toe_X" VALUE="1.52244" />
+        <Parameter NAME="RTOE_R_Toe_Y" VALUE="35.541" />
+        <Parameter NAME="RTOE_R_Toe_Z" VALUE="52.8198" />
+        <Parameter NAME="SpineBoneLength" VALUE="91.0591" />
+        <Parameter NAME="CLAV_Thorax_X" VALUE="-1.74499" />
+        <Parameter NAME="CLAV_Thorax_Y" VALUE="163.522" />
+        <Parameter NAME="CLAV_Thorax_Z" VALUE="57.7404" />
+        <Parameter NAME="STRN_Thorax_X" VALUE="-9.55176" />
+        <Parameter NAME="STRN_Thorax_Y" VALUE="97.644" />
+        <Parameter NAME="STRN_Thorax_Z" VALUE="67.9592" />
+        <Parameter NAME="C7_Thorax_X" VALUE="13.9941" />
+        <Parameter NAME="C7_Thorax_Y" VALUE="209.28" />
+        <Parameter NAME="C7_Thorax_Z" VALUE="-45.7994" />
+        <Parameter NAME="T10_Thorax_X" VALUE="4.48674" />
+        <Parameter NAME="T10_Thorax_Y" VALUE="102.353" />
+        <Parameter NAME="T10_Thorax_Z" VALUE="-64.4648" />
+        <Parameter NAME="ChestLength" VALUE="140.974" />
+        <Parameter NAME="HeadBoneLength" VALUE="105.322" />
+        <Parameter NAME="LFHD_Head_X" VALUE="41.8785" />
+        <Parameter NAME="LFHD_Head_Y" VALUE="70.9928" />
+        <Parameter NAME="LFHD_Head_Z" VALUE="36.0816" />
+        <Parameter NAME="LBHD_Head_X" VALUE="49.5411" />
+        <Parameter NAME="LBHD_Head_Y" VALUE="73.8109" />
+        <Parameter NAME="LBHD_Head_Z" VALUE="-23.0638" />
+        <Parameter NAME="RFHD_Head_X" VALUE="-43.9439" />
+        <Parameter NAME="RFHD_Head_Y" VALUE="71.303" />
+        <Parameter NAME="RFHD_Head_Z" VALUE="26.9179" />
+        <Parameter NAME="RBHD_Head_X" VALUE="-39.4116" />
+        <Parameter NAME="RBHD_Head_Y" VALUE="66.1249" />
+        <Parameter NAME="RBHD_Head_Z" VALUE="-30.6966" />
+        <Parameter NAME="LFSH_L_Collar_X" VALUE="-18.8315" />
+        <Parameter NAME="LFSH_L_Collar_Y" VALUE="91.0872" />
+        <Parameter NAME="LFSH_L_Collar_Z" VALUE="35.8638" />
+        <Parameter NAME="LBSH_L_Collar_X" VALUE="-14.9959" />
+        <Parameter NAME="LBSH_L_Collar_Y" VALUE="113.407" />
+        <Parameter NAME="LBSH_L_Collar_Z" VALUE="-19.43" />
+        <Parameter NAME="ClavLength" VALUE="104.954" />
+        <Parameter NAME="LELB_L_Humerus_X" VALUE="-14.5316" />
+        <Parameter NAME="LELB_L_Humerus_Y" VALUE="127.345" />
+        <Parameter NAME="LELB_L_Humerus_Z" VALUE="-4.59657" />
+        <Parameter NAME="LIEL_L_Humerus_X" VALUE="39.4272" />
+        <Parameter NAME="LIEL_L_Humerus_Y" VALUE="149.634" />
+        <Parameter NAME="LIEL_L_Humerus_Z" VALUE="3.44951" />
+        <Parameter NAME="UpperArmLength" VALUE="141.595" />
+        <Parameter NAME="LOWR_L_Elbow_X" VALUE="-1.77105" />
+        <Parameter NAME="LOWR_L_Elbow_Y" VALUE="113.808" />
+        <Parameter NAME="LOWR_L_Elbow_Z" VALUE="-5.24216" />
+        <Parameter NAME="LIWR_L_Elbow_X" VALUE="-5.99718" />
+        <Parameter NAME="LIWR_L_Elbow_Y" VALUE="114.836" />
+        <Parameter NAME="LIWR_L_Elbow_Z" VALUE="-1.54365" />
+        <Parameter NAME="LowerArmLength" VALUE="123.936" />
+        <Parameter NAME="LOHAND_L_Wrist_X" VALUE="-0.670307" />
+        <Parameter NAME="LOHAND_L_Wrist_Y" VALUE="19.0051" />
+        <Parameter NAME="LOHAND_L_Wrist_Z" VALUE="-21.8394" />
+        <Parameter NAME="LIHAND_L_Wrist_X" VALUE="6.06032" />
+        <Parameter NAME="LIHAND_L_Wrist_Y" VALUE="27.5123" />
+        <Parameter NAME="LIHAND_L_Wrist_Z" VALUE="0.965067" />
+        <Parameter NAME="RFSH_R_Collar_X" VALUE="24.1151" />
+        <Parameter NAME="RFSH_R_Collar_Y" VALUE="84.5979" />
+        <Parameter NAME="RFSH_R_Collar_Z" VALUE="32.1546" />
+        <Parameter NAME="RBSH_R_Collar_X" VALUE="20.4002" />
+        <Parameter NAME="RBSH_R_Collar_Y" VALUE="113.699" />
+        <Parameter NAME="RBSH_R_Collar_Z" VALUE="-15.1284" />
+        <Parameter NAME="RELB_R_Humerus_X" VALUE="11.7909" />
+        <Parameter NAME="RELB_R_Humerus_Y" VALUE="121.496" />
+        <Parameter NAME="RELB_R_Humerus_Z" VALUE="-0.994403" />
+        <Parameter NAME="RIEL_R_Humerus_X" VALUE="-42.7506" />
+        <Parameter NAME="RIEL_R_Humerus_Y" VALUE="138.766" />
+        <Parameter NAME="RIEL_R_Humerus_Z" VALUE="-8.71426" />
+        <Parameter NAME="ROWR_R_Elbow_X" VALUE="2.73193" />
+        <Parameter NAME="ROWR_R_Elbow_Y" VALUE="113.001" />
+        <Parameter NAME="ROWR_R_Elbow_Z" VALUE="-5.41305" />
+        <Parameter NAME="RIWR_R_Elbow_X" VALUE="1.2614" />
+        <Parameter NAME="RIWR_R_Elbow_Y" VALUE="130.863" />
+        <Parameter NAME="RIWR_R_Elbow_Z" VALUE="2.30308" />
+        <Parameter NAME="ROHAND_R_Wrist_X" VALUE="8.09704" />
+        <Parameter NAME="ROHAND_R_Wrist_Y" VALUE="24.1805" />
+        <Parameter NAME="ROHAND_R_Wrist_Z" VALUE="-5.52711" />
+        <Parameter NAME="RIHAND_R_Wrist_X" VALUE="4.16859" />
+        <Parameter NAME="RIHAND_R_Wrist_Y" VALUE="14.6817" />
+        <Parameter NAME="RIHAND_R_Wrist_Z" VALUE="19.4092" />
+        <Parameter NAME="LMWT_Root_X" VALUE="37.1933" />
+        <Parameter NAME="LMWT_Root_Y" VALUE="33.3061" />
+        <Parameter NAME="LMWT_Root_Z" VALUE="56.2357" />
+        <Parameter NAME="RMWT_Root_X" VALUE="-6.32217" />
+        <Parameter NAME="RMWT_Root_Y" VALUE="35.6202" />
+        <Parameter NAME="RMWT_Root_Z" VALUE="-71.7479" />
+        <Parameter NAME="RUPA_R_Humerus_X" VALUE="11.0042" />
+        <Parameter NAME="RUPA_R_Humerus_Y" VALUE="53.872" />
+        <Parameter NAME="RUPA_R_Humerus_Z" VALUE="6.87141" />
+        <Parameter NAME="LUPA_L_Humerus_X" VALUE="-15.9988" />
+        <Parameter NAME="LUPA_L_Humerus_Y" VALUE="52.8736" />
+        <Parameter NAME="LUPA_L_Humerus_Z" VALUE="-4.49845" />
+        <Parameter NAME="RWRE_R_Elbow_X" VALUE="7.82838" />
+        <Parameter NAME="RWRE_R_Elbow_Y" VALUE="46.3256" />
+        <Parameter NAME="RWRE_R_Elbow_Z" VALUE="6.51316" />
+        <Parameter NAME="LWRE_L_Elbow_X" VALUE="-11.2377" />
+        <Parameter NAME="LWRE_L_Elbow_Y" VALUE="43.4981" />
+        <Parameter NAME="LWRE_L_Elbow_Z" VALUE="-7.8679" />
+        <Parameter NAME="LHIP_L_Femur_X" VALUE="52.7296" />
+        <Parameter NAME="LHIP_L_Femur_Y" VALUE="-143.186" />
+        <Parameter NAME="LHIP_L_Femur_Z" VALUE="33.3995" />
+        <Parameter NAME="RHIP_R_Femur_X" VALUE="-37.1625" />
+        <Parameter NAME="RHIP_R_Femur_Y" VALUE="-88.3153" />
+        <Parameter NAME="RHIP_R_Femur_Z" VALUE="37.9036" />
+        <Parameter NAME="LSHN_L_Tibia_X" VALUE="4.82993" />
+        <Parameter NAME="LSHN_L_Tibia_Y" VALUE="-28.892" />
+        <Parameter NAME="LSHN_L_Tibia_Z" VALUE="23.6757" />
+        <Parameter NAME="RSHN_R_Tibia_X" VALUE="11.8057" />
+        <Parameter NAME="RSHN_R_Tibia_Y" VALUE="-76.7589" />
+        <Parameter NAME="RSHN_R_Tibia_Z" VALUE="26.2163" />
+        <Parameter NAME="ARIEL_Head_X" VALUE="2.11013" />
+        <Parameter NAME="ARIEL_Head_Y" VALUE="116.751" />
+        <Parameter NAME="ARIEL_Head_Z" VALUE="12.7997" />
+    </Parameters>
+    <Skeleton>
+        <Segment NAME="Hips" POSITION="0 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-25.5974 -3.19968 0 25.5974 3.19968 3.19968" RGB="0 128 0">
+            <JointFree MEAN="0.168633 -1.227264 -0.039184  16.438674 415.026159 2330.408007 " COVARIANCE="0.087815 -0.264629 0.003200 0.651948 -0.322348 0.016996 -0.264629 1.413529 -0.016765 11.818100 1.384969 5.657117 0.003200 -0.016765 0.029967 -0.146163 -0.448168 -5.274233 0.651948 11.818100 -0.146163 100000000.000000 99.164726 260.070425 -0.322348 1.384969 -0.448168 99.164726 100000000.000000 120.419209 0.016996 5.657117 -5.274233 260.070425 120.419209 100000000.000000 " />
+            <Segment NAME="LeftUpLeg" POSITION="HipWidth 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.05193e-031 0 0 1.05193e-031 8.41545e-031 1.05193e-031" RGB="0 128 0">
+                <JointBall MEAN="-0.219698 0.450924 0.421907 " COVARIANCE="0.150860 -0.004117 -0.023646 -0.004117 0.012835 -0.001231 -0.023646 -0.001231 0.010819 " />
+                <Segment NAME="LeftLeg" POSITION="0 -UpperLegLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-9.01346e-032 0 0 9.01346e-032 7.21077e-031 9.01346e-032" RGB="0 128 0">
+                    <JointHinge AXIS="1 0 0" MEAN="0.280200 " COVARIANCE="0.125382 " />
+                    <Segment NAME="LeftFoot" POSITION="0 -LowerLegLength 0" ORIENTATION="0.261799 0 -0" BOUNDS="-8.11613 -8.11613 0 8.11613 1.42109e-014 64.929" RGB="0 128 0">
+                        <JointBall MEAN="0.264309 0.217242 -0.149692 " COVARIANCE="0.032322 -0.015614 0.001448 -0.015614 0.028550 -0.003755 0.001448 -0.003755 0.007360 " />
+                        <Segment NAME="LeftToeBase" POSITION="0 0 FootLength" ORIENTATION="-0.261799 -0 0" BOUNDS="-9.375 -9.375 0 9.375 1.42109e-014 75" RGB="0 128 0">
+                            <JointHinge AXIS="1 0 0" MEAN="-0.307949 " COVARIANCE="0.001656 " />
+                            <Segment NAME="L_Toe_End" POSITION="0 0 75" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 0">
+                                <JointDummy />
+                            </Segment>
+                        </Segment>
+                    </Segment>
+                </Segment>
+            </Segment>
+            <Segment NAME="RightUpLeg" POSITION="-HipWidth 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.05193e-031 0 0 1.05193e-031 8.41545e-031 1.05193e-031" RGB="0 128 0">
+                <JointBall MEAN="-0.326666 0.103726 -0.010343 " COVARIANCE="0.117767 0.030043 -0.007465 0.030043 0.020844 -0.002494 -0.007465 -0.002494 0.007116 " />
+                <Segment NAME="RightLeg" POSITION="0 -UpperLegLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-9.01346e-032 0 0 9.01346e-032 7.21077e-031 9.01346e-032" RGB="0 128 0">
+                    <JointHinge AXIS="1 0 0" MEAN="0.424773 " COVARIANCE="0.117386 " />
+                    <Segment NAME="RightFoot" POSITION="0 -LowerLegLength 0" ORIENTATION="0.261799 0 -0" BOUNDS="-8.11613 -8.11613 0 8.11613 1.42109e-014 64.929" RGB="0 128 0">
+                        <JointBall MEAN="0.147196 0.022657 -0.109664 " COVARIANCE="0.021150 0.012143 0.006990 0.012143 0.027377 -0.001421 0.006990 -0.001421 0.008907 " />
+                        <Segment NAME="RightToeBase" POSITION="0 0 FootLength" ORIENTATION="-0.261799 -0 0" BOUNDS="-9.375 -9.375 0 9.375 1.42109e-014 75" RGB="0 128 0">
+                            <JointHinge AXIS="1 0 0" MEAN="-0.082086 " COVARIANCE="0.000747 " />
+                            <Segment NAME="R_Toe_End" POSITION="0 0 75" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 0">
+                                <JointDummy />
+                            </Segment>
+                        </Segment>
+                    </Segment>
+                </Segment>
+            </Segment>
+            <Segment NAME="Spine" POSITION="0 1 0" ORIENTATION="-0 -0 -0" BOUNDS="-11.3824 0 0 11.3824 91.0591 11.3824" RGB="0 128 0">
+                <JointBall MEAN="-0.355463 0.254451 -0.105199 " COVARIANCE="0.003300 -0.000794 -0.000529 -0.000794 0.006363 0.000849 -0.000529 0.000849 0.003277 " />
+                <Segment NAME="Spine1" POSITION="0 SpineBoneLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-17.6217 0 0 17.6217 140.974 17.6217" RGB="0 128 0">
+                    <JointBall MEAN="0.137536 0.195561 0.363890 " COVARIANCE="0.043551 -0.000822 0.010872 -0.000822 0.006961 0.003005 0.010872 0.003005 0.012502 " />
+                    <Segment NAME="Neck" POSITION="0 ChestLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-13.1653 0 0 13.1653 105.322 13.1653" RGB="0 128 0">
+                        <JointBall MEAN="0.163855 0.028685 -0.064640 " COVARIANCE="0.007889 0.009007 0.002324 0.009007 0.124029 0.009858 0.002324 0.009858 0.004627 " />
+                        <Segment NAME="Head" POSITION="0 HeadBoneLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-14.375 0 0 14.375 115 14.375" RGB="0 128 0">
+                            <JointBall MEAN="0.002227 -0.216376 0.044796 " COVARIANCE="0.122241 0.009368 0.019758 0.009368 0.125691 -0.017775 0.019758 -0.017775 0.032794 " />
+                            <Segment NAME="Head_End" POSITION="0 115 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 0">
+                                <JointDummy />
+                            </Segment>
+                        </Segment>
+                    </Segment>
+                    <Segment NAME="LeftShoulder" POSITION="0 ChestLength 0" ORIENTATION="0 -0 -1.5708" BOUNDS="-13.1192 0 0 13.1192 104.954 13.1192" RGB="0 128 0">
+                        <JointBall MEAN="0.071035 -0.204355 0.255097 " COVARIANCE="0.011844 -0.010218 0.001841 -0.010218 0.016446 -0.006497 0.001841 -0.006497 0.024508 " />
+                        <Segment NAME="LeftArm" POSITION="0 ClavLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-17.6994 0 0 17.6994 141.595 17.6994" RGB="0 128 0">
+                            <JointBall MEAN="0.227612 0.047469 -1.032205 " COVARIANCE="0.100945 0.036977 -0.012722 0.036977 0.136819 -0.090034 -0.012722 -0.090034 0.136206 " />
+                            <Segment NAME="LeftForeArm" POSITION="0 UpperArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-15.492 0 0 15.492 123.936 15.492" RGB="0 128 0">
+                                <JointHinge AXIS="1 0 0" MEAN="0.312570 " COVARIANCE="0.177739 " />
+                                <Segment NAME="LeftHand" POSITION="0 LowerArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 0 0 12.5 100 12.5" RGB="0 128 0">
+                                    <JointBall MEAN="-0.249987 0.381427 0.356344 " COVARIANCE="0.381725 -0.166733 0.091611 -0.166733 1.854413 -0.847760 0.091611 -0.847760 0.514051 " />
+                                    <Segment NAME="LeftHandThumb" POSITION="0 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 -12.5 0 12.5 2.13163e-014 100" RGB="0 128 0">
+                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
+                                        <Segment NAME="L_Thumb_End" POSITION="0 0 100" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 0">
+                                            <JointDummy />
+                                        </Segment>
+                                    </Segment>
+                                    <Segment NAME="L_Wrist_End" POSITION="0 100 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 0">
+                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
+                                    </Segment>
+                                </Segment>
+                            </Segment>
+                        </Segment>
+                    </Segment>
+                    <Segment NAME="RightShoulder" POSITION="0 ChestLength 0" ORIENTATION="-0 0 1.5708" BOUNDS="-13.1192 0 0 13.1192 104.954 13.1192" RGB="0 128 0">
+                        <JointBall MEAN="-0.128009 0.270865 -0.404048 " COVARIANCE="0.015471 0.010541 0.002294 0.010541 0.009022 0.000322 0.002294 0.000322 0.019225 " />
+                        <Segment NAME="RightArm" POSITION="0 ClavLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-17.6994 0 0 17.6994 141.595 17.6994" RGB="0 128 0">
+                            <JointBall MEAN="0.061831 -0.078348 0.976873 " COVARIANCE="0.095249 -0.045453 0.022686 -0.045453 0.158457 -0.095945 0.022686 -0.095945 0.099961 " />
+                            <Segment NAME="RightForeArm" POSITION="0 UpperArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-15.492 0 0 15.492 123.936 15.492" RGB="0 128 0">
+                                <JointHinge AXIS="1 0 0" MEAN="0.349650 " COVARIANCE="0.165005 " />
+                                <Segment NAME="RightHand" POSITION="0 LowerArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-17.125 0 0 17.125 137 17.125" RGB="0 128 0">
+                                    <JointBall MEAN="0.491951 -0.103146 0.137606 " COVARIANCE="0.690433 -0.213491 0.021718 -0.213491 0.154235 -0.059235 0.021718 -0.059235 0.097514 " />
+                                    <Segment NAME="RightHandThumb" POSITION="0 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 -12.5 0 12.5 2.13163e-014 100" RGB="0 128 0">
+                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
+                                        <Segment NAME="R_Thumb_End" POSITION="0 0 100" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 0">
+                                            <JointDummy />
+                                        </Segment>
+                                    </Segment>
+                                    <Segment NAME="R_Wrist_End" POSITION="0 137 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 0">
+                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
+                                    </Segment>
+                                </Segment>
+                            </Segment>
+                        </Segment>
+                    </Segment>
+                </Segment>
+            </Segment>
+        </Segment>
+    </Skeleton>
+    <MarkerSet NAME="Markerset">
+        <Markers>
+            <Marker NAME="ARIEL" SEGMENT="Head" RGB="255 255 255" POSITION="ARIEL_Head_X ARIEL_Head_Y ARIEL_Head_Z" COVARIANCE="0.012745 -0.000513 -0.015285 -0.000513 0.744426 0.014295 -0.015285 0.014295 0.322414" RADIUS="5.7" />
+            <Marker NAME="LFHD" SEGMENT="Head" RGB="255 255 0" POSITION="LFHD_Head_X LFHD_Head_Y LFHD_Head_Z" COVARIANCE="0.037144 0.035034 -0.013053 0.035034 0.854613 0.233213 -0.013053 0.233213 0.261683" RADIUS="5.3" />
+            <Marker NAME="LBHD" SEGMENT="Head" RGB="255 255 0" POSITION="LBHD_Head_X LBHD_Head_Y LBHD_Head_Z" COVARIANCE="0.054103 0.094640 -0.020113 0.094640 1.475587 -0.307940 -0.020113 -0.307940 0.220135" RADIUS="5.8" />
+            <Marker NAME="RFHD" SEGMENT="Head" RGB="0 255 0" POSITION="RFHD_Head_X RFHD_Head_Y RFHD_Head_Z" COVARIANCE="0.037031 0.023954 -0.005131 0.023954 0.822296 0.177358 -0.005131 0.177358 0.192423" RADIUS="5.3" />
+            <Marker NAME="RBHD" SEGMENT="Head" RGB="0 255 0" POSITION="RBHD_Head_X RBHD_Head_Y RBHD_Head_Z" COVARIANCE="0.062486 -0.017075 -0.002530 -0.017075 1.552380 -0.490702 -0.002530 -0.490702 0.314211" RADIUS="6.0" />
+            <Marker NAME="C7" SEGMENT="Spine1" RGB="150 150 0" POSITION="C7_Thorax_X C7_Thorax_Y C7_Thorax_Z" COVARIANCE="5.445217 -3.082789 0.568724 -3.082789 5.828664 -1.619655 0.568724 -1.619655 2.408023" RADIUS="4.4" />
+            <Marker NAME="T10" SEGMENT="Spine1" RGB="150 150 0" POSITION="T10_Thorax_X T10_Thorax_Y T10_Thorax_Z" COVARIANCE="5.249975 3.880160 0.517267 3.880160 11.628845 3.858527 0.517267 3.858527 10.918131" RADIUS="4.3" />
+            <Marker NAME="CLAV" SEGMENT="Spine1" RGB="150 150 0" POSITION="CLAV_Thorax_X CLAV_Thorax_Y CLAV_Thorax_Z" COVARIANCE="3.677377 -0.904411 0.113417 -0.904411 4.745341 2.557681 0.113417 2.557681 4.591882" RADIUS="5.6" />
+            <Marker NAME="STRN" SEGMENT="Spine1" RGB="150 150 0" POSITION="STRN_Thorax_X STRN_Thorax_Y STRN_Thorax_Z" COVARIANCE="6.490987 -0.262199 -2.383004 -0.262199 2.333508 -1.206215 -2.383004 -1.206215 8.093840" RADIUS="3.7" />
+            <Marker NAME="LFSH" SEGMENT="LeftShoulder" RGB="255 255 0" POSITION="LFSH_L_Collar_X LFSH_L_Collar_Y LFSH_L_Collar_Z" COVARIANCE="4.657449 0.233213 -1.558425 0.233213 6.015433 2.044624 -1.558425 2.044624 3.091515" RADIUS="4.1" />
+            <Marker NAME="LBSH" SEGMENT="LeftShoulder" RGB="255 255 0" POSITION="LBSH_L_Collar_X LBSH_L_Collar_Y LBSH_L_Collar_Z" COVARIANCE="9.879809 -0.597280 0.016535 -0.597280 5.485691 0.915722 0.016535 0.915722 3.143016" RADIUS="4.4" />
+            <Marker NAME="LUPA" SEGMENT="LeftArm" RGB="255 255 0" POSITION="LUPA_L_Humerus_X LUPA_L_Humerus_Y LUPA_L_Humerus_Z" COVARIANCE="2.854818 0.269768 2.584257 0.269768 14.488108 8.666464 2.584257 8.666464 16.692433" RADIUS="4.0" />
+            <Marker NAME="LELB" SEGMENT="LeftArm" RGB="255 255 0" POSITION="LELB_L_Humerus_X LELB_L_Humerus_Y LELB_L_Humerus_Z" COVARIANCE="2.527191 -0.000542 0.756433 -0.000542 5.050469 0.631309 0.756433 0.631309 5.379686" RADIUS="3.7" />
+            <Marker NAME="LIEL" SEGMENT="LeftArm" RGB="255 255 0" POSITION="LIEL_L_Humerus_X LIEL_L_Humerus_Y LIEL_L_Humerus_Z" COVARIANCE="2.095171 0.979267 -1.499870 0.979267 13.690038 -0.076507 -1.499870 -0.076507 3.352187" RADIUS="4.0" />
+            <Marker NAME="LOWR" SEGMENT="LeftForeArm" RGB="255 255 0" POSITION="LOWR_L_Elbow_X LOWR_L_Elbow_Y LOWR_L_Elbow_Z" COVARIANCE="12.498552 -4.681244 8.190552 -4.681244 111.751203 -3.694058 8.190552 -3.694058 131.357769" RADIUS="4.4" />
+            <Marker NAME="LIWR" SEGMENT="LeftForeArm" RGB="255 255 0" POSITION="LIWR_L_Elbow_X LIWR_L_Elbow_Y LIWR_L_Elbow_Z" COVARIANCE="13.559015 -11.742474 6.762930 -11.742474 167.508333 -27.583453 6.762930 -27.583453 129.192481" RADIUS="4.2" />
+            <Marker NAME="LWRE" SEGMENT="LeftForeArm" RGB="255 255 0" POSITION="LWRE_L_Elbow_X LWRE_L_Elbow_Y LWRE_L_Elbow_Z" COVARIANCE="2.228808 -0.839006 -0.704941 -0.839006 6.620082 4.385930 -0.704941 4.385930 5.466224" RADIUS="3.9" />
+            <Marker NAME="LIHAND" SEGMENT="LeftHand" RGB="255 255 0" POSITION="LIHAND_L_Wrist_X LIHAND_L_Wrist_Y LIHAND_L_Wrist_Z" COVARIANCE="0.906177 0.936885 2.631502 0.936885 3.213405 0.809959 2.631502 0.809959 11.716362" RADIUS="4.5" />
+            <Marker NAME="LOHAND" SEGMENT="LeftHand" RGB="255 255 0" POSITION="LOHAND_L_Wrist_X LOHAND_L_Wrist_Y LOHAND_L_Wrist_Z" COVARIANCE="1.218389 1.187752 3.768268 1.187752 2.986885 2.249131 3.768268 2.249131 14.918638" RADIUS="3.9" />
+            <Marker NAME="RFSH" SEGMENT="RightShoulder" RGB="0 255 0" POSITION="RFSH_R_Collar_X RFSH_R_Collar_Y RFSH_R_Collar_Z" COVARIANCE="4.863151 -2.730754 1.075272 -2.730754 5.922846 1.414784 1.075272 1.414784 2.016205" RADIUS="3.6" />
+            <Marker NAME="RBSH" SEGMENT="RightShoulder" RGB="0 255 0" POSITION="RBSH_R_Collar_X RBSH_R_Collar_Y RBSH_R_Collar_Z" COVARIANCE="4.789960 -0.673646 1.947473 -0.673646 3.709783 0.705267 1.947473 0.705267 5.024844" RADIUS="4.4" />
+            <Marker NAME="RUPA" SEGMENT="RightArm" RGB="0 255 0" POSITION="RUPA_R_Humerus_X RUPA_R_Humerus_Y RUPA_R_Humerus_Z" COVARIANCE="7.585683 -0.156779 -4.927289 -0.156779 6.295129 5.551326 -4.927289 5.551326 11.313612" RADIUS="4.5" />
+            <Marker NAME="RELB" SEGMENT="RightArm" RGB="0 255 0" POSITION="RELB_R_Humerus_X RELB_R_Humerus_Y RELB_R_Humerus_Z" COVARIANCE="2.728571 0.563608 -0.239600 0.563608 4.493485 2.400980 -0.239600 2.400980 5.594045" RADIUS="4.2" />
+            <Marker NAME="RIEL" SEGMENT="RightArm" RGB="0 255 0" POSITION="RIEL_R_Humerus_X RIEL_R_Humerus_Y RIEL_R_Humerus_Z" COVARIANCE="0.867652 -0.088622 0.734211 -0.088622 2.150972 0.288756 0.734211 0.288756 2.989325" RADIUS="2.0" />
+            <Marker NAME="ROWR" SEGMENT="RightForeArm" RGB="0 255 0" POSITION="ROWR_R_Elbow_X ROWR_R_Elbow_Y ROWR_R_Elbow_Z" COVARIANCE="5.014340 -0.316779 -1.422852 -0.316779 3.190555 -6.702170 -1.422852 -6.702170 31.158576" RADIUS="4.0" />
+            <Marker NAME="RIWR" SEGMENT="RightForeArm" RGB="0 255 0" POSITION="RIWR_R_Elbow_X RIWR_R_Elbow_Y RIWR_R_Elbow_Z" COVARIANCE="7.997833 8.607692 -5.454147 8.607692 109.525298 -50.937566 -5.454147 -50.937566 24.673762" RADIUS="4.0" />
+            <Marker NAME="RWRE" SEGMENT="RightForeArm" RGB="0 255 0" POSITION="RWRE_R_Elbow_X RWRE_R_Elbow_Y RWRE_R_Elbow_Z" COVARIANCE="1.368786 1.450525 -0.872455 1.450525 6.786508 -0.056653 -0.872455 -0.056653 2.103561" RADIUS="4.2" />
+            <Marker NAME="RIHAND" SEGMENT="RightHand" RGB="0 255 0" POSITION="RIHAND_R_Wrist_X RIHAND_R_Wrist_Y RIHAND_R_Wrist_Z" COVARIANCE="0.173235 0.407615 -0.353038 0.407615 1.368531 -0.813563 -0.353038 -0.813563 2.466170" RADIUS="4.0" />
+            <Marker NAME="ROHAND" SEGMENT="RightHand" RGB="0 255 0" POSITION="ROHAND_R_Wrist_X ROHAND_R_Wrist_Y ROHAND_R_Wrist_Z" COVARIANCE="0.130672 0.325236 -0.321926 0.325236 1.160184 -0.767825 -0.321926 -0.767825 2.615239" RADIUS="3.6" />
+            <Marker NAME="LFWT" SEGMENT="Hips" RGB="255 255 0" POSITION="LFWT_Root_X LFWT_Root_Y LFWT_Root_Z" COVARIANCE="2.772898 -1.294236 -3.510217 -1.294236 3.562856 -0.472655 -3.510217 -0.472655 14.736783" RADIUS="5.5" />
+            <Marker NAME="LMWT" SEGMENT="Hips" RGB="255 255 0" POSITION="LMWT_Root_X LMWT_Root_Y LMWT_Root_Z" COVARIANCE="7.129092 1.484143 -16.877093 1.484143 3.715110 -5.923170 -16.877093 -5.923170 49.896138" RADIUS="5.9" />
+            <Marker NAME="LBWT" SEGMENT="Hips" RGB="255 255 0" POSITION="LBWT_Root_X LBWT_Root_Y LBWT_Root_Z" COVARIANCE="2.051071 -1.251861 0.536074 -1.251861 3.805797 -0.839047 0.536074 -0.839047 1.072404" RADIUS="5.3" />
+            <Marker NAME="RFWT" SEGMENT="Hips" RGB="0 255 0" POSITION="RFWT_Root_X RFWT_Root_Y RFWT_Root_Z" COVARIANCE="3.036364 -0.063106 -0.386303 -0.063106 8.448268 -1.550420 -0.386303 -1.550420 1.110147" RADIUS="5.5" />
+            <Marker NAME="RMWT" SEGMENT="Hips" RGB="0 255 0" POSITION="RMWT_Root_X RMWT_Root_Y RMWT_Root_Z" COVARIANCE="1.397841 -0.129212 1.119170 -0.129212 1.910420 0.062904 1.119170 0.062904 3.676420" RADIUS="5.9" />
+            <Marker NAME="RBWT" SEGMENT="Hips" RGB="0 255 0" POSITION="RBWT_Root_X RBWT_Root_Y RBWT_Root_Z" COVARIANCE="0.866859 -0.476073 0.252689 -0.476073 3.006649 -0.062617 0.252689 -0.062617 0.594909" RADIUS="5.8" />
+            <Marker NAME="LHIP" SEGMENT="LeftUpLeg" RGB="255 255 0" POSITION="LHIP_L_Femur_X LHIP_L_Femur_Y LHIP_L_Femur_Z" COVARIANCE="2.364235 -0.417787 -1.582818 -0.417787 4.801191 0.093106 -1.582818 0.093106 6.618508" RADIUS="5.0" />
+            <Marker NAME="LKNE" SEGMENT="LeftUpLeg" RGB="255 255 0" POSITION="LKNE_L_Femur_X LKNE_L_Femur_Y LKNE_L_Femur_Z" COVARIANCE="2.114457 -1.354123 0.211477 -1.354123 10.536628 -1.601367 0.211477 -1.601367 1.948032" RADIUS="5.7" />
+            <Marker NAME="LKNI" SEGMENT="LeftUpLeg" RGB="255 255 0" POSITION="LKNI_L_Femur_X LKNI_L_Femur_Y LKNI_L_Femur_Z" COVARIANCE="1.519905 2.358997 -0.337400 2.358997 7.367094 -0.494932 -0.337400 -0.494932 2.686829" RADIUS="4.4" />
+            <Marker NAME="LSHN" SEGMENT="LeftLeg" RGB="255 255 0" POSITION="LSHN_L_Tibia_X LSHN_L_Tibia_Y LSHN_L_Tibia_Z" COVARIANCE="9.143681 -16.258656 -0.211685 -16.258656 42.838920 -2.720500 -0.211685 -2.720500 4.010380" RADIUS="5.9" />
+            <Marker NAME="LANK" SEGMENT="LeftLeg" RGB="255 255 0" POSITION="LANK_L_Tibia_X LANK_L_Tibia_Y LANK_L_Tibia_Z" COVARIANCE="5.106631 0.503427 -0.141231 0.503427 5.292889 -1.084512 -0.141231 -1.084512 1.033036" RADIUS="4.8" />
+            <Marker NAME="LHEL" SEGMENT="LeftFoot" RGB="255 255 0" POSITION="LHEL_L_Foot_X LHEL_L_Foot_Y LHEL_L_Foot_Z" COVARIANCE="1.107614 0.125443 -0.241902 0.125443 2.910756 -1.817824 -0.241902 -1.817824 1.553581" RADIUS="3.4" />
+            <Marker NAME="LMT5" SEGMENT="LeftFoot" RGB="255 255 0" POSITION="LMT5_L_Foot_X LMT5_L_Foot_Y LMT5_L_Foot_Z" COVARIANCE="1.797212 -0.130290 0.531785 -0.130290 0.724067 -0.743296 0.531785 -0.743296 1.685377" RADIUS="3.8" />
+            <Marker NAME="LMT1" SEGMENT="LeftFoot" RGB="255 255 0" POSITION="LMT1_L_Foot_X LMT1_L_Foot_Y LMT1_L_Foot_Z" COVARIANCE="1.742597 0.300257 -0.495014 0.300257 0.270117 -0.067132 -0.495014 -0.067132 0.567618" RADIUS="2.9" />
+            <Marker NAME="LTOE" SEGMENT="LeftToeBase" RGB="255 255 0" POSITION="LTOE_L_Toe_X LTOE_L_Toe_Y LTOE_L_Toe_Z" COVARIANCE="0.870709 -0.073855 -0.148024 -0.073855 0.240257 0.401439 -0.148024 0.401439 0.692405" RADIUS="2.4" />
+            <Marker NAME="RHIP" SEGMENT="RightUpLeg" RGB="0 255 0" POSITION="RHIP_R_Femur_X RHIP_R_Femur_Y RHIP_R_Femur_Z" COVARIANCE="6.062127 1.836823 3.770507 1.836823 5.814418 3.338166 3.770507 3.338166 7.037518" RADIUS="5.0" />
+            <Marker NAME="RKNE" SEGMENT="RightUpLeg" RGB="0 255 0" POSITION="RKNE_R_Femur_X RKNE_R_Femur_Y RKNE_R_Femur_Z" COVARIANCE="2.333981 -0.543053 1.362410 -0.543053 2.494079 -0.841447 1.362410 -0.841447 2.063228" RADIUS="5.6" />
+            <Marker NAME="RKNI" SEGMENT="RightUpLeg" RGB="0 255 0" POSITION="RKNI_R_Femur_X RKNI_R_Femur_Y RKNI_R_Femur_Z" COVARIANCE="2.480637 -2.732147 0.939727 -2.732147 10.546971 -0.959837 0.939727 -0.959837 1.902668" RADIUS="4.4" />
+            <Marker NAME="RSHN" SEGMENT="RightLeg" RGB="0 255 0" POSITION="RSHN_R_Tibia_X RSHN_R_Tibia_Y RSHN_R_Tibia_Z" COVARIANCE="3.712854 -0.383401 -0.651542 -0.383401 1.704767 -0.830856 -0.651542 -0.830856 2.350012" RADIUS="5.9" />
+            <Marker NAME="RANK" SEGMENT="RightLeg" RGB="0 255 0" POSITION="RANK_R_Tibia_X RANK_R_Tibia_Y RANK_R_Tibia_Z" COVARIANCE="2.091107 0.799532 -0.837917 0.799532 1.731629 -0.273288 -0.837917 -0.273288 0.542469" RADIUS="6.4" />
+            <Marker NAME="RHEL" SEGMENT="RightFoot" RGB="0 255 0" POSITION="RHEL_R_Foot_X RHEL_R_Foot_Y RHEL_R_Foot_Z" COVARIANCE="0.579363 -0.220735 0.506783 -0.220735 1.409691 -0.447576 0.506783 -0.447576 1.455147" RADIUS="2.6" />
+            <Marker NAME="RMT5" SEGMENT="RightFoot" RGB="0 255 0" POSITION="RMT5_R_Foot_X RMT5_R_Foot_Y RMT5_R_Foot_Z" COVARIANCE="4.753502 -0.176276 -2.642697 -0.176276 0.222642 -0.015562 -2.642697 -0.015562 2.277537" RADIUS="3.8" />
+            <Marker NAME="RMT1" SEGMENT="RightFoot" RGB="0 255 0" POSITION="RMT1_R_Foot_X RMT1_R_Foot_Y RMT1_R_Foot_Z" COVARIANCE="1.993538 0.254651 0.091172 0.254651 0.118983 -0.097947 0.091172 -0.097947 0.387967" RADIUS="2.1" />
+            <Marker NAME="RTOE" SEGMENT="RightToeBase" RGB="0 255 0" POSITION="RTOE_R_Toe_X RTOE_R_Toe_Y RTOE_R_Toe_Z" COVARIANCE="1.651594 0.000001 0.033250 0.000001 0.203010 0.298842 0.033250 0.298842 0.451113" RADIUS="2.5" />
+        </Markers>
+        <Sticks>
+            <Stick MARKER1="LFWT" MARKER2="LBWT" RGB="255 255 0" />
+            <Stick MARKER1="LFWT" MARKER2="RFWT" RGB="150 150 0" />
+            <Stick MARKER1="LBWT" MARKER2="RBWT" RGB="150 150 0" />
+            <Stick MARKER1="LBWT" MARKER2="T10" RGB="150 150 0" />
+            <Stick MARKER1="RFWT" MARKER2="RBWT" RGB="0 255 0" />
+            <Stick MARKER1="RBWT" MARKER2="T10" RGB="150 150 0" />
+            <Stick MARKER1="RMWT" MARKER2="LMWT" RGB="150 150 0" />
+            <Stick MARKER1="LKNE" MARKER2="LFWT" RGB="255 255 0" />
+            <Stick MARKER1="LKNE" MARKER2="LBWT" RGB="255 255 0" />
+            <Stick MARKER1="LKNE" MARKER2="LKNI" RGB="255 255 0" />
+            <Stick MARKER1="LKNI" MARKER2="LSHN" RGB="255 255 0" />
+            <Stick MARKER1="LHIP" MARKER2="LFWT" RGB="255 255 0" />
+            <Stick MARKER1="LANK" MARKER2="LKNE" RGB="255 255 0" />
+            <Stick MARKER1="LANK" MARKER2="LHEL" RGB="255 255 0" />
+            <Stick MARKER1="LANK" MARKER2="LMT5" RGB="255 255 0" />
+            <Stick MARKER1="LANK" MARKER2="LTOE" RGB="255 255 0" />
+            <Stick MARKER1="LMT5" MARKER2="LMT1" RGB="255 255 0" />
+            <Stick MARKER1="LMT5" MARKER2="LTOE" RGB="255 255 0" />
+            <Stick MARKER1="LMT1" MARKER2="LTOE" RGB="255 255 0" />
+            <Stick MARKER1="RKNE" MARKER2="RFWT" RGB="0 255 0" />
+            <Stick MARKER1="RKNE" MARKER2="RBWT" RGB="0 255 0" />
+            <Stick MARKER1="RKNE" MARKER2="RKNI" RGB="0 255 0" />
+            <Stick MARKER1="RKNI" MARKER2="RSHN" RGB="0 255 0" />
+            <Stick MARKER1="RHIP" MARKER2="RFWT" RGB="0 255 0" />
+            <Stick MARKER1="RANK" MARKER2="RKNE" RGB="0 255 0" />
+            <Stick MARKER1="RANK" MARKER2="RHEL" RGB="0 255 0" />
+            <Stick MARKER1="RANK" MARKER2="RMT5" RGB="0 255 0" />
+            <Stick MARKER1="RANK" MARKER2="RTOE" RGB="0 255 0" />
+            <Stick MARKER1="RMT5" MARKER2="RMT1" RGB="0 255 0" />
+            <Stick MARKER1="RMT5" MARKER2="RTOE" RGB="0 255 0" />
+            <Stick MARKER1="RMT1" MARKER2="RTOE" RGB="0 255 0" />
+            <Stick MARKER1="STRN" MARKER2="T10" RGB="150 150 0" />
+            <Stick MARKER1="C7" MARKER2="T10" RGB="150 150 0" />
+            <Stick MARKER1="C7" MARKER2="LBHD" RGB="150 150 0" />
+            <Stick MARKER1="C7" MARKER2="RBHD" RGB="150 150 0" />
+            <Stick MARKER1="LFHD" MARKER2="LBHD" RGB="255 255 0" />
+            <Stick MARKER1="LFHD" MARKER2="RFHD" RGB="150 150 0" />
+            <Stick MARKER1="LFHD" MARKER2="ARIEL" RGB="150 150 0" />
+            <Stick MARKER1="LBHD" MARKER2="RBHD" RGB="150 150 0" />
+            <Stick MARKER1="LBHD" MARKER2="ARIEL" RGB="150 150 0" />
+            <Stick MARKER1="RFHD" MARKER2="RBHD" RGB="0 255 0" />
+            <Stick MARKER1="RFHD" MARKER2="ARIEL" RGB="150 150 0" />
+            <Stick MARKER1="RBHD" MARKER2="ARIEL" RGB="150 150 0" />
+            <Stick MARKER1="LFSH" MARKER2="CLAV" RGB="255 255 0" />
+            <Stick MARKER1="LFSH" MARKER2="STRN" RGB="255 255 0" />
+            <Stick MARKER1="LFSH" MARKER2="LBSH" RGB="255 255 0" />
+            <Stick MARKER1="LFSH" MARKER2="LELB" RGB="255 255 0" />
+            <Stick MARKER1="LFSH" MARKER2="LUPA" RGB="255 255 0" />
+            <Stick MARKER1="LBSH" MARKER2="C7" RGB="255 255 0" />
+            <Stick MARKER1="LBSH" MARKER2="T10" RGB="255 255 0" />
+            <Stick MARKER1="LBSH" MARKER2="LELB" RGB="255 255 0" />
+            <Stick MARKER1="LELB" MARKER2="LIEL" RGB="255 255 0" />
+            <Stick MARKER1="LELB" MARKER2="LOWR" RGB="255 255 0" />
+            <Stick MARKER1="LOWR" MARKER2="LIWR" RGB="255 255 0" />
+            <Stick MARKER1="LOWR" MARKER2="LOHAND" RGB="255 255 0" />
+            <Stick MARKER1="LIWR" MARKER2="LWRE" RGB="255 255 0" />
+            <Stick MARKER1="LOHAND" MARKER2="LIHAND" RGB="255 255 0" />
+            <Stick MARKER1="LIHAND" MARKER2="LIWR" RGB="255 255 0" />
+            <Stick MARKER1="RFSH" MARKER2="CLAV" RGB="0 255 0" />
+            <Stick MARKER1="RFSH" MARKER2="STRN" RGB="0 255 0" />
+            <Stick MARKER1="RFSH" MARKER2="RBSH" RGB="0 255 0" />
+            <Stick MARKER1="RFSH" MARKER2="RUPA" RGB="0 255 0" />
+            <Stick MARKER1="RBSH" MARKER2="C7" RGB="0 255 0" />
+            <Stick MARKER1="RBSH" MARKER2="T10" RGB="0 255 0" />
+            <Stick MARKER1="RBSH" MARKER2="RELB" RGB="0 255 0" />
+            <Stick MARKER1="RELB" MARKER2="RIEL" RGB="0 255 0" />
+            <Stick MARKER1="RELB" MARKER2="ROWR" RGB="0 255 0" />
+            <Stick MARKER1="RELB" MARKER2="RFSH" RGB="0 255 0" />
+            <Stick MARKER1="ROWR" MARKER2="RIWR" RGB="0 255 0" />
+            <Stick MARKER1="ROWR" MARKER2="ROHAND" RGB="0 255 0" />
+            <Stick MARKER1="RIWR" MARKER2="RIHAND" RGB="0 255 0" />
+            <Stick MARKER1="RWRE" MARKER2="RIWR" RGB="0 255 0" />
+            <Stick MARKER1="ROHAND" MARKER2="RIHAND" RGB="0 255 0" />
+        </Sticks>
+    </MarkerSet>
+</KinematicModel>

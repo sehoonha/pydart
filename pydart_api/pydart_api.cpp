@@ -327,7 +327,8 @@ void renderSkeleton(int wid, int skid) {
     using namespace dart::dynamics;
     dart::renderer::RenderInterface* ri = Manager::getRI();
     SkeletonPtr skel = Manager::skeleton(wid, skid);
-    skel->drawMarkers(ri);
+    // skel->drawMarkers(ri);
+    skel->draw(ri);
 }
 
 void renderSkeletonWithColor(int wid, int skid, double r, double g, double b, double a) {
