@@ -203,7 +203,7 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     SkeletonPtr skel = NULL;
     if (ext == ".sdf") {
         cout << " [pydart_api] parse as SDF (ext: " << ext << ")" << endl;
-        skel = dart::utils::SoftSdfParser::readSkeleton(path);
+        skel = dart::utils::SdfParser::readSkeleton(path);
     } else if (ext == "urdf") {
         cout << " [pydart_api] parse as URDF (ext: " << ext << ")" << endl;
         dart::utils::DartLoader urdfLoader;
@@ -685,20 +685,23 @@ void getBodyNodeShapeBoundingBoxDim(int wid, int skid, int bid, double outv3[3])
     dart::dynamics::BodyNode* bn = skel->getBodyNode(bid);
     // cout << "bodynode " << bid << " is fetched" << endl;
     // Assume single shape for now
-    const int num_shapes = bn->getNumCollisionShapes();
+    // const int num_shapes = bn->getNumCollisionShapes();
+    const int num_shapes = bn->getNumShapeNodes();
     if (num_shapes == 0) {
         for (int i = 0; i < 3; i++) {
             outv3[i] = 0.0;
         }
     } else {
-        dart::dynamics::ShapePtr shape = bn->getCollisionShape(0);
+        dart::dynamics::ShapeNodePtr shapenode = bn->getShapeNode(0);
+        dart::dynamics::ShapePtr shape = shapenode->getShape();
         Eigen::Vector3d scale(1, 1, 1);
         dart::dynamics::MeshShape* mshape = dynamic_cast<dart::dynamics::MeshShape*>(shape.get());
         if (mshape) {
             scale = mshape->getScale();
         }
         // cout << "Scale:" << scale << endl;
-        const Eigen::Vector3d& x = shape->getBoundingBoxDim();
+        const dart::math::BoundingBox& bbox = shape->getBoundingBox();
+        const Eigen::Vector3d& x = bbox.getMax() - bbox.getMin();
         for (int i = 0; i < x.size(); i++) {
             outv3[i] = x(i) * scale(i);
         }
