@@ -19,6 +19,12 @@ def create_world(step, skel_path=None):
 
 
 class World(object):
+    NUM_COLLISION_DETECTOR_TYPES = 4
+    DART_COLLISION_DETECTOR, \
+        FCL_COLLISION_DETECTOR, \
+        FCL_MESH_COLLISION_DETECTOR, \
+        BULLET_COLLISION_DETECTOR = range(NUM_COLLISION_DETECTOR_TYPES)
+
     def __init__(self, step, skel_path=None):
         self.skels = []
         self.control_skel = None
@@ -85,6 +91,15 @@ class World(object):
     @property
     def nframes(self):
         return self.num_frames()
+
+    def set_collision_detector(self, detector_type):
+        papi.setCollisionDetector(self.id, detector_type)
+
+    def print_collision_detector(self):
+        papi.printCollisionDetector(self.id)
+
+    def check_collision(self, checkAll=1):
+        papi.checkCollisionWorld(self.id, checkAll)
 
     def generated_contacts(self):
         n = papi.getWorldNumContacts(self.id)

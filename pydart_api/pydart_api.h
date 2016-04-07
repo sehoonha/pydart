@@ -12,7 +12,7 @@
 void init();
 void destroy();
 
-// Manipulation Functions
+// World Manipulation Functions
 int createWorld(double timestep);
 int createWorldFromSkel(const char* const path);
 void destroyWorld(int wid);
@@ -21,9 +21,14 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff = 1.0);
 int numSkeletons(int wid);
 void setSkeletonJointDamping(int wid, int skid, double damping);
 
+// Collision Handler Functions
+void setCollisionDetector(int wid, int detector_type);
+void printCollisionDetector(int wid);
+
 // Simulation Functions
 void resetWorld(int wid);
 void stepWorld(int wid);
+void checkCollisionWorld(int wid, int _checkAllCollisions);
 void render(int wid);
 void renderSkeleton(int wid, int skid);
 void renderSkeletonWithColor(int wid, int skid, double r, double g, double b, double a);

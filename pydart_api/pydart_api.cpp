@@ -231,24 +231,25 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
     dart::collision::CollisionDetector* detector = solver->getCollisionDetector();
     dart::collision::CollisionDetector* detector2 = new dart::collision::FCLMeshCollisionDetector();
+    // dart::collision::CollisionDetector* detector2 = new dart::collision::DARTCollisionDetector();
     solver->setCollisionDetector(detector2);
     detector = detector2;
 
-    if (dynamic_cast<dart::collision::DARTCollisionDetector*>(detector)) {
-        std::cout << " [pydart_api] DARTCollisionDetector!" << std::endl;
-    } else if (dynamic_cast<dart::collision::FCLCollisionDetector*>(detector)) {
-        std::cout << " [pydart_api] FCLCollisionDetector!" << std::endl;
-    } else if (dynamic_cast<dart::collision::FCLMeshCollisionDetector*>(detector)) {
-        std::cout << " [pydart_api] FCLMeshCollisionDetector!" << std::endl;
-    } else if (dynamic_cast<dart::collision::BulletCollisionDetector*>(detector)) {
-        std::cout << " [pydart_api] BulletCollisionDetector!" << std::endl;
-    } else {
-        std::cout << " [pydart_api] Unknown CollisionDetector... (maybe bullet)" << std::endl;
-    }
+    // if (dynamic_cast<dart::collision::DARTCollisionDetector*>(detector)) {
+    //     std::cout << " [pydart_api] DARTCollisionDetector!" << std::endl;
+    // } else if (dynamic_cast<dart::collision::FCLCollisionDetector*>(detector)) {
+    //     std::cout << " [pydart_api] FCLCollisionDetector!" << std::endl;
+    // } else if (dynamic_cast<dart::collision::FCLMeshCollisionDetector*>(detector)) {
+    //     std::cout << " [pydart_api] FCLMeshCollisionDetector!" << std::endl;
+    // } else if (dynamic_cast<dart::collision::BulletCollisionDetector*>(detector)) {
+    //     std::cout << " [pydart_api] BulletCollisionDetector!" << std::endl;
+    // } else {
+    //     std::cout << " [pydart_api] Unknown CollisionDetector... (maybe bullet)" << std::endl;
+    // }
 
     dart::constraint::ContactConstraint::setErrorReductionParameter(0);
-    std::cout << " [pydart_api] Zero ERP!!!" << std::endl;
-    std::cout << " [pydart_api] ERP = " << dart::constraint::ContactConstraint::getErrorReductionParameter() << std::endl;
+    // std::cout << " [pydart_api] Zero ERP!!!" << std::endl;
+    // std::cout << " [pydart_api] ERP = " << dart::constraint::ContactConstraint::getErrorReductionParameter() << std::endl;
     
     return id;
 }
@@ -273,6 +274,60 @@ void setSkeletonJointDamping(int wid, int skid, double damping) {
     }
 
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Simulation Functions
+void setCollisionDetector(int wid, int detector_type) {
+    using namespace dart::simulation;
+    WorldPtr world = Manager::world(wid);
+    dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
+    dart::collision::CollisionDetector* detector = NULL;
+    std::cout << " [pydart_api] detector_type = " << detector_type << std::endl;
+    if (detector_type == 0) {
+        std::cout << " [pydart_api] create DARTCollisionDetector" << std::endl;
+        detector = new dart::collision::DARTCollisionDetector();
+    } else if (detector_type == 1) {
+        std::cout << " [pydart_api] create FCLCollisionDetector" << std::endl;
+        detector = new dart::collision::FCLCollisionDetector();
+    } else if (detector_type == 2) {
+        std::cout << " [pydart_api] create FCLMeshCollisionDetector" << std::endl;
+        detector = new dart::collision::FCLMeshCollisionDetector();
+    } else if (detector_type == 3) {
+        std::cout << " [pydart_api] create BulletCollisionDetector" << std::endl;
+        detector = new dart::collision::BulletCollisionDetector();
+    } else {
+        std::cerr << " [pydart_api] unknown detector_type" << std::endl;
+    }
+
+    if (detector != NULL) {
+        solver->setCollisionDetector(detector);
+    }
+    dart::constraint::ContactConstraint::setErrorReductionParameter(0);
+    // std::cout << " [pydart_api] Zero ERP!!!" << std::endl;
+}
+
+void printCollisionDetector(int wid) {
+    using namespace dart::simulation;
+    WorldPtr world = Manager::world(wid);
+    // Debug
+    dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
+    dart::collision::CollisionDetector* detector = solver->getCollisionDetector();
+
+    if (dynamic_cast<dart::collision::DARTCollisionDetector*>(detector)) {
+        std::cout << " [pydart_api] DARTCollisionDetector!" << std::endl;
+    } else if (dynamic_cast<dart::collision::FCLCollisionDetector*>(detector)) {
+        std::cout << " [pydart_api] FCLCollisionDetector!" << std::endl;
+    } else if (dynamic_cast<dart::collision::FCLMeshCollisionDetector*>(detector)) {
+        std::cout << " [pydart_api] FCLMeshCollisionDetector!" << std::endl;
+    } else if (dynamic_cast<dart::collision::BulletCollisionDetector*>(detector)) {
+        std::cout << " [pydart_api] BulletCollisionDetector!" << std::endl;
+    } else {
+        std::cout << " [pydart_api] Unknown CollisionDetector... (maybe bullet)" << std::endl;
+    }
+
+    std::cout << " [pydart_api] ERP = " << dart::constraint::ContactConstraint::getErrorReductionParameter() << std::endl;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Simulation Functions
 void resetWorld(int wid) {
@@ -311,6 +366,17 @@ void stepWorld(int wid) {
     WorldPtr world = Manager::world(wid);
     world->step();
     world->bake();
+}
+
+void checkCollisionWorld(int wid, int _checkAllCollisions) {
+    using namespace dart::simulation;
+    WorldPtr world = Manager::world(wid);
+    bool bCheckAll = (_checkAllCollisions != 0);
+    world->checkCollision(bCheckAll);
+    dart::collision::CollisionDetector* cd =
+        world->getConstraintSolver()->getCollisionDetector();
+    // std::cout << "# skels = " <<  world->getNumSkeletons() << std::endl;
+    // std::cout << "# collisions = " <<  cd->getNumContacts() << std::endl;
 }
 
 void render(int wid) {
