@@ -56,6 +56,11 @@ class Body(object):
         x_ = np.append(x, [1.0])
         return (self.T.dot(x_))[:3]
 
+    def to_local(self, x):
+        x_ = np.append(x, [1.0])
+        Tinv = np.linalg.inv(self.T)
+        return (Tinv.dot(x_))[:3]
+
     @property
     def C(self):
         return self.world_com()

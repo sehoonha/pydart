@@ -174,15 +174,15 @@
     <Skeleton DENSITY="2000.0">
         <Segment NAME="Hips" POSITION="0 0 0" ORIENTATION="-0 -0 -0"
                  BOUNDS="-118.486 -14.8107 0 118.486 14.8107 14.8107"
-                 MASS="6.0" RGB="0 128 0">
+                 MASS="8.40" RGB="0 128 0">
             <JointFree MEAN="0.483684 0.037075 0.005247  -1.678164 810.059863 42.806656 " COVARIANCE="0.022235 0.001528 0.001906 -0.922435 0.226601 -4.716995 0.001528 0.012798 0.000629 -0.172660 -2.168838 -0.006213 0.001906 0.000629 0.033593 -4.419553 0.241713 1.661237 -0.922435 -0.172660 -4.419553 100000000.000000 299.369664 -242.875983 0.226601 -2.168838 0.241713 299.369664 100000000.000000 188.393984 -4.716995 -0.006213 1.661237 -242.875983 188.393984 100000000.000000 " />
-            <Segment NAME="LeftUpLeg" POSITION="HipWidth 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.93315e-031 0 0 1.93315e-031 1.54652e-030 1.93315e-031" RGB="0 128 255">
+            <Segment NAME="LeftUpLeg" POSITION="HipWidth 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.93315e-031 0 0 1.93315e-031 1.54652e-030 1.93315e-031" MASS="10.65" RGB="0 128 255">
                 <JointBall MEAN="-0.548400 0.229368 0.067152 " COVARIANCE="0.083662 -0.022434 -0.000853 -0.022434 0.012307 0.004043 -0.000853 0.004043 0.020012 " />
-                <Segment NAME="LeftLeg" POSITION="0 -UpperLegLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.90647e-031 0 0 1.90647e-031 1.52518e-030 1.90647e-031" RGB="0 128 255">
+                <Segment NAME="LeftLeg" POSITION="0 -UpperLegLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.90647e-031 0 0 1.90647e-031 1.52518e-030 1.90647e-031" MASS="3.26" RGB="0 128 255">
                     <JointHinge AXIS="1 0 0" MEAN="0.281732 " COVARIANCE="0.087015 " />
-                    <Segment NAME="LeftFoot" POSITION="0 -LowerLegLength 0" ORIENTATION="0.261799 0 -0" BOUNDS="-17.5819 -17.5819 0 17.5819 1.42109e-014 140.655" RGB="0 128 255">
+                    <Segment NAME="LeftFoot" POSITION="0 -LowerLegLength 0" ORIENTATION="0.261799 0 -0" BOUNDS="-17.5819 -17.5819 0 17.5819 1.42109e-014 140.655" MASS="1.27" RGB="0 128 255">
                         <JointBall MEAN="-0.219778 -0.162004 -0.213331 " COVARIANCE="0.023244 -0.002501 -0.003002 -0.002501 0.004453 0.000770 -0.003002 0.000770 0.002096 " />
-                        <Segment NAME="LeftToeBase" POSITION="0 0 FootLength" ORIENTATION="-0.261799 -0 0" BOUNDS="-9.375 -9.375 0 9.375 1.42109e-014 75" RGB="0 128 255">
+                        <Segment NAME="LeftToeBase" POSITION="0 0 FootLength" ORIENTATION="-0.261799 -0 0" BOUNDS="-9.375 -9.375 0 9.375 1.42109e-014 75" MASS="0.10" RGB="0 128 255">
                           <Shape TYPE="Box" />
                           <!-- <Shape TYPE="Box" SIZE="0.01 0.4 0.4"/> -->
                             <JointHinge AXIS="1 0 0" MEAN="-0.433328 " COVARIANCE="0.004724 " />
@@ -194,13 +194,13 @@
                     </Segment>
                 </Segment>
             </Segment>
-            <Segment NAME="RightUpLeg" POSITION="-HipWidth 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.93315e-031 0 0 1.93315e-031 1.54652e-030 1.93315e-031" RGB="0 128 255">
+            <Segment NAME="RightUpLeg" POSITION="-HipWidth 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.93315e-031 0 0 1.93315e-031 1.54652e-030 1.93315e-031" MASS="10.65" RGB="0 128 255">
                 <JointBall MEAN="-0.560082 -0.300897 -0.020910 " COVARIANCE="0.074244 0.022697 0.002272 0.022697 0.017819 0.003411 0.002272 0.003411 0.017084 " />
-                <Segment NAME="RightLeg" POSITION="0 -UpperLegLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.90647e-031 0 0 1.90647e-031 1.52518e-030 1.90647e-031" RGB="0 128 255">
+                <Segment NAME="RightLeg" POSITION="0 -UpperLegLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-1.90647e-031 0 0 1.90647e-031 1.52518e-030 1.90647e-031" MASS="3.26" RGB="0 128 255">
                     <JointHinge AXIS="1 0 0" MEAN="0.278665 " COVARIANCE="0.082429 " />
-                    <Segment NAME="RightFoot" POSITION="0 -LowerLegLength 0" ORIENTATION="0.261799 0 -0" BOUNDS="-17.5819 -17.5819 0 17.5819 1.42109e-014 140.655" RGB="0 128 255">
+                    <Segment NAME="RightFoot" POSITION="0 -LowerLegLength 0" ORIENTATION="0.261799 0 -0" BOUNDS="-17.5819 -17.5819 0 17.5819 1.42109e-014 140.655" MASS="1.27" RGB="0 128 255">
                         <JointBall MEAN="-0.304820 0.119429 0.363739 " COVARIANCE="0.021602 0.001840 0.000009 0.001840 0.014025 0.002625 0.000009 0.002625 0.005213 " />
-                        <Segment NAME="RightToeBase" POSITION="0 0 FootLength" ORIENTATION="-0.261799 -0 0" BOUNDS="-9.375 -9.375 0 9.375 1.42109e-014 75" RGB="0 128 255">
+                        <Segment NAME="RightToeBase" POSITION="0 0 FootLength" ORIENTATION="-0.261799 -0 0" BOUNDS="-9.375 -9.375 0 9.375 1.42109e-014 75" MASS="0.10" RGB="0 128 255">
                           <Shape TYPE="Box" />
                             <JointHinge AXIS="1 0 0" MEAN="-0.596651 " COVARIANCE="0.008090 " />
                             <Segment NAME="R_Toe_End" POSITION="0 0 75" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255">
@@ -212,13 +212,13 @@
                 </Segment>
             </Segment>
             <Segment NAME="Spine" POSITION="0 1 0" ORIENTATION="-0 -0 -0"
-                     BOUNDS="-25.3789 0 0 25.3789 203.031 25.3789" MASS="6.0" RGB="0 128 255">
+                     BOUNDS="-25.3789 0 0 25.3789 203.031 25.3789" MASS="12.28" RGB="0 128 255">
                 <JointBall MEAN="-0.687162 -0.075866 0.107371 " COVARIANCE="0.009213 -0.005238 -0.006854 -0.005238 0.020037 0.011582 -0.006854 0.011582 0.019303 " />
-                <Segment NAME="Spine1" POSITION="0 SpineBoneLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-37.2216 0 0 37.2216 297.773 37.2216" RGB="0 128 255">
+                <Segment NAME="Spine1" POSITION="0 SpineBoneLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-37.2216 0 0 37.2216 297.773 37.2216" MASS="9.50" RGB="0 128 255">
                     <JointBall MEAN="0.228176 0.129636 -0.112932 " COVARIANCE="0.088481 0.003144 0.020352 0.003144 0.030938 0.042655 0.020352 0.042655 0.087667 " />
-                    <Segment NAME="Neck" POSITION="0 ChestLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-23.8322 0 0 23.8322 190.658 23.8322" RGB="0 128 255">
+                    <Segment NAME="Neck" POSITION="0 ChestLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-23.8322 0 0 23.8322 190.658 23.8322" MASS="0.50" RGB="0 128 255">
                         <JointBall MEAN="0.185125 0.002410 -0.053139 " COVARIANCE="0.010166 0.008333 0.002366 0.008333 0.096189 0.014461 0.002366 0.014461 0.012105 " />
-                        <Segment NAME="Head" POSITION="0 HeadBoneLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-14.375 0 0 14.375 115 14.375" RGB="0 128 255">
+                        <Segment NAME="Head" POSITION="0 HeadBoneLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-14.375 0 0 14.375 115 14.375" MASS="5.22" RGB="0 128 255">
                             <JointBall MEAN="-0.161637 -0.235864 0.302729 " COVARIANCE="0.099191 -0.017499 0.004461 -0.017499 0.073953 -0.010731 0.004461 -0.010731 0.010987 " />
                             <Segment NAME="Head_End" POSITION="0 115 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255">
                               <Shape TYPE="Ellipsoid" SIZE="0.14 0.14 0.14" />
@@ -226,44 +226,44 @@
                             </Segment>
                         </Segment>
                     </Segment>
-                    <Segment NAME="LeftShoulder" POSITION="0 ChestLength 0" ORIENTATION="0 -0 -1.5708" BOUNDS="-26.7685 0 0 26.7685 214.148 26.7685" RGB="0 128 255">
+                    <Segment NAME="LeftShoulder" POSITION="0 ChestLength 0" ORIENTATION="0 -0 -1.5708" BOUNDS="-26.7685 0 0 26.7685 214.148 26.7685" MASS="1.30" RGB="0 128 255">
                         <JointBall MEAN="0.164318 0.220011 0.234291 " COVARIANCE="0.018771 -0.006522 -0.004893 -0.006522 0.026165 -0.016439 -0.004893 -0.016439 0.021782 " />
-                        <Segment NAME="LeftArm" POSITION="0 ClavLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-35.5919 0 0 35.5919 284.735 35.5919" RGB="0 128 255">
+                        <Segment NAME="LeftArm" POSITION="0 ClavLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-35.5919 0 0 35.5919 284.735 35.5919" MASS="2.04" RGB="0 128 255">
                             <JointBall MEAN="0.621664 -0.397724 -1.039302 " COVARIANCE="0.136178 -0.017106 0.051414 -0.017106 0.057300 -0.073353 0.051414 -0.073353 0.122846 " />
-                            <Segment NAME="LeftForeArm" POSITION="0 UpperArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-31.1703 0 0 31.1703 249.362 31.1703" RGB="0 128 255">
+                            <Segment NAME="LeftForeArm" POSITION="0 UpperArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-31.1703 0 0 31.1703 249.362 31.1703" MASS="1.22" RGB="0 128 255">
                                 <JointHinge AXIS="1 0 0" MEAN="0.531340 " COVARIANCE="0.014530 " />
                                 <Segment NAME="LeftHand" POSITION="0 LowerArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 0 0 12.5 100 12.5" RGB="0 128 255">
                                     <JointBall MEAN="-0.302088 -0.177139 0.270615 " COVARIANCE="0.004384 -0.003955 0.005822 -0.003955 0.008299 -0.007233 0.005822 -0.007233 0.010069 " />
-                                    <Segment NAME="LeftHandThumb" POSITION="0 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 -12.5 0 12.5 2.13163e-014 100" RGB="0 128 255">
-                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
+                                    <!-- <Segment NAME="LeftHandThumb" POSITION="0 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 -12.5 0 12.5 2.13163e-014 100" RGB="0 128 255"> -->
+                                        <!-- <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " /> -->
                                         <!-- <Segment NAME="L_Thumb_End" POSITION="0 0 100" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255"> -->
                                         <!--     <JointDummy /> -->
                                         <!-- </Segment> -->
-                                    </Segment>
-                                    <Segment NAME="L_Wrist_End" POSITION="0 100 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255">
-                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
-                                    </Segment>
+                                    <!-- </Segment> -->
+                                    <!-- <Segment NAME="L_Wrist_End" POSITION="0 100 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255"> -->
+                                    <!--     <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " /> -->
+                                    <!-- </Segment> -->
                                 </Segment>
                             </Segment>
                         </Segment>
                     </Segment>
-                    <Segment NAME="RightShoulder" POSITION="0 ChestLength 0" ORIENTATION="-0 0 1.5708" BOUNDS="-26.7685 0 0 26.7685 214.148 26.7685" RGB="0 128 255">
+                    <Segment NAME="RightShoulder" POSITION="0 ChestLength 0" ORIENTATION="-0 0 1.5708" BOUNDS="-26.7685 0 0 26.7685 214.148 26.7685" MASS="1.30" RGB="0 128 255">
                         <JointBall MEAN="0.062429 0.338146 -0.062372 " COVARIANCE="0.013842 0.010610 0.001719 0.010610 0.012050 -0.000877 0.001719 -0.000877 0.022562 " />
-                        <Segment NAME="RightArm" POSITION="0 ClavLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-35.5919 0 0 35.5919 284.735 35.5919" RGB="0 128 255">
+                        <Segment NAME="RightArm" POSITION="0 ClavLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-35.5919 0 0 35.5919 284.735 35.5919" MASS="2.04" RGB="0 128 255">
                             <JointBall MEAN="0.324615 -0.109968 0.993322 " COVARIANCE="0.125049 0.033131 -0.040392 0.033131 0.079255 -0.079609 -0.040392 -0.079609 0.094411 " />
-                            <Segment NAME="RightForeArm" POSITION="0 UpperArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-31.1703 0 0 31.1703 249.362 31.1703" RGB="0 128 255">
+                            <Segment NAME="RightForeArm" POSITION="0 UpperArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-31.1703 0 0 31.1703 249.362 31.1703" MASS="1.22" RGB="0 128 255">
                                 <JointHinge AXIS="1 0 0" MEAN="0.485311 " COVARIANCE="0.024343 " />
                                 <Segment NAME="RightHand" POSITION="0 LowerArmLength 0" ORIENTATION="-0 -0 -0" BOUNDS="-17.125 0 0 17.125 137 17.125" RGB="0 128 255">
                                     <JointBall MEAN="-0.002324 -0.096118 -0.087565 " COVARIANCE="0.004145 0.001047 -0.010637 0.001047 0.005682 -0.010214 -0.010637 -0.010214 0.044010 " />
-                                    <Segment NAME="RightHandThumb" POSITION="0 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 -12.5 0 12.5 2.13163e-014 100" RGB="0 128 255">
-                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
+                                    <!-- <Segment NAME="RightHandThumb" POSITION="0 0 0" ORIENTATION="-0 -0 -0" BOUNDS="-12.5 -12.5 0 12.5 2.13163e-014 100" RGB="0 128 255"> -->
+                                    <!--     <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " /> -->
                                         <!-- <Segment NAME="R_Thumb_End" POSITION="0 0 100" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255"> -->
                                         <!--     <JointDummy /> -->
                                         <!-- </Segment> -->
-                                    </Segment>
-                                    <Segment NAME="R_Wrist_End" POSITION="0 137 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255">
-                                        <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " />
-                                    </Segment>
+                                    <!-- </Segment> -->
+                                    <!-- <Segment NAME="R_Wrist_End" POSITION="0 137 0" ORIENTATION="-0 -0 -0" BOUNDS="1.79769e+308 1.79769e+308 1.79769e+308 -1.79769e+308 -1.79769e+308 -1.79769e+308" RGB="0 128 255"> -->
+                                    <!--     <JointBall MEAN="-0.000000 -0.000000 -0.000000 " COVARIANCE="0.000001 0.000000 0.000000 0.000000 0.000001 0.000000 0.000000 0.000000 0.000001 " /> -->
+                                    <!-- </Segment> -->
                                 </Segment>
                             </Segment>
                         </Segment>

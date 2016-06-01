@@ -42,8 +42,8 @@ for i, m in enumerate(skel.markers):
 print('skeleton position OK')
 
 # c3d_filename = '/c3d/Control_up5_new_vsk.c3d'
-# c3d_filename = '/stair/01 Control Pre/Control_Pre_06.c3d'
-c3d_filename = '/stair/02 Assistive/Assistive_22.c3d'
+c3d_filename = '/c3d/Control_Pre_05.c3d'
+# c3d_filename = '/stair/02 Assistive/Assistive_22.c3d'
 c3d_filename = data_dir + c3d_filename
 if len(sys.argv) == 2:
     c3d_filename = sys.argv[1]
