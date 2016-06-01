@@ -32,6 +32,11 @@ q['Joint-RightArm_z'] = -q['Joint-LeftArm_z']
 # manual pose for frame 403, the most visible frame
 skel.set_positions(q)
 
+print("=" * 80)
+print skel.position_differences(q, q + 0.01)
+print skel.velocity_differences(q, q + 0.01)
+exit(0)
+
 for i, body in enumerate(skel.bodies):
     print 'Body', i, body.name, body.C, body.m
 print 'Body total mass = ', skel.m

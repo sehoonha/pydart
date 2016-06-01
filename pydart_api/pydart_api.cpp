@@ -599,6 +599,50 @@ void getSkeletonVelocities(int wid, int skid, double* outpose, int ndofs) {
     }
 }
 
+void getSkeletonPositionDifferences(int wid, int skid, double* inpose, int ndofs,
+                                    double* inpose2, int ndofs2, double* outpose3, int ndofs3) {
+    using namespace dart::dynamics;
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    Eigen::VectorXd q1(ndofs);
+    for (int i = 0; i < q1.size(); i++) {
+        q1(i) = inpose[i];
+    }
+    Eigen::VectorXd q2(ndofs2);
+    for (int i = 0; i < q2.size(); i++) {
+        q2(i) = inpose2[i];
+    }
+    Eigen::VectorXd q_diff = skel->getPositionDifferences(q1, q2);
+    // cout << "q1 = " << q1.transpose() << endl;
+    // cout << "q2 = " << q2.transpose() << endl;
+    for (int i = 0; i < ndofs3; i++) {
+        outpose3[i] = q_diff(i);
+    }
+    
+}
+
+
+void getSkeletonVelocityDifferences(int wid, int skid, double* inpose, int ndofs,
+                                    double* inpose2, int ndofs2, double* outpose3, int ndofs3) {
+    using namespace dart::dynamics;
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    Eigen::VectorXd q1(ndofs);
+    for (int i = 0; i < q1.size(); i++) {
+        q1(i) = inpose[i];
+    }
+    Eigen::VectorXd q2(ndofs2);
+    for (int i = 0; i < q2.size(); i++) {
+        q2(i) = inpose2[i];
+    }
+    Eigen::VectorXd dq_diff = skel->getVelocityDifferences(q1, q2);
+    // cout << "q1 = " << q1.transpose() << endl;
+    // cout << "q2 = " << q2.transpose() << endl;
+    for (int i = 0; i < ndofs3; i++) {
+        outpose3[i] = dq_diff(i);
+    }
+    
+}
+
+
 void getSkeletonMassMatrix(int wid, int skid, double* array2, int nrows, int ncols) {
     using namespace dart::dynamics;
     SkeletonPtr skel = Manager::skeleton(wid, skid);

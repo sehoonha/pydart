@@ -14,8 +14,12 @@
 
 /* Typemap for the sum_list(double* input_array, int length) C/C++ routine */
 %apply (double* IN_ARRAY1, int DIM1) {(double* inpose, int ndofs)};
+%apply (double* IN_ARRAY1, int DIM1) {(double* inpose2, int ndofs2)};
+%apply (double* IN_ARRAY1, int DIM1) {(double* inpose3, int ndofs3)};
 %apply (double* IN_ARRAY1, int DIM1) {(double* intorque, int ndofs)};
 %apply (double* ARGOUT_ARRAY1, int DIM1) {(double* outpose, int ndofs)};
+%apply (double* ARGOUT_ARRAY1, int DIM1) {(double* outpose2, int ndofs2)};
+%apply (double* ARGOUT_ARRAY1, int DIM1) {(double* outpose3, int ndofs3)};
 %apply (double* ARGOUT_ARRAY1, int DIM1) {(double* outv, int len)};
 %apply (double IN_ARRAY1[ANY]) {(double inv3[3])};
 %apply (double IN_ARRAY1[ANY]) {(double inv3_2[3])};

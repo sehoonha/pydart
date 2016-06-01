@@ -123,6 +123,16 @@ class Skeleton(object):
     def states(self):
         return np.concatenate((self.positions(), self.velocities()))
 
+    def position_differences(self, q1, q2):
+        ret = papi.getSkeletonPositionDifferences(self.world.id, self.id,
+                                                  q1, q2, self.ndofs)
+        return ret
+
+    def velocity_differences(self, q1, q2):
+        ret = papi.getSkeletonVelocityDifferences(self.world.id, self.id,
+                                                  q1, q2, self.ndofs)
+        return ret
+
     @property
     def x(self):
         return np.concatenate((self.positions(), self.velocities()))

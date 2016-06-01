@@ -58,6 +58,10 @@ void setSkeletonSelfCollision(int wid, int skid, int bSelfCollision, int bAdjace
 // Skeleton Pose Functions
 void getSkeletonPositions(int wid, int skid, double* outpose, int ndofs);
 void getSkeletonVelocities(int wid, int skid, double* outpose, int ndofs);
+void getSkeletonPositionDifferences(int wid, int skid, double* inpose, int ndofs,
+                                    double* inpose2, int ndofs2, double* outpose3, int ndofs3);
+void getSkeletonVelocityDifferences(int wid, int skid, double* inpose, int ndofs,
+                                    double* inpose2, int ndofs2, double* outpose3, int ndofs3);
 void getSkeletonMassMatrix(int wid, int skid, double* array2, int nrows, int ncols);
 void getSkeletonCoriolisAndGravityForces(int wid, int skid, double* outpose, int ndofs);
 void getSkeletonConstraintForces(int wid, int skid, double* outpose, int ndofs);
