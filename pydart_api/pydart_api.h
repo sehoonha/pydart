@@ -17,7 +17,7 @@ int createWorld(double timestep);
 int createWorldFromSkel(const char* const path);
 void destroyWorld(int wid);
 int saveWorldToFile(int wid, const char* const path);
-int addSkeleton(int wid, const char* const path, double frictionCoeff = 1.0);
+int addSkeleton(int wid, const char* const path, double frictionCoeff = 1.0, int traditionalMode=0);
 int numSkeletons(int wid);
 void setSkeletonJointDamping(int wid, int skid, double damping);
 
@@ -54,6 +54,7 @@ const char* getSkeletonDofName(int wid, int skid, int dofid);
 int getSkeletonMobile(int wid, int skid);
 void setSkeletonMobile(int wid, int skid, int mobile);
 void setSkeletonSelfCollision(int wid, int skid, int bSelfCollision, int bAdjacentBodies);
+void changeRootJointToTransAndEuler(int wid, int skid);
 
 // Skeleton Pose Functions
 void getSkeletonPositions(int wid, int skid, double* outpose, int ndofs);

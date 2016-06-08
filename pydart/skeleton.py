@@ -8,12 +8,18 @@ from marker import Marker
 
 
 class Skeleton(object):
-    def __init__(self, _world, _filename=None, _friction=None, _id=None):
+    def __init__(self, _world, _filename=None,
+                 _friction=None, _id=None, _traditional=False):
         self.world = _world
         self.filename = _filename
         self.friction = _friction
         if self.filename is not None:
-            self.id = papi.addSkeleton(self.world.id, _filename, _friction)
+            _b_trad = 1 if _traditional else 0
+            print "=" * 80
+            print _b_trad
+            print "=" * 80
+            self.id = papi.addSkeleton(self.world.id, _filename,
+                                       _friction, _b_trad)
         else:
             self.id = _id
 

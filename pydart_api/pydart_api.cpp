@@ -193,7 +193,7 @@ int saveWorldToFile(int wid, const char* const path) {
 }
 
 
-int addSkeleton(int wid, const char* const path, double frictionCoeff) {
+int addSkeleton(int wid, const char* const path, double frictionCoeff, int traditionalMode) {
     using namespace dart::simulation;
     using namespace dart::dynamics;
     std::string strpath(path);
@@ -217,7 +217,8 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     }
     // SkeletonPtr skel = urdfLoader.parseSkeleton(path);
 
-    cout << " [pydart_api] skel [" << path << "] : friction = " << frictionCoeff << endl;
+    cout << " [pydart_api] skel [" << path << "] : friction = " << frictionCoeff;
+    cout << " traditionalMode " << traditionalMode << endl;
     for (size_t i = 0; i < skel->getNumBodyNodes(); ++i) {
         dart::dynamics::BodyNode* bn = skel->getBodyNode(i);
         bn->setFrictionCoeff(frictionCoeff);
@@ -226,6 +227,10 @@ int addSkeleton(int wid, const char* const path, double frictionCoeff) {
     WorldPtr world = Manager::world(wid);
     int id = world->getNumSkeletons();
     world->addSkeleton(skel);
+
+    if (traditionalMode == 1) {
+        changeRootJointToTransAndEuler(wid, id);
+    }
 
     // Debug
     dart::constraint::ConstraintSolver* solver = world->getConstraintSolver();
@@ -576,6 +581,22 @@ void setSkeletonSelfCollision(int wid, int skid, int bSelfCollision, int bAdjace
     }
 }
 
+void changeRootJointToTransAndEuler(int wid, int skid) {
+    using namespace dart::dynamics;
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    // change the joint type to euler
+    BodyNode* oldRoot = skel->getRootBodyNode();
+    oldRoot->changeParentJointType<EulerJoint>();
+    oldRoot->getParentJoint()->setName("j_root_r");
+    // create a new root
+    std::pair<Joint*, BodyNode*> ret = skel->createJointAndBodyNodePair
+        <TranslationalJoint, BodyNode>();
+    Joint* newJoint = ret.first;
+    newJoint->setName("j_root_t");
+    BodyNode* newBody = ret.second;
+    // rearrange the root joints
+    oldRoot->moveTo(newBody);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Skeleton Pose Functions

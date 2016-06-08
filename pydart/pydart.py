@@ -42,8 +42,10 @@ class World(object):
     def destroy(self):
         papi.destroyWorld(self.id)
 
-    def add_skeleton(self, filename, friction=1.0, control=True):
-        self.skels += [Skeleton(self, filename, friction)]
+    def add_skeleton(self, filename, friction=1.0,
+                     control=True, traditional=False):
+        self.skels += [Skeleton(self, filename, friction,
+                                _traditional=traditional)]
         if control:
             self.control_skel = self.skels[-1]
 

@@ -18,9 +18,9 @@ world = pydart.create_world(1.0 / 1000.0)
 # world = pydart.create_world(1.0 / 2000.0)
 # world.add_skeleton(data_dir + '/sdf/atlas/ground.urdf')
 # world.add_skeleton(data_dir + '/vsk/Yunseong_copy.vsk')
-# world.add_skeleton(data_dir + '/vsk/Yunseong_Jan2016.vsk')
+world.add_skeleton(data_dir + '/vsk/Yunseong_Jan2016.vsk', traditional=True)
 # world.add_skeleton(data_dir + '/vsk/JeffHsu_March2016.vsk')
-world.add_skeleton(data_dir + '/vsk/SistaniaM_April2016.vsk')
+# world.add_skeleton(data_dir + '/vsk/SistaniaM_April2016.vsk')
 print('pydart create_world OK')
 
 skel = world.skels[-1]
@@ -34,11 +34,6 @@ q = skel.q
 # q['Joint-RightArm_z'] = -q['Joint-LeftArm_z']
 # manual pose for frame 403, the most visible frame
 skel.set_positions(q)
-
-print("=" * 80)
-print skel.position_differences(q, q + 0.01)
-print skel.velocity_differences(q, q + 0.01)
-exit(0)
 
 for i, body in enumerate(skel.bodies):
     print 'Body', i, body.name, body.C, body.m
@@ -213,7 +208,7 @@ def solve():
         return g
 
     def g(x):
-        return grad(f, x, 1e-5)
+        # return grad(f, x, 1e-5)
 
         global mystate
         skel = mystate['skel']
@@ -225,7 +220,7 @@ def solve():
         print 'grad:', G.shape, G
         print 'grad2:', G2.shape, G2
         print np.allclose(G, G2)
-        print G - G2
+        print np.linalg.norm(G - G2)
         exit(0)
         return G
 
@@ -234,10 +229,10 @@ def solve():
     skel = mystate['skel']
     x0 = skel.q
     # x0[6] += 1.0
-    # x0 = skel.q + 0.5 * (np.random.rand(skel.ndofs) - 0.5)
+    x0 = skel.q + 0.5 * (np.random.rand(skel.ndofs) - 0.5)
     res = scipy.optimize.minimize(f,
                                   x0,
-                                  # jac=g,
+                                  jac=g,
                                   method='SLSQP',
                                   # method='L-BFGS-B',
                                   options=options)
