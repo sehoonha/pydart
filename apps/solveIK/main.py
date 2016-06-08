@@ -13,11 +13,14 @@ data_dir = pydart.misc.example_data_dir(__file__)
 print('data_dir = ' + data_dir)
 
 skel_filename = data_dir + '/skel/springStair.skel'
-world = pydart.create_world(1.0 / 1000.0, skel_filename)
+# world = pydart.create_world(1.0 / 1000.0, skel_filename)
+world = pydart.create_world(1.0 / 1000.0)
 # world = pydart.create_world(1.0 / 2000.0)
 # world.add_skeleton(data_dir + '/sdf/atlas/ground.urdf')
 # world.add_skeleton(data_dir + '/vsk/Yunseong_copy.vsk')
-world.add_skeleton(data_dir + '/vsk/Yunseong_Jan2016.vsk')
+# world.add_skeleton(data_dir + '/vsk/Yunseong_Jan2016.vsk')
+# world.add_skeleton(data_dir + '/vsk/JeffHsu_March2016.vsk')
+world.add_skeleton(data_dir + '/vsk/SistaniaM_April2016.vsk')
 print('pydart create_world OK')
 
 skel = world.skels[-1]
@@ -26,9 +29,9 @@ print skel.body('LeftToeBase').C
 
 # Initialize the pose. q is an instance of SkelVector.
 q = skel.q
-q[4] = 0.05
-q['Joint-LeftArm_z'] = -1.5
-q['Joint-RightArm_z'] = -q['Joint-LeftArm_z']
+# q[4] = 10.05
+# q['Joint-LeftArm_z'] = -1.5
+# q['Joint-RightArm_z'] = -q['Joint-LeftArm_z']
 # manual pose for frame 403, the most visible frame
 skel.set_positions(q)
 
@@ -47,8 +50,14 @@ for i, m in enumerate(skel.markers):
 print('skeleton position OK')
 
 # c3d_filename = '/c3d/Control_up5_new_vsk.c3d'
-c3d_filename = '/c3d/Control_Pre_05.c3d'
-# c3d_filename = '/stair/02 Assistive/Assistive_22.c3d'
+c3d_filename = '/c3d/Level_Ground_10.c3d'
+# c3d_filename = '/stair/01 Control Pre/Control_Pre_06.c3d'
+# c3d_filename = '/stair/02 Assistive/Assistive_25.c3d'
+# c3d_filename = '/stair/03 Control Post/Control_Post_05.c3d'
+# c3d_filename = '/stair/Jeff/01 Control Pre/Control_Pre_06.c3d'
+# c3d_filename = '/stair/Jeff/02 Assistive/Assistive_27.c3d'
+# c3d_filename = '/stair/0413 Data/Camera_relocation_trail_01 (Normal).c3d'
+# c3d_filename = '/stair/0413 Data/Camera_relocation_trail_07 (With top Stair).c3d'
 c3d_filename = data_dir + c3d_filename
 if len(sys.argv) == 2:
     c3d_filename = sys.argv[1]
@@ -56,11 +65,14 @@ print('c3d_filename = [%s]' % c3d_filename)
 motion_filename = c3d_filename.replace('.c3d', '.c3d.txt')
 print('motion_filename = [%s]' % motion_filename)
 
-filec3d = pydart.FileC3D(xyz=[1, 0, 2],
-                         sign=[1, 1, -1])
+# filec3d = pydart.FileC3D(xyz=[1, 0, 2],
+#                          sign=[1, 1, -1])
+# filec3d.load(c3d_filename)
+# filec3d.set_rotation_Y(3.14)
+# filec3d.set_translation([0.0, -1.2, 0.0])
+
+filec3d = pydart.FileC3D(xyz=[2, 0, 1])
 filec3d.load(c3d_filename)
-filec3d.set_rotation_Y(3.14)
-filec3d.set_translation([0.0, -1.2, 0.0])
 
 seq = range(len(skel.markers))
 seq = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
@@ -70,13 +82,39 @@ seq = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
 
 print('Total # markers in c3d = %d' % filec3d.num_markers())
 print('Total # markers in skel = %d' % len(skel.markers))
+
+foot_markers = list()
+for i in range(11, 15):
+    foot_markers.append(seq[i])
+for i in range(20, 24):
+    foot_markers.append(seq[i])
+foot_visibile_count_yes = 0
+foot_visibile_count_no = 0
+
+
 min_visible_index = 10000
 for frame in range(filec3d.num_frames()):
     for i in range(filec3d.num_markers()):
+        if i in foot_markers:
+            if filec3d.is_marker_visible(frame, i):
+                foot_visibile_count_yes += 1
+            else:
+                foot_visibile_count_no += 1
+
         if i < min_visible_index and filec3d.is_marker_visible(frame, i):
             min_visible_index = i
             print('Marker %d is visible at frame %d' % (i, frame))
+            print("%s" % filec3d.marker(frame, i))
+print("foot_visibile_count_yes = %d" % foot_visibile_count_yes)
+print("foot_visibile_count_no = %d" % foot_visibile_count_no)
+y = foot_visibile_count_yes
+n = foot_visibile_count_no
+r = float(y) / (float(y + n)) * 100.0
+print("foot_visibile ratio = %.2f" % r)
+
 offset = min_visible_index
+offset = 7
+print("offset = %d" % offset)
 for i in range(len(seq)):
     seq[i] += offset
 
@@ -106,8 +144,11 @@ def evaluate():
         rhs = filec3d.marker(frame, target_id)
         if not filec3d.is_marker_visible(frame, target_id):
             continue
-        dist = np.linalg.norm(lhs - rhs)
+        diff = lhs - rhs
+        dist = 0.5 * (diff.dot(diff))
         values.append(dist)
+        # break
+
     ret = np.sum(values)
     if mystate['eval_counter'] % 5000 == 0:
         print mystate['eval_counter'], ret
@@ -116,12 +157,42 @@ def evaluate():
     return ret
 
 
+def gradient():
+    global mystate
+    filec3d = mystate['filec3d']
+    frame = mystate['frame']
+    skel = mystate['skel']
+    seq = mystate['seq']
+
+    grad = np.zeros(skel.ndofs)
+
+    for i, m, in enumerate(skel.markers):
+        lhs = m.x
+
+        target_id = seq[i]
+        if target_id == -1:
+            continue
+        rhs = filec3d.marker(frame, target_id)
+        if not filec3d.is_marker_visible(frame, target_id):
+            continue
+
+        body = m.body
+        local_pos = m.local_pos()
+        J = body.world_linear_jacobian(local_pos)
+        if i == 10:
+            print 'G', i, rhs
+            print J
+        diff = lhs - rhs
+        grad += diff.dot(J)
+    return grad
+
+
 def solve():
     import scipy.optimize
+    import time
+    tic = time.time()
     options = {'maxiter': 3000,
-               'maxfun': 50000,
-               'ftol': 1e-6,
-               'gtol': 1e-5,
+               'ftol': 1e-5,
                'disp': True}
 
     def f(x):
@@ -130,18 +201,53 @@ def solve():
         skel.q = x
         return evaluate()
 
+    def grad(fun, x, h):
+        n = len(x)
+        g = np.zeros(n)
+        for i in range(n):
+            dx = np.zeros(n)
+            dx[i] = h
+            f1 = fun(x - dx)
+            f2 = fun(x + dx)
+            g[i] = (0.5 * f2 - 0.5 * f1) / h
+        return g
+
+    def g(x):
+        return grad(f, x, 1e-5)
+
+        global mystate
+        skel = mystate['skel']
+        # skel.q = x
+        G = gradient()
+        G2 = grad(f, x, 1e-4)
+
+        print 'x:', x
+        print 'grad:', G.shape, G
+        print 'grad2:', G2.shape, G2
+        print np.allclose(G, G2)
+        print G - G2
+        exit(0)
+        return G
+
     global mystate
     mystate['eval_counter'] = 0
     skel = mystate['skel']
     x0 = skel.q
+    # x0[6] += 1.0
+    # x0 = skel.q + 0.5 * (np.random.rand(skel.ndofs) - 0.5)
     res = scipy.optimize.minimize(f,
                                   x0,
+                                  # jac=g,
                                   method='SLSQP',
+                                  # method='L-BFGS-B',
                                   options=options)
     # print 'res.x = ', repr(res.x)
+    toc = time.time()
+
     print 'res.fun = ', f(res.x)
     print 'res.message = ', res.message
     print 'res.status = ', res.status
+    print 'time = %.8fs' % (toc - tic)
     print 'solve OK'
 
 
@@ -286,6 +392,8 @@ def solve_all_worker(world):
     """thread worker function"""
     global mystate
     print('Solve all!!!')
+    import time
+    tic = time.time()
     nframes = mystate['filec3d'].num_frames()
     # nframes = 5
     motion = list()
@@ -299,6 +407,8 @@ def solve_all_worker(world):
         mystate['frame'] = frame
         solve()
         motion.append(mystate['skel'].q)
+        toc = time.time()
+        print 'solveall.time = %.8fs' % (toc - tic)
 
     print('save to motion_file...')
     print('motion_filename = [%s]' % motion_filename)
@@ -327,6 +437,8 @@ def render_callback(world):
     seq = mystate['seq']
 
     for i in range(filec3d.num_markers()):
+        # if i not in seq:
+        #     continue
         # size = 0.005
         size = 0.02
         glColor3d(1.0, 0.0, 1.0)

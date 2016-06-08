@@ -1014,6 +1014,20 @@ int getBodyNodeNumMarkers(int wid, int skid, int bid) {
     return body->getNumMarkers();
 }
 
+void getMarkerLocalPosition(int wid, int skid, int bid, int mid, double outv3[3]) {
+    using namespace dart::dynamics;
+    SkeletonPtr skel = Manager::skeleton(wid, skid);
+    BodyNode* body = skel->getBodyNode(bid);
+    Marker* marker = body->getMarker(mid);
+    if (!marker) {
+        cerr << "cannot find the marker : " << mid << endl;
+    }
+    const Eigen::Vector3d& x = marker->getLocalPosition();
+    for (int i = 0; i < x.size(); i++) {
+        outv3[i] = x(i);
+    }
+}
+
 void getMarkerPosition(int wid, int skid, int bid, int mid, double outv3[3]) {
     using namespace dart::dynamics;
     SkeletonPtr skel = Manager::skeleton(wid, skid);

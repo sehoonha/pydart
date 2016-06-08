@@ -57,8 +57,8 @@ class Body(object):
         return (self.T.dot(x_))[:3]
 
     def to_local(self, x):
-        x_ = np.append(x, [1.0])
         Tinv = np.linalg.inv(self.T)
+        x_ = np.append(x, [1.0])
         return (Tinv.dot(x_))[:3]
 
     @property
@@ -108,8 +108,8 @@ class Body(object):
         return J
 
     @property
-    def J(self):
-        return self.world_linear_jacobian()
+    def J(self, offset=None):
+        return self.world_linear_jacobian(offset)
 
     def add_ext_force(self, f):
         papi.addBodyNodeExtForce(self.wid, self.sid, self.id, f)
@@ -122,6 +122,9 @@ class Body(object):
 
     def num_markers(self):
         return papi.getBodyNodeNumMarkers(self.wid, self.sid, self.id)
+
+    def get_marker_local_pos(self, mid):
+        return papi.getMarkerLocalPosition(self.wid, self.sid, self.id, mid)
 
     def get_marker_pos(self, mid):
         return papi.getMarkerPosition(self.wid, self.sid, self.id, mid)

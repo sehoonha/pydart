@@ -100,6 +100,7 @@ void addBodyNodeExtForceAt(int wid, int skid, int bid, double inv3[3], double in
 
 // Marker Functions
 int getBodyNodeNumMarkers(int wid, int skid, int bid);
+void getMarkerLocalPosition(int wid, int skid, int bid, int mid, double outv3[3]);
 void getMarkerPosition(int wid, int skid, int bid, int mid, double outv3[3]);
 
 // C3D Functions

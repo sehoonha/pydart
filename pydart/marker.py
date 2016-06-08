@@ -14,6 +14,9 @@ class Marker(object):
     def x(self):
         return self.world_pos()
 
+    def local_pos(self):
+        return self.body.get_marker_local_pos(self._id)
+
     def world_pos(self):
         return self.body.get_marker_pos(self._id)
 
