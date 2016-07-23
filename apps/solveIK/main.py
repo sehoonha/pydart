@@ -18,9 +18,10 @@ world = pydart.create_world(1.0 / 1000.0)
 # world = pydart.create_world(1.0 / 2000.0)
 # world.add_skeleton(data_dir + '/sdf/atlas/ground.urdf')
 # world.add_skeleton(data_dir + '/vsk/Yunseong_copy.vsk')
-world.add_skeleton(data_dir + '/vsk/Yunseong_Jan2016.vsk', traditional=True)
+# world.add_skeleton(data_dir + '/vsk/Yunseong_Jan2016.vsk', traditional=True)
 # world.add_skeleton(data_dir + '/vsk/JeffHsu_March2016.vsk')
 # world.add_skeleton(data_dir + '/vsk/SistaniaM_April2016.vsk')
+world.add_skeleton(data_dir + '/vsk/RP_June2016_manual_adjust.vsk')
 print('pydart create_world OK')
 
 skel = world.skels[-1]
@@ -45,7 +46,7 @@ for i, m in enumerate(skel.markers):
 print('skeleton position OK')
 
 # c3d_filename = '/c3d/Control_up5_new_vsk.c3d'
-c3d_filename = '/c3d/Level_Ground_10.c3d'
+# c3d_filename = '/c3d/Level_Ground_10.c3d'
 # c3d_filename = '/stair/01 Control Pre/Control_Pre_06.c3d'
 # c3d_filename = '/stair/02 Assistive/Assistive_25.c3d'
 # c3d_filename = '/stair/03 Control Post/Control_Post_05.c3d'
@@ -53,6 +54,7 @@ c3d_filename = '/c3d/Level_Ground_10.c3d'
 # c3d_filename = '/stair/Jeff/02 Assistive/Assistive_27.c3d'
 # c3d_filename = '/stair/0413 Data/Camera_relocation_trail_01 (Normal).c3d'
 # c3d_filename = '/stair/0413 Data/Camera_relocation_trail_07 (With top Stair).c3d'
+c3d_filename = '/c3d/assistive_11_c3d_orig.c3d'
 c3d_filename = data_dir + c3d_filename
 if len(sys.argv) == 2:
     c3d_filename = sys.argv[1]
@@ -108,7 +110,7 @@ r = float(y) / (float(y + n)) * 100.0
 print("foot_visibile ratio = %.2f" % r)
 
 offset = min_visible_index
-offset = 7
+# offset = 7
 print("offset = %d" % offset)
 for i in range(len(seq)):
     seq[i] += offset
@@ -232,7 +234,7 @@ def solve():
     x0 = skel.q + 0.5 * (np.random.rand(skel.ndofs) - 0.5)
     res = scipy.optimize.minimize(f,
                                   x0,
-                                  jac=g,
+                                  # jac=g,
                                   method='SLSQP',
                                   # method='L-BFGS-B',
                                   options=options)

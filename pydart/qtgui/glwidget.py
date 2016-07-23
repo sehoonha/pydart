@@ -13,6 +13,11 @@ class GLWidget(QGLWidget):
         self.width = 1280
         self.height = 720
 
+        fmt = QGLFormat()
+        fmt.setSampleBuffers(True)
+        fmt.setSamples(4)
+        self.setFormat(fmt)  # Anti-aliasing
+
         self.tb = trackball.Trackball()
         self.lastPos = None
         self.zoom = -1.2

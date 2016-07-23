@@ -15,9 +15,9 @@ class Skeleton(object):
         self.friction = _friction
         if self.filename is not None:
             _b_trad = 1 if _traditional else 0
-            print "=" * 80
-            print _b_trad
-            print "=" * 80
+            # print "=" * 80
+            # print _b_trad
+            # print "=" * 80
             self.id = papi.addSkeleton(self.world.id, _filename,
                                        _friction, _b_trad)
         else:
