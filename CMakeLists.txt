@@ -42,13 +42,28 @@ MESSAGE(STATUS "CXX_FLAGS = ${CMAKE_CXX_FLAGS}")
 
 ################################################################################
 # Find the required packages
+### Dart
+IF(DART_PATH)
+  message(STATUS "DART_PATH Found")
+  message(STATUS "DART_PATH = ${DART_PATH}")
+  set(DART_INCLUDE_PATH "${DART_PATH}include")
+  set(DART_LIB_PATH "${DART_PATH}lib")
+  message(STATUS "DART_INCLUDE_PATH = ${DART_INCLUDE_PATH}")
+  message(STATUS "DART_LIB_PATH = ${DART_LIB_PATH}")
+  include_directories(${DART_INCLUDE_PATH})
+  link_directories(${DART_LIB_PATH})
+ELSE()
+  message(STATUS "DART_PATH not found. We will search default path: /usr/local/")
+  message(STATUS "    please specify with <-DDART_PATH=/path/to/dart/> if you have multiple versions of DART")
+ENDIF()
+
 ### SWIG
 find_package(SWIG REQUIRED)
 message(STATUS "SWIG_FOUND = ${SWIG_FOUND}")
 message(STATUS "SWIG_USE_FILE = ${SWIG_USE_FILE}")
 include(${SWIG_USE_FILE})
 ### PythonLibs
-find_package(PythonLibs REQUIRED)
+find_package(PythonLibs 2.7 REQUIRED)
 message(STATUS "PYTHON_INCLUDE_DIR = ${PYTHON_INCLUDE_DIR}")
 include_directories(${PYTHON_INCLUDE_DIR})
 message(STATUS "PYTHON_LIBRARIES = ${PYTHON_LIBRARIES}")

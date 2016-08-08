@@ -11,7 +11,8 @@
 </tr>
 </table>
 
-- News! (06/SEP/2015)
+- News! (06/AUG/2016)
+ + **PyDART is upgraded to PyDART2**. Please visit [the repository](https://github.com/sehoonha/pydart2) and [the documentation](http://pydart2.readthedocs.io/en/latest) pages.
  + PyDART is updated for DART 5.0. 
 
 ======
