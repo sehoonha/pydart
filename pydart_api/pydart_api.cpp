@@ -373,6 +373,12 @@ void stepWorld(int wid) {
     world->bake();
 }
 
+void setWorldGravity(int wid, double gx, double gy, double gz) {
+    using namespace dart::simulation;
+    WorldPtr world = Manager::world(wid);
+    world->setGravity(Eigen::Vector3d(gx, gy, gz));
+}
+
 void checkCollisionWorld(int wid, int _checkAllCollisions) {
     using namespace dart::simulation;
     WorldPtr world = Manager::world(wid);

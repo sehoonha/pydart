@@ -28,6 +28,7 @@ void printCollisionDetector(int wid);
 // Simulation Functions
 void resetWorld(int wid);
 void stepWorld(int wid);
+void setWorldGravity(int wid, double gx, double gy, double gz);
 void checkCollisionWorld(int wid, int _checkAllCollisions);
 void render(int wid);
 void renderSkeleton(int wid, int skid);

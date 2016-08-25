@@ -83,6 +83,9 @@ class World(object):
     def set_time_step(self, _time_step):
         papi.setWorldTimeStep(self.id, _time_step)
 
+    def set_gravity(self, gravity):
+        papi.setWorldGravity(self.id, gravity[0], gravity[1], gravity[2])
+
     @dt.setter
     def dt(self, _dt):
         self.set_time_step(_dt)
